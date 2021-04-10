@@ -8,8 +8,6 @@ export PROMPT_COMMAND="echo -e '\e[?6c'"
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 
-#alias shutdown="shutdown now"
-
 # Dumbass shortcuts that should probably be set up in Git.
 alias gs='git status'
 alias gf='git fetch'
