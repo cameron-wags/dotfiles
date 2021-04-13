@@ -16,4 +16,5 @@ alias gc='git commit'
 alias ga='git add'
 alias gr='git rm'
 alias gu='git restore'
+alias gd='git diff'
 
