@@ -17,7 +17,7 @@ URxvt*secondaryScroll: 0
 !get rxvt-unicode-better-wheel-scrolling to fix mouse wheel scrolling in vim/less
 !URxvt*secondaryWheel: 1
 
-URxvt*font: xft:Dank Mono:size=11
+URxvt*font: xft:Dank Mono:size=11:antialias=true
 
 URxvt*cursorBlink: true
 
