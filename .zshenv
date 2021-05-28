@@ -5,14 +5,24 @@ export VISUAL=/usr/bin/vim
 export PATH=$PATH:/home/cameron/bin:.
 export PROMPT_COMMAND="echo -e '\e[?6c'"
 
-alias ls="ls --color=auto"
-alias grep="grep --color=auto"
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias ntop='bmon -p enp4s0'
+
+alias vim='nvim'
+alias vertex='ssh -p 6942 cameron@100.82.157.35' # Needs tailscale
+
+alias pac='pacman'
+alias pacs='pacman -Ss'
+alias pacu='sudo pacman -Syyu'
 
 
 alias gs='git status'
 alias gl='git log'
-alias gld='git log -p'
+alias glp='git log -p'
 
+alias gch='git checkout'
+alias gcl='git clone'
 alias gf='git fetch'
 
 alias gm='git merge'
@@ -24,9 +34,9 @@ alias gca='git commit --amend'
 
 alias ga='git add'
 alias gap='git add --patch'
-alias gr='git rm'
-alias gu='git restore'
-alias gus='git restore --staged'
+alias grm='git rm'
+alias gr='git restore'
+alias grs='git restore --staged'
 
 alias gst='git stash'
 
