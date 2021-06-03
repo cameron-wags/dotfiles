@@ -6,11 +6,13 @@ export PATH=$PATH:/home/cameron/bin:.
 export PROMPT_COMMAND="echo -e '\e[?6c'"
 
 alias ls='ls --color=auto'
+alias la='ls -a --color=auto'
 alias grep='grep --color=auto'
 alias ntop='bmon -p enp4s0'
 
 alias vim='nvim'
 alias vertex='ssh -p 6942 cameron@100.82.157.35' # Needs tailscale
+alias euclid='ssh -p 6942 cameron@100.125.109.42'
 
 alias pac='pacman'
 alias pacs='pacman -Ss'
@@ -21,9 +23,11 @@ alias gs='git status'
 alias gl='git log'
 alias glp='git log -p'
 
-alias gch='git checkout'
 alias gcl='git clone'
 alias gf='git fetch'
+
+alias gb='git branch'
+alias gch='git checkout'
 
 alias gm='git merge'
 alias gp='git pull'

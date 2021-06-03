@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rdesktop apex -g 100%x100%@120
+

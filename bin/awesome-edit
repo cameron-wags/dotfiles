@@ -1,0 +1,4 @@
+#!/bin/sh
+
+nvim -p ~/.config/awesome/rc.lua ~/.config/awesome/theme.lua
+
