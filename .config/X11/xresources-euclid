@@ -17,6 +17,10 @@ URxvt*secondaryScroll: 0
 !get rxvt-unicode-better-wheel-scrolling to fix mouse wheel scrolling in vim/less
 !URxvt*secondaryWheel: 1
 
+URxvt.perl-ext-common: default,matcher,selection-to-clipboard
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.matcher.button: 1
+
 URxvt*font: xft:Dank Mono:size=11:antialias=true,xft:mono:size=11:antialias=true
 
 URxvt*cursorBlink: true

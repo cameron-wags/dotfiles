@@ -1,4 +1,5 @@
-## Options section
+
+## Options {{{
 setopt correct                                                  # Auto correct mistakes
 setopt extendedglob                                             # Extended globbing. Allows using regular expressions with *
 setopt nocaseglob                                               # Case insensitive globbing
@@ -17,16 +18,14 @@ zstyle ':completion:*' rehash true                              # automatically 
 # Speed up completions
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
-HISTFILE=~/.zhistory
+zstyle ':completion:*' cache-path ~/.config/zsh/cache
+HISTFILE=~/.config/zhistory
 HISTSIZE=10000
 SAVEHIST=10000
-#export EDITOR=/usr/bin/nano
-#export VISUAL=/usr/bin/nano
 WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
+# }}}
 
-
-## Keybindings section
+## Keybindings {{{
 bindkey -e
 bindkey '^[[7~' beginning-of-line                               # Home key
 bindkey '^[[H' beginning-of-line                                # Home key
@@ -52,14 +51,9 @@ bindkey '^[[1;5D' backward-word                                 #
 bindkey '^[[1;5C' forward-word                                  #
 bindkey '^H' backward-kill-word                                 # delete previous word with ctrl+backspace
 bindkey '^[[Z' undo                                             # Shift+tab undo last action
+# }}}
 
-## Alias section 
-alias cp="cp -i"                                                # Confirm before overwriting something
-alias df='df -h'                                                # Human-readable sizes
-alias free='free -m'                                            # Show sizes in MB
-alias gitu='git add . && git commit && git push'
-
-# Theming section  
+# Theming {{{
 autoload -U compinit colors zcalc
 compinit -d
 colors
@@ -73,9 +67,10 @@ export LESS_TERMCAP_so=$'\E[01;47;34m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-R
+# }}}
 
-
-## Plugins section: Enable fish style features
+## Plugins {{{
+# Enable fish style features
 # Use syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Use history substring search
@@ -92,7 +87,9 @@ if [[ -r /usr/share/zsh/functions/command-not-found.zsh ]]; then
     source /usr/share/zsh/functions/command-not-found.zsh
     export PKGFILE_PROMPT_INSTALL_MISSING=1
 fi
+# }}}
 
+## Set terminal title {{{
 # Set terminal window and tab/icon title
 #
 # usage: title short_tab_title [long_window_title]
@@ -132,7 +129,9 @@ function title {
 
 ZSH_THEME_TERM_TAB_TITLE_IDLE="%15<..<%~%<<" #15 char left truncated PWD
 ZSH_THEME_TERM_TITLE_IDLE="%n@%m:%~"
+# }}}
 
+## Pre & Post exec {{{
 # Runs before showing the prompt
 function mzc_termsupport_precmd {
   return
@@ -194,3 +193,48 @@ function mzc_termsupport_preexec {
 autoload -U add-zsh-hook
 add-zsh-hook precmd mzc_termsupport_precmd
 add-zsh-hook preexec mzc_termsupport_preexec
+# }}}
+
+source ~/.config/shell/aliasrc
+
+maiaprompt() {
+    # Normally: source /usr/share/zsh/zsh-maia-prompt
+    GIT_PS1_SHOWDIRTYSTATE='true'
+    GIT_PS1_SHOWUNTRACKEDFILES='true'
+    GIT_PS1_SHOWUPSTREAM='verbose name git'
+    GIT_PS1_SHOWCOLORHINTS='true'
+    GIT_PS1_HIDE_IF_PWD_IGNORED='true'
+    source ~/bin/git-prompt.sh
+
+    setopt prompt_subst
+    PROMPT='%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u %(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b '
+    RPROMPT='$(__git_ps1 " (%s)")'
+
+    echo $USER@$HOST '   ' $(uname -sr)
+
+    ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+}
+
+# Use manjaro zsh prompt
+# Normally: source/usr/share/zsh/manjaro-zsh-prompt
+case $(basename "$(cat "/proc/$PPID/comm")") in
+    login)
+        alias x='startx ~/.xinitrc'
+        maiaprompt
+    ;;
+    *)
+        if [[ $TERM == 'linux' ]]; then
+            # TTY does not have powerline fonts
+            maiaprompt
+        else
+            maiaprompt
+        fi
+    ;;
+esac
+
+# Set block cursor
+echo -e '\e[?6c'
+
+# vim:foldmethod=marker

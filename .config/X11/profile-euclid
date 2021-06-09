@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Key Repeat delay ms and rate Hz
+xset r rate 260 60 &
+
+nvidia-settings --load-connfig-only &
+
+# Audio controls in systray
+pasystray &
+
+export LAUNCHWM=awesome
