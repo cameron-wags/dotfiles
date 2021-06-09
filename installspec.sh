@@ -25,7 +25,7 @@ while read line; do
                 echo -e "$machine\tdelete\t$line"
                 ;;
             wants)
-                echo "$line" >> $paclist
+                echo "$line" >> "$paclist"
                 ;;
             gitwants)
                 echo "$line" >> "$aurlist"
@@ -33,3 +33,7 @@ while read line; do
         esac
     fi
 done
+
+cat "$paclist" | sudo pacman -S --needed -
+
+cat "$aurlist" | aur -i -

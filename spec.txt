@@ -43,7 +43,6 @@
         vim
         vim-runtime
         vlc
-        xssstate
         youtube-dl
         zip
         zsh
@@ -93,6 +92,7 @@
         tlp-ui
         upower
         xbindkeys
+        xssstate
 
     :section gitwants
         git@github.com:cameron-wags/dwm.git # packaged
