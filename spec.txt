@@ -88,6 +88,7 @@
         dhcpcd
         intel-gpu-tools
         iwd
+        pavucontrol
         tlp
         tlp-ui
         upower
