@@ -51,4 +51,5 @@ done
 
 cat "$paclist" | sudo pacman -S --needed -
 
+mkdir -p ~/aur
 cat "$aurlist" | ./aur.sh -i -

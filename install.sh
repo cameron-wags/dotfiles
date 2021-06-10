@@ -6,28 +6,23 @@ if [ $(whoami)  = "root" ]; then
     exit 0
 fi
 
-ls -al ~/.ssh | grep -qi \.pub || \
-echo -e "Set up a GitHub PAT\nRun: ssh-keygen -t ed25519 -C \"email@example.com\""
+ls -al ~/.ssh | grep -qi \.pub || {
+    echo -e "Set up a GitHub PAT\nRun: ssh-keygen -t ed25519 -C \"email@example.com\""
+    exit 1
+}
 
-# rename host-specific files
-
-# cleanup exclude files
-# generate software install lists
-source installspec.sh
-
-# File copies
-
-# Software installs from pac.list
-
-# Aur installs from aur.list
+# Install software & config
+read -p "Install from spec? [y/N]: " -n 1 answer
+echo ""
+[ "$answer" = "Y" -o "$answer" = "y" ] && source installspec.sh
 
 # Tailscale maps
-echo "Log into TailScale before answering this!"
-read -p "Add tailscale IPs to /etc/hosts? [y/N]: " answer
-if [ answer != "y" ]; then
+echo -e "\nLog into TailScale before answering this!"
+read -p "Add tailscale IPs to /etc/hosts? [y/N]: " -n 1 answer
+echo ""
+if [ "$answer" = "Y" -o "$answer" = "y" ]; then
     tailscale status | \
     sed -E 's/\s{2,}/ /g' | \
     cut -d' ' -f1,2 | \
     sudo tee -a /etc/hosts
 fi
-# }}}
