@@ -1,5 +1,9 @@
 :machine global
 
+    :section hostrenames
+        .config/X11/profile
+        .config/X11/xresources
+    
     :section wants
         adobe-source-code-pro-fonts
         aws-cli
@@ -62,7 +66,10 @@
 :machine euclid
 
     :section excludes # path specs
-        # something
+        .config/X11/*-vertex
+    
+    :section copies
+        .config/*
 
     :section wants # package names
         awesome
@@ -77,10 +84,14 @@
 
 :machine vertex
 
-    :section excludes
+    :section excludes # basically rm commmands
         .config/awesome/*
+        .config/X11/*-euclid
         bin/awesome-edit
         bin/updatemirrors
+    
+    :section copies
+        .config/*
         
     :section wants # all of these will take some special configuration, the reminder should be enough
         acpi

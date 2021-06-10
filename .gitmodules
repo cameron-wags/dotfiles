@@ -1,0 +1,3 @@
+[submodule "aur"]
+	path = aur
+	url = https://github.com/cameron-wags/aur

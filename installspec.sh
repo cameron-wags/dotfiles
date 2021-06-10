@@ -15,9 +15,17 @@ applyState() {
     [ "$machine" = "$host" -o "$machine" = "global" ] || return 0
 
     case $section in
+        hostrenames)
+            echo "mv" "$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")" "$1"
+            # mv "$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")" "$1"
+            ;;
         excludes)
-            # rm -f $line
-            echo -e "$machine\tdelete\t$1"
+            echo "rm -f \"$1\""
+            # rm -f "$1"
+            ;;
+        copies)
+            echo "install -Dm 644 -t ~/.config/ $1"
+            # install -Dm 644 -t ~/.config/ $1
             ;;
         wants)
             echo "$1" >> "$paclist"
@@ -41,7 +49,6 @@ while read line; do
     fi
 done
 
-exit 0
 cat "$paclist" | sudo pacman -S --needed -
 
-cat "$aurlist" | aur -i -
+cat "$aurlist" | ./aur.sh -i -
