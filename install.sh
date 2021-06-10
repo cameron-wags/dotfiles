@@ -6,6 +6,9 @@ if [ $(whoami)  = "root" ]; then
     exit 0
 fi
 
+ls -al ~/.ssh | grep -qi \.pub || \
+echo -e "Set up a GitHub PAT\nRun: ssh-keygen -t ed25519 -C \"email@example.com\""
+
 # rename host-specific files
 
 # cleanup exclude files
