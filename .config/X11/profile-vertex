@@ -1,0 +1,25 @@
+#!/bin/dash
+
+# Key Repeat delay ms and rate Hz
+xset r rate 260 60 &
+
+# ~/.xbindkeysrc
+xbindkeys -f $HOME/.config/X11/xbindkeysrc &
+
+# Set background image
+setbg &
+
+# 5min to lock/sleep
+xset s 300 &
+xset -dpms &
+# Timing is configured via xset
+# Watching done by xssstate
+# Blanking timer done by a patch in slock
+xsidle.sh slock &
+
+while true; do
+	stime=$(xstatusbar -t)
+	sleep $stime
+done &
+
+export LAUNCHWM=dwm

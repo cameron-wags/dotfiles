@@ -5,8 +5,6 @@ alias grep='grep --color=auto'
 alias ntop='bmon -p enp4s0'
 alias xclip='xclip -selection clipboard'
 
-alias zenv='nvim ~/.zshenv && source ~/.zshenv'
-alias zrc='nvim ~/.zshrc && source ~/.zshrc'
 
 alias vim='nvim'
 alias vertex='ssh -p 6942 cameron@100.82.157.35' # Needs tailscale
@@ -45,4 +43,3 @@ alias gst='git stash'
 alias gd='git diff'
 alias gdh='git diff HEAD'
 alias gds='git diff --cached'
-

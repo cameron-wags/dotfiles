@@ -221,7 +221,6 @@ maiaprompt() {
 # Normally: source/usr/share/zsh/manjaro-zsh-prompt
 case $(basename "$(cat "/proc/$PPID/comm")") in
     login)
-        alias x='startx ~/.xinitrc'
         maiaprompt
     ;;
     *)

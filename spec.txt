@@ -12,6 +12,7 @@
         cpupower
         curl
         discord
+        entr
         ffmpeg
         firefox
         gimp
@@ -67,6 +68,7 @@
 
     :section excludes # path specs
         .config/X11/*-vertex
+        .config/X11/xbindkeysrc
     
     :section copies
         .config/*

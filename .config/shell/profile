@@ -1,6 +1,6 @@
 
-export EDITOR=/usr/bin/nvim
-export VISUAL=/usr/bin/nvim
+export EDITOR="/usr/bin/nvim"
+export VISUAL="/usr/bin/nvim"
 
 export PATH="$PATH:$HOME/bin:."
 export PROMPT_COMMAND="echo -e '\e[?6c'"
