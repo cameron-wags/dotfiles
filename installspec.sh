@@ -1,5 +1,4 @@
 #!/bin/sh
-set -x
 
 host=$(echo "$HOSTNAME" | tr [:upper:] [:lower:])
 machine=""
@@ -45,12 +44,9 @@ while read line; do
     elif [[ "$line" =~ ^:machine ]]; then
         machine=$(echo "$line" | sed -E 's/^:machine\s+(\w+)$/\1/')
     else
-        read -p "Apply $line? [y/N]: " answer < /dev/tty
-        [ "$answer" = "y" ] && applyState "$line"
+        applyState "$line"
     fi
 done
-
-exit 0
 
 cat "$paclist" | sudo pacman -S --needed -
 
