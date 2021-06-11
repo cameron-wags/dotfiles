@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x
 
 host=$(echo "$HOSTNAME" | tr [:upper:] [:lower:])
 machine=""
@@ -17,15 +18,14 @@ applyState() {
     case $section in
         hostrenames)
             echo "mv" "$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")" "$1"
-            # mv "$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")" "$1"
+            mv "$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")" "$1"
             ;;
         excludes)
             echo "rm -f \"$1\""
-            # rm -f "$1"
+            rm -f $1
             ;;
-        copies)
-            echo "install -Dm 644 -t ~/.config/ $1"
-            # install -Dm 644 -t ~/.config/ $1
+        copiesdir)
+            find $1 -type f -exec install -Dm 644 "{}" "$HOME/{}" \;
             ;;
         wants)
             echo "$1" >> "$paclist"
@@ -45,9 +45,12 @@ while read line; do
     elif [[ "$line" =~ ^:machine ]]; then
         machine=$(echo "$line" | sed -E 's/^:machine\s+(\w+)$/\1/')
     else
-        applyState "$line"
+        read -p "Apply $line? [y/N]: " answer < /dev/tty
+        [ "$answer" = "y" ] && applyState "$line"
     fi
 done
+
+exit 0
 
 cat "$paclist" | sudo pacman -S --needed -
 

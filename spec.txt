@@ -1,8 +1,54 @@
+:machine euclid
+
+    :section excludes # path specs
+        .config/X11/*-vertex
+        .config/X11/xbindkeysrc
+    
+    :section wants # package names
+        awesome
+        calibre
+        reflector
+        pasystray
+        pulseaudio-alsa
+        qbittorrent
+
+    :section gitwants # repos must have a PKGBUILD, also aur has to be installed
+        https://aur.archlinux.org/gitkraken.git
+
+:machine vertex
+
+    :section excludes # basically rm commmands
+        .config/awesome/*
+        .config/X11/*-euclid
+        bin/awesome-edit
+        bin/updatemirrors
+    
+    :section wants # all of these will take some special configuration, the reminder should be enough
+        acpi
+        chrony
+        dhcpcd
+        intel-gpu-tools
+        iwd
+        pavucontrol
+        tlp
+        tlp-ui
+        upower
+        xbindkeys
+        xssstate
+
+    :section gitwants
+        git@github.com:cameron-wags/dwm.git # packaged
+        git@github.com:cameron-wags/slock.git # packaged
+        git@github.com:cameron-wags/xstatusbar.git # packaged
+
 :machine global
 
     :section hostrenames
         .config/X11/profile
         .config/X11/xresources
+    
+    :section copiesdir
+        .config
     
     :section wants
         adobe-source-code-pro-fonts
@@ -63,53 +109,3 @@
         https://aur.archlinux.org/lf-git.git
         https://aur.archlinux.org/smenu-git.git
         https://aur.archlinux.org/visual-studio-code-bin.git
-
-:machine euclid
-
-    :section excludes # path specs
-        .config/X11/*-vertex
-        .config/X11/xbindkeysrc
-    
-    :section copies
-        .config/*
-
-    :section wants # package names
-        awesome
-        calibre
-        reflector
-        pasystray
-        pulseaudio-alsa
-        qbittorrent
-
-    :section gitwants # repos must have a PKGBUILD, also aur has to be installed
-        https://aur.archlinux.org/gitkraken.git
-
-:machine vertex
-
-    :section excludes # basically rm commmands
-        .config/awesome/*
-        .config/X11/*-euclid
-        bin/awesome-edit
-        bin/updatemirrors
-    
-    :section copies
-        .config/*
-        
-    :section wants # all of these will take some special configuration, the reminder should be enough
-        acpi
-        chrony
-        dhcpcd
-        intel-gpu-tools
-        iwd
-        pavucontrol
-        tlp
-        tlp-ui
-        upower
-        xbindkeys
-        xssstate
-
-    :section gitwants
-        git@github.com:cameron-wags/dwm.git # packaged
-        git@github.com:cameron-wags/slock.git # packaged
-        git@github.com:cameron-wags/xstatusbar.git # packaged
-

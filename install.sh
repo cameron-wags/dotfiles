@@ -16,6 +16,8 @@ read -p "Install from spec? [y/N]: " -n 1 answer
 echo ""
 [ "$answer" = "Y" -o "$answer" = "y" ] && source installspec.sh
 
+ln -s ~/.config/shell/profile ~/.zprofile
+
 # Tailscale maps
 echo -e "\nLog into TailScale before answering this!"
 read -p "Add tailscale IPs to /etc/hosts? [y/N]: " -n 1 answer
