@@ -14,7 +14,15 @@ ls -al ~/.ssh | grep -qi \.pub || {
 # Install software & config
 read -p "Install from spec? [y/N]: " -n 1 answer
 echo ""
-[ "$answer" = "Y" -o "$answer" = "y" ] && source installspec.sh
+
+if [ "$answer" = "Y" -o "$answer" = "y" ]; then
+    source installspec.sh
+
+    cat "pac.list" | sudo pacman -S --needed -
+
+    mkdir -p ~/aur
+    cat "aur.list" | ./aur.sh -i -
+fi
 
 ln -s ~/.config/shell/profile ~/.zprofile
 

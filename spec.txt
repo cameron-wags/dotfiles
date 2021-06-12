@@ -17,7 +17,7 @@
 
 :machine vertex
 
-    :section excludes # basically rm commmands
+    :section excludes # rm commmands
         .config/awesome/*
         .config/X11/*-euclid
         bin/awesome-edit
@@ -49,7 +49,8 @@
         .config/X11/xresources
     
     :section copiesdir
-        .config
+        .config 644
+        bin 755
     
     :section wants
         adobe-source-code-pro-fonts

@@ -1,15 +1,22 @@
 #!/bin/sh
 
+targetSection="$1"
+
 host=$(echo "$HOSTNAME" | tr [:upper:] [:lower:])
 machine=""
 section=""
 
 paclist="pac.list"
+if [ "$targetSection" = "wants" ]; then
+    [ -f "$paclist" ] && rm "$paclist"
+    touch "$paclist"
+fi
+
 aurlist="aur.list"
-# It's a good idea to empty these before we regenerate them.
-[ -f "$paclist" ] && rm pac.list
-[ -f "$aurlist" ] && rm aur.list
-touch pac.list aur.list
+if [ "$targetSection" = "gitwants" ]; then
+    [ -f "$aurlist" ] && rm "$aurlist"
+    touch "$aurlist"
+fi
 
 applyState() {
     [ "$machine" = "$host" -o "$machine" = "global" ] || return 0
@@ -24,7 +31,9 @@ applyState() {
             rm -f $1
             ;;
         copiesdir)
-            find $1 -type f -exec install -Dm 644 "{}" "$HOME/{}" \;
+            sourcepath=$(echo "$1" | cut -d' ' -f 1)
+            destperm=$(echo "$1" | cut -d' ' -f 2)
+            find $sourcepath -type f -exec install -Dm $destperm "{}" "$HOME/{}" \;
             ;;
         wants)
             echo "$1" >> "$paclist"
@@ -44,11 +53,6 @@ while read line; do
     elif [[ "$line" =~ ^:machine ]]; then
         machine=$(echo "$line" | sed -E 's/^:machine\s+(\w+)$/\1/')
     else
-        applyState "$line"
+        [ "$section" = "targetSection" ] && applyState "$line"
     fi
 done
-
-cat "$paclist" | sudo pacman -S --needed -
-
-mkdir -p ~/aur
-cat "$aurlist" | ./aur.sh -i -
