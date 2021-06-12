@@ -3,7 +3,7 @@
 targetSection="$1"
 
 
-host=$(echo "$HOSTNAME" | tr [:upper:] [:lower:])
+host=$(uname -n | tr [:upper:] [:lower:])
 machine=""
 section=""
 
