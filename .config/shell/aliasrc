@@ -2,12 +2,11 @@
 alias ls='ls --color=auto'
 alias la='ls -a --color=auto'
 alias grep='grep --color=auto'
-alias ntop='bmon -p enp4s0'
 alias xclip='xclip -selection clipboard'
 
-
 alias vim='nvim'
-alias vertex='ssh -p 6942 cameron@100.82.157.35' # Needs tailscale
+alias euclid='ssh -p 6942 cameron@euclid' # Needs tailscale @ ips mapped in /etc/hosts
+alias vertex='ssh -p 6942 cameron@vertex'
 
 alias pac='pacman'
 alias pacs='pacman -Ss'
