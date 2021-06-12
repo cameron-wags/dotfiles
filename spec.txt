@@ -40,7 +40,6 @@
         xssstate
 
     :section gitwants
-        https://aur.archlinux.org/aws-sam-cli.git
         git@github.com:cameron-wags/dwm.git # packaged
         git@github.com:cameron-wags/slock.git # packaged
         git@github.com:cameron-wags/xstatusbar.git # packaged
