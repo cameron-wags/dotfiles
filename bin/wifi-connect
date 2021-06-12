@@ -1,0 +1,40 @@
+#!/bin/sh
+
+die() {
+    echo "$1"
+    exit 0
+}
+
+scantime=2
+
+iwctl station wlan0 scan
+# I don't know how long I should wait, but not waiting at all leads to poor results.
+echo "Scanning for ${scantime}s..."
+sleep $scantime
+# get-networks shows you which network you're connected to
+# the only problem is that the default color sucks.
+nlist=$(iwctl station wlan0 get-networks | sed -E "s/\[1;30m>/\[1;36m*/")
+
+# Splitting output into a list of lines helps with ignoring the (non-removable) header.
+set -o noglob
+IFS=$'\n' alist=($nlist)
+set +o noglob
+
+lineC="${#alist[@]}"
+lineC=$(($lineC - 1))
+for n in `seq 4 $lineC` ; do
+    echo -e "$(($n - 4)))\t${alist[n]}"
+done
+
+target="0"
+read -p "Select network # (default 0): " target
+target=$(($target + 4))
+
+net="${alist[target]}"
+# There's extra garbage in the selection that's not the SSID. Remove that.
+net=$(echo "$net" | sed -E 's/^(.*)\s\w+\s+[*]+.*$/\1/' | xargs echo)
+echo "Target network: '$net'"
+echo "$net" | grep -Eq '^.\[1;36m*' && die "Already connected that network"
+
+iwctl station wlan0 connect "$net"
+

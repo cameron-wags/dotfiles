@@ -1,4 +1,6 @@
 #!/bin/sh
 
-rdesktop apex -g 100%x100%@120 -P -z
+localdpi=$(grep -i "Xft.dpi" "$HOME/.config/X11/xresources" | cut -d' ' -f2)
+
+rdesktop apex -g 100%x100%@$localdpi -P -z
 

@@ -3,6 +3,9 @@
     :section excludes # path specs
         .config/X11/*-vertex
         .config/X11/xbindkeysrc
+        bin/wifi-connect
+        bin/xsettoggle.sh
+        bin/setbg
     
     :section wants # package names
         awesome
