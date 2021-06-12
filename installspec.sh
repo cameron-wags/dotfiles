@@ -8,13 +8,13 @@ machine=""
 section=""
 
 paclist="pac.list"
-if [ "$targetSection" = "wants" ]; then
+if [ "$targetSection" = "wants" -o -z "$targetSection" ]; then
     [ -f "$paclist" ] && rm "$paclist"
     touch "$paclist"
 fi
 
 aurlist="aur.list"
-if [ "$targetSection" = "gitwants" ]; then
+if [ "$targetSection" = "gitwants" -o -z "$targetSection" ]; then
     [ -f "$aurlist" ] && rm "$aurlist"
     touch "$aurlist"
 fi
@@ -54,6 +54,6 @@ while read line; do
     elif [[ "$line" =~ ^:machine ]]; then
         machine=$(echo "$line" | sed -E 's/^:machine\s+(\w+)$/\1/')
     else
-        [ "$section" = "$targetSection" -o "$targetSection" = "" ] && applyState "$line"
+        [ "$section" = "$targetSection" -o -z "$targetSection" ] && applyState "$line"
     fi
 done
