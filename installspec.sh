@@ -2,6 +2,7 @@
 
 targetSection="$1"
 
+
 host=$(echo "$HOSTNAME" | tr [:upper:] [:lower:])
 machine=""
 section=""
@@ -23,11 +24,11 @@ applyState() {
 
     case $section in
         hostrenames)
-            echo "mv" "$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")" "$1"
+            echo "mv '$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")' '$1'"
             mv "$(echo "$1" | sed -E "s/^(.*)$/\1-${host}/")" "$1"
             ;;
         excludes)
-            echo "rm -f \"$1\""
+            echo "rm -f $1"
             rm -f $1
             ;;
         copiesdir)
@@ -53,6 +54,6 @@ while read line; do
     elif [[ "$line" =~ ^:machine ]]; then
         machine=$(echo "$line" | sed -E 's/^:machine\s+(\w+)$/\1/')
     else
-        [ "$section" = "targetSection" ] && applyState "$line"
+        [ "$section" = "$targetSection" -o "$targetSection" = "" ] && applyState "$line"
     fi
 done
