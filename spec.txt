@@ -20,7 +20,7 @@
 
 :machine vertex
 
-    :section excludes # rm commmands
+    :section excludes
         .config/awesome/*
         .config/X11/*-euclid
         bin/awesome-edit
@@ -30,19 +30,20 @@
         acpi
         chrony
         dhcpcd
+        hsetroot # setting background
         intel-gpu-tools
-        iwd
+        iwd # networkmanager alternative
         pavucontrol
         tlp
         tlp-ui
         upower
-        xbindkeys
+        xbindkeys # dotfile: .config/X11/xbindkeysrc
         xssstate
 
     :section gitwants
-        git@github.com:cameron-wags/dwm.git # packaged
-        git@github.com:cameron-wags/slock.git # packaged
-        git@github.com:cameron-wags/xstatusbar.git # packaged
+        git@github.com:cameron-wags/dwm.git
+        git@github.com:cameron-wags/slock.git
+        git@github.com:cameron-wags/xstatusbar.git
 
 :machine global
 
