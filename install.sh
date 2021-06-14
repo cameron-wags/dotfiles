@@ -11,11 +11,13 @@ ls -al ~/.ssh | grep -qi \.pub || {
     exit 1
 }
 
+cd "$HOME/repo/linux-conf"
+
 # Install software & config
-read -p "Install from spec? [y/N]: " -n 1 answer
+read -p "Install from spec? [Y/n]: " -n 1 answer
 echo ""
 
-if [ "$answer" = "Y" -o "$answer" = "y" ]; then
+if [ "$answer" != "n" -a "$answer" != "N" ]; then
     source installspec.sh
 
     cat "pac.list" | sudo pacman -S --needed -
@@ -24,7 +26,7 @@ if [ "$answer" = "Y" -o "$answer" = "y" ]; then
     cat "aur.list" | ./aur.sh -i -
 fi
 
-ln -s ~/.config/shell/profile ~/.zprofile
+[ -h ~/.zprofile ] || ln -s ~/.config/shell/profile ~/.zprofile
 
 # Tailscale maps
 echo -e "\nLog into TailScale before answering this!"
