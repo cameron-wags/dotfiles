@@ -6,26 +6,25 @@ die() {
 }
 
 offerquit() {
-	read -n 1 -p "$1? [Y/n]: " ans
-	case "$ans" in
-		n|N)
-			echo "Exiting"
-			exit 0
-			;;
-		*)
-			:
-			;;
-	esac
+    read -n 1 -p "$1? [Y/n]: " ans
+    case "$ans" in
+        n|N)
+            echo "Exiting"
+            exit 0
+            ;;
+        *)
+            :
+            ;;
+    esac
 }
 
-# $1 is the file pathspec relative to linux-conf
 [ -z "$1" ] && die "Must specify a pathspec to modify" 1
 
-if [ ! -f "$1" ] {
-	echo "Didn't find '$1'"
-	offerquit "Create it"
-	touch "$1"
-}
+if [ ! -f "$1" ]; then
+    echo "Didn't find '$1'"
+    offerquit "Create it"
+    touch "$1"
+fi
 pspec="$1"
 
 cd "$HOME/repo/linux-conf"
