@@ -1,0 +1,21 @@
+#!/bin/sh
+
+offerquit() {
+	read -n 1 -p "$1? [Y/n]: " ans
+	case "$ans" in
+		n|N)
+			echo "Exiting"
+			exit 0
+			;;
+		*)
+			:
+			;;
+	esac
+}
+
+cd "$HOME/repo/linux-conf"
+
+git pull
+offerquit "Run install"
+./install.sh
+
