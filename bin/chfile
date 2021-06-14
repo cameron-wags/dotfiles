@@ -1,0 +1,32 @@
+#!/bin/sh
+
+die() {
+    echo "$1"
+    exit $2
+}
+
+# $1 is the file pathspec relative to linux-conf
+[ -z "$1" ] && die "Must specify a pathspec to modify" 1
+
+# offer to make a new file in this case
+[ -f "$1" ] || die "Not found '$1'" 1
+pspec="$1"
+
+cd "$HOME/repo/linux-conf"
+
+vim "$pspec"
+
+read -n 1 -p "Install changes? [Y/n]: " ans
+
+case "$ans" in
+    n|N)
+        echo ":\\"
+        exit 0
+        ;;
+    *)
+        :
+        ;;
+esac
+
+git commit --interactive
+
