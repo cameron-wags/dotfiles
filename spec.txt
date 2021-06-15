@@ -6,6 +6,7 @@
         bin/wifi-connect
         bin/xsettoggle.sh
         bin/setbg
+        bin/displaymnt
     
     :section wants # package names
         awesome
