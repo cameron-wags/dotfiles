@@ -1,0 +1,5 @@
+[Default Applications]
+
+text/x-shellscript=text.desktop;
+text/plain=text.desktop;
+inode/directory=file.desktop

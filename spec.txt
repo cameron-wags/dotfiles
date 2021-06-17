@@ -54,6 +54,7 @@
     
     :section copiesdir
         .config 644
+        .local/share/applications 644
         bin 755
     
     :section wants
