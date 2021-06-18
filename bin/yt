@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mpv --hwdec=auto --ytdl --ytdl-raw-options=limit-rate=10M "$(xclip -out -selection XA_CLIPBOARD)"
+

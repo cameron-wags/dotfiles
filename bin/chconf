@@ -21,14 +21,13 @@ offerquit() {
 
 [ -z "$1" ] && die "Must specify a pathspec to modify" 1
 
+cd "$HOME/repo/linux-conf"
 if [ ! -f "$1" ]; then
     echo "Didn't find '$1'"
     offerquit "Create it"
     touch "$1"
 fi
 pspec="$1"
-
-cd "$HOME/repo/linux-conf"
 
 vim "$pspec"
 

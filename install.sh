@@ -14,12 +14,14 @@ ls -al ~/.ssh | grep -qi \.pub || {
 cd "$HOME/repo/linux-conf"
 
 # Install software & config
-read -p "Install from spec? [Y/n]: " -n 1 answer
+
+echo "Running install spec"
+source installspec.sh
+
+read -p "Install spec'd packages? [y/N]: " -n 1 answer
 echo ""
 
-if [ "$answer" != "n" -a "$answer" != "N" ]; then
-    source installspec.sh
-
+if [ "$answer" = "Y" -o "$answer" = "y" ]; then
     cat "pac.list" | sudo pacman -S --needed -
 
     mkdir -p ~/aur
