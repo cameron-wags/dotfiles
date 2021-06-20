@@ -1,11 +1,14 @@
 #!/bin/sh
 
 offerquit() {
-	read -n 1 -p "$1? [Y/n]: " ans
+	read -n 1 -p "$1? [Y/n/(p)]: " ans
 	case "$ans" in
 		n|N)
 			echo "Exiting"
 			exit 0
+			;;
+		p|P)
+			git log --patch
 			;;
 		*)
 			:

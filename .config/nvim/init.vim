@@ -24,6 +24,7 @@ noremap <CR> :noh<CR><CR>
 set number relativenumber
 
 set shiftwidth=4
+set tabstop=4
 set softtabstop=4
 set expandtab
 
