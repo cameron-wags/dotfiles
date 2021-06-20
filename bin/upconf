@@ -9,6 +9,7 @@ offerquit() {
 			;;
 		p|P)
 			git log --patch
+			exit 0
 			;;
 		*)
 			:
