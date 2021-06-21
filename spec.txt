@@ -15,6 +15,7 @@
         pasystray
         pulseaudio-alsa
         qbittorrent
+	wine
 
     :section gitwants # repos must have a PKGBUILD, also aur has to be installed
         https://aur.archlinux.org/gitkraken.git
