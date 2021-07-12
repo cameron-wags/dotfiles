@@ -72,6 +72,7 @@
         gimp
         git
         git-lfs
+        gnome-keyring
         go
         graphviz
         htop
