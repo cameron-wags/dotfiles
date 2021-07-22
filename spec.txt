@@ -15,7 +15,6 @@
         pasystray
         pulseaudio-alsa
         qbittorrent
-	wine
 
     :section gitwants # repos must have a PKGBUILD, also aur has to be installed
         https://aur.archlinux.org/gitkraken.git
@@ -94,6 +93,7 @@
         rdesktop
         rxvt-unicode
         rxvt-unicode-terminfo
+        sxiv
         tailscale
         ttf-cascadia-code
         ttf-hack
