@@ -311,6 +311,8 @@ globalkeys = gears.table.join(
               {description = "dmenu run", group = "launcher"}),
     awful.key({ modkey, "Shift"   }, "s", function () awful.spawn("shutdown now") end,
               {description = "shutdown", group = "awesome"}),
+    awful.key({ modkey, "Shift"   }, "d", function () awful.spawn("systemctl suspend") end,
+              {description = "suspend", group = "awesome"}),
 
     -- Awesome Shortcuts
     awful.key({ modkey, "Shift"   }, "r", awesome.restart,
