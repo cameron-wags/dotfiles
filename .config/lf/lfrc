@@ -7,16 +7,7 @@ set tabstop 4
 # define a custom 'delete' command
 cmd delete ${{
     set -f
-    printf "$fx\n"
-    printf "Delete? [Y/n]: "
-    read ans
-    case "$ans" in
-        n|N)
-            ;;
-        *)
-            rm -rf "$fx"
-            ;;
-    esac
+    rm -rf "$fx"
 }}
 
 map D delete
