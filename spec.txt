@@ -68,6 +68,7 @@
         entr
         ffmpeg
         firefox
+		guvcview
         gimp
         git
         git-lfs
