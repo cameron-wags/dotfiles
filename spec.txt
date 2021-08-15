@@ -61,6 +61,8 @@
         adobe-source-code-pro-fonts
         aws-cli
         base-devel
+		bluez
+		bluez-utils
         cmake
         cpupower
         curl
