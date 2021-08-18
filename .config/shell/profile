@@ -8,6 +8,7 @@ export PROMPT_COMMAND="echo -e '\e[?6c'"
 dotconf="$HOME/.config"
 
 export WINEPREFIX="$dotconf/wine"
+export XDG_DOWNLOAD_DIR="$HOME/Downloads"
 export XINITRC="$dotconf/X11/xinitrc"
 export ZDOTDIR="$dotconf/zsh"
 
