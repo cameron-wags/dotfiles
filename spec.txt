@@ -60,9 +60,9 @@
     :section wants
         adobe-source-code-pro-fonts
         aws-cli
-        base-devel
-		bluez
-		bluez-utils
+	base-devel
+	bluez
+	bluez-utils
         cmake
         cpupower
         curl
@@ -70,14 +70,15 @@
         entr
         ffmpeg
         firefox
-		guvcview
         gimp
+	guvcview
         git
         git-lfs
         gnome-keyring
         go
         graphviz
         htop
+	jdk-openjdk
         libreoffice-fresh
         man-db
         mpv
