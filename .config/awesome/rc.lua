@@ -18,6 +18,14 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+---[[vertex
+-- Has hotkeys and widget
+local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
+local battery_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+--]]
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -100,12 +108,56 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- }}}
 
 -- {{{ Wibar
+
+local volume_ind = volume_widget({
+    refresh_rate = 60,
+    widget_type = 'arc',
+    mute_color = '#AA3333',
+    size = 40,
+    thickness = 6
+})
+
+---[[vertex
+local brightness_ind = brightness_widget({
+    timeout = 60,
+    widget_type = 'arc',
+    program = 'xbacklight',
+    step = '5%',
+    base= '30%'
+})
+
+local battery_ind = battery_widget({
+    arc_thickness = 5,
+    size = 38,
+    show_current_level = true,
+    low_level_color = '#AA333333',
+    timeout = 60
+})
+--]]
+
+local calendar = calendar_widget({
+    theme = 'dark',
+    placement = 'top_right',
+    radius = 2
+})
+
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock("  %a %b %e, %l:%M %p")
 local my_textclock = wibox.widget {
     format = '  %a %b %e, %l:%M %p',
     font   = 'sans 10',
     widget = wibox.widget.textclock
+}
+
+my_textclock:connect_signal("button::press",
+    function(_, _, _, button)
+        if button == 1 then calendar.toggle() end
+    end)
+
+local spacer = wibox.widget {
+    opacity = 0.0,
+    forced_width = 10,
+    forced_height = 3,
+    widget = wibox.widget.textbox
 }
 
 -- Removing titlebars for tiled windows
@@ -242,7 +294,14 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(true),
-            mytextclock,
+            volume_ind,
+            ---[[vertex
+            spacer,
+            brightness_ind,
+            spacer,
+            battery_ind,
+            --]]
+            my_textclock,
         },
     }
 end)
@@ -260,10 +319,12 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
+    --[[
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
+    --]]
     awful.key({ modkey,           }, "Tab", awful.tag.history.restore,
               {description = "view last used tag", group = "tag"}),
 
@@ -313,6 +374,20 @@ globalkeys = gears.table.join(
               {description = "shutdown", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "d", function () awful.spawn("systemctl suspend") end,
               {description = "suspend", group = "awesome"}),
+
+    ---[[vertex
+    awful.key({ modkey,           }, "F12", function() brightness_widget:inc() end,
+              {description = "increase brightness", group = "system"}),
+    awful.key({ modkey,           }, "F11", function() brightness_widget:dec() end,
+              {description = "decrease brightness", group = "system"}),
+
+    awful.key({ modkey,           }, "F3", function() volume_widget:inc() end,
+              {description = "increase volume", group = "system"}),
+    awful.key({ modkey,           }, "F2", function() volume_widget:dec() end,
+              {description = "decrease volume", group = "system"}),
+    awful.key({ modkey,           }, "F1", function() volume_widget:toggle() end,
+              {description = "mute volume", group = "system"}),
+    --]]
 
     -- Awesome Shortcuts
     awful.key({ modkey, "Shift"   }, "r", awesome.restart,
