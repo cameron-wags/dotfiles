@@ -51,7 +51,7 @@ beautiful.init("~/.config/awesome/theme.lua")
 terminal = "urxvt"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
-dmenu_run_cmd = "dmenu_run -F -i -p '>' -fn 'Dank Mono:size=13:antialias=true' -nb '#000000' -nf '#8F8F8F' -sb '#008080' -sf '#FFFFFF'"
+dmenu_run_cmd = "dmenu_run -i -p '>' -fn 'Dank Mono:size=13:antialias=true' -nb '#000000' -nf '#8F8F8F' -sb '#008080' -sf '#FFFFFF'"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
