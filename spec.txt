@@ -9,7 +9,6 @@
         bin/displaymnt
     
     :section wants # package names
-        awesome
         calibre
         reflector
         pasystray
@@ -22,7 +21,6 @@
 :machine vertex
 
     :section excludes
-        .config/awesome/*
         .config/X11/*-euclid
         bin/awesome-edit
         bin/updatemirrors
@@ -59,10 +57,11 @@
     
     :section wants
         adobe-source-code-pro-fonts
+        awesome
         aws-cli
-	base-devel
-	bluez
-	bluez-utils
+        base-devel
+        bluez
+        bluez-utils
         cmake
         cpupower
         curl
@@ -71,14 +70,14 @@
         ffmpeg
         firefox
         gimp
-	guvcview
+        guvcview
         git
         git-lfs
         gnome-keyring
         go
         graphviz
         htop
-	jdk-openjdk
+        jdk-openjdk
         libreoffice-fresh
         man-db
         mpv
