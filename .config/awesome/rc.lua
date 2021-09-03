@@ -281,6 +281,27 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
+    right_widgets = {
+            layout = wibox.layout.fixed.horizontal,
+            wibox.widget.systray(true),
+            volume_ind,
+            my_textclock,
+    }
+
+    if awesome.hostname == "vertex"
+    then
+        right_widgets = {
+                layout = wibox.layout.fixed.horizontal,
+                wibox.widget.systray(true),
+                volume_ind,
+                spacer,
+                brightness_ind,
+                spacer,
+                battery_ind,
+                my_textclock,
+        }
+    end
+
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -291,19 +312,9 @@ awful.screen.connect_for_each_screen(function(s)
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(true),
-            volume_ind,
-            ---[[vertex
-            spacer,
-            brightness_ind,
-            spacer,
-            battery_ind,
-            --]]
-            my_textclock,
-        },
+        right_widgets,
     }
+    
 end)
 -- }}}
 
@@ -316,6 +327,21 @@ root.buttons(gears.table.join(
 -- }}}
 
 -- {{{ Key bindings
+
+global_keys_vertex = gears.table.join(
+    awful.key({ modkey,           }, "F12", function() brightness_widget:inc() end,
+              {description = "increase brightness", group = "system"}),
+    awful.key({ modkey,           }, "F11", function() brightness_widget:dec() end,
+              {description = "decrease brightness", group = "system"}),
+
+    awful.key({ modkey,           }, "F3", function() volume_widget:inc() end,
+              {description = "increase volume", group = "system"}),
+    awful.key({ modkey,           }, "F2", function() volume_widget:dec() end,
+              {description = "decrease volume", group = "system"}),
+    awful.key({ modkey,           }, "F1", function() volume_widget:toggle() end,
+              {description = "mute volume", group = "system"})
+)
+
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
@@ -375,20 +401,6 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "d", function () awful.spawn("systemctl suspend") end,
               {description = "suspend", group = "awesome"}),
 
-    ---[[vertex
-    awful.key({ modkey,           }, "F12", function() brightness_widget:inc() end,
-              {description = "increase brightness", group = "system"}),
-    awful.key({ modkey,           }, "F11", function() brightness_widget:dec() end,
-              {description = "decrease brightness", group = "system"}),
-
-    awful.key({ modkey,           }, "F3", function() volume_widget:inc() end,
-              {description = "increase volume", group = "system"}),
-    awful.key({ modkey,           }, "F2", function() volume_widget:dec() end,
-              {description = "decrease volume", group = "system"}),
-    awful.key({ modkey,           }, "F1", function() volume_widget:toggle() end,
-              {description = "mute volume", group = "system"}),
-    --]]
-
     -- Awesome Shortcuts
     awful.key({ modkey, "Shift"   }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
@@ -442,6 +454,11 @@ globalkeys = gears.table.join(
     -- awful.key({ modkey }, "p", function() menubar.show() end,
     --           {description = "show the menubar", group = "launcher"})
 )
+
+if awesome.hostname == "vertex"
+then
+    globalkeys = gears.table.merge(globalkeys, global_keys_vertex)
+end
 
 clientkeys = gears.table.join(
     awful.key({ modkey,           }, "f",
