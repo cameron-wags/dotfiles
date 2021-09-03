@@ -1,3 +1,6 @@
 [submodule "aur"]
 	path = aur
 	url = https://github.com/cameron-wags/aur
+[submodule ".config/awesome/awesome-wm-widgets"]
+	path = .config/awesome/awesome-wm-widgets
+	url = https://github.com/cameron-wags/awesome-wm-widgets.git
