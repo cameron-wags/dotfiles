@@ -38,31 +38,31 @@
 #keystate_scrolllock= enable
 
 # Brightness Control
-"xbacklight -dec 5 ; xstatusbar &"
-   XF86MonBrightnessDown
-
-"xbacklight -inc 5 ; xstatusbar &"
-   XF86MonBrightnessUp
+#"xbacklight -dec 5 ; xstatusbar &"
+#   XF86MonBrightnessDown
+#
+#"xbacklight -inc 5 ; xstatusbar &"
+#   XF86MonBrightnessUp
 
 # Audio Control
-"pactl set-sink-mute @DEFAULT_SINK@ false ; pactl set-sink-volume @DEFAULT_SINK@ +5% ; xstatusbar &"
-   XF86AudioRaiseVolume
-
-"pactl set-sink-mute @DEFAULT_SINK@ false ; pactl set-sink-volume @DEFAULT_SINK@ -5% ; xstatusbar &"
-   XF86AudioLowerVolume
-
-"pactl set-sink-mute @DEFAULT_SINK@ toggle ; xstatusbar &"
-   XF86AudioMute
-
-"pactl set-source-mute @DEFAULT_SOURCE@ toggle"
-   XF86AudioMicMute
+#"pactl set-sink-mute @DEFAULT_SINK@ false ; pactl set-sink-volume @DEFAULT_SINK@ +5% ; xstatusbar &"
+#   XF86AudioRaiseVolume
+#
+#"pactl set-sink-mute @DEFAULT_SINK@ false ; pactl set-sink-volume @DEFAULT_SINK@ -5% ; xstatusbar &"
+#   XF86AudioLowerVolume
+#
+#"pactl set-sink-mute @DEFAULT_SINK@ toggle ; xstatusbar &"
+#   XF86AudioMute
+#
+#"pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+#   XF86AudioMicMute
 
 # Screen locker
 "slock"
    m:0x40 + c:46
 
 # Auto-lock/sleep toggle
-"xsettoggle.sh ; xstatusbar &"
+"xsettoggle.sh"
    m:0x40 + c:54
 
 # Examples of commands:
