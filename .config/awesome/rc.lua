@@ -131,6 +131,7 @@ local battery_ind = battery_widget({
     size = 38,
     show_current_level = true,
     low_level_color = '#AA333333',
+    enable_battery_warning = true,
     timeout = 60
 })
 --]]
