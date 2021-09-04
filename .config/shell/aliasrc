@@ -16,6 +16,7 @@ alias update='sudo pacman -Syyu'
 alias gs='git status'
 alias gl='git log'
 alias glp='git log -p'
+alias glg='git log --graph'
 
 alias gcl='git clone'
 alias gf='git fetch'
