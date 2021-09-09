@@ -52,10 +52,14 @@ end
 -- }}}
 
 -- {{{ Variable definitions
+
+vertex = "vertex"
+
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("~/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
+browser = "chromium"
 terminal = "urxvt"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
@@ -289,7 +293,7 @@ awful.screen.connect_for_each_screen(function(s)
             my_textclock,
     }
 
-    if awesome.hostname == "vertex"
+    if awesome.hostname == vertex
     then
         right_widgets = {
                 layout = wibox.layout.fixed.horizontal,
@@ -393,7 +397,7 @@ globalkeys = gears.table.join(
     -- Program launchers
     awful.key({ modkey,           }, ";", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey,           }, "i", function () awful.spawn("firefox") end,
+    awful.key({ modkey,           }, "i", function () awful.spawn(browser) end,
               {description = "open browser", group = "launcher"}),
     awful.key({ modkey,           }, "p", function () awful.spawn(dmenu_run_cmd) end,
               {description = "dmenu run", group = "launcher"}),
@@ -456,7 +460,7 @@ globalkeys = gears.table.join(
     --           {description = "show the menubar", group = "launcher"})
 )
 
-if awesome.hostname == "vertex"
+if awesome.hostname == vertex
 then
     globalkeys = gears.table.merge(globalkeys, global_keys_vertex)
 end
