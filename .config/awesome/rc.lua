@@ -72,6 +72,7 @@ dmenu_run_cmd = "dmenu_run -i -p '>' -fn 'Dank Mono:size=13:antialias=true' -nb 
 -- However, you can use another modifier like Mod1, but it may interact with others.
 -- modkey = "Mod4"
 modkey = "Mod1"
+super = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -333,16 +334,16 @@ root.buttons(gears.table.join(
 -- {{{ Key bindings
 
 global_keys_vertex = gears.table.join(
-    awful.key({ modkey,           }, "F12", function() brightness_widget:inc() end,
+    awful.key({ super,            }, "F12", function() brightness_widget:inc() end,
               {description = "increase brightness", group = "system"}),
-    awful.key({ modkey,           }, "F11", function() brightness_widget:dec() end,
+    awful.key({ super,            }, "F11", function() brightness_widget:dec() end,
               {description = "decrease brightness", group = "system"}),
 
-    awful.key({ modkey,           }, "F3", function() volume_widget:inc() end,
+    awful.key({ super,            }, "F3", function() volume_widget:inc() end,
               {description = "increase volume", group = "system"}),
-    awful.key({ modkey,           }, "F2", function() volume_widget:dec() end,
+    awful.key({ super,            }, "F2", function() volume_widget:dec() end,
               {description = "decrease volume", group = "system"}),
-    awful.key({ modkey,           }, "F1", function() volume_widget:toggle() end,
+    awful.key({ super,            }, "F1", function() volume_widget:toggle() end,
               {description = "mute volume", group = "system"})
 )
 
