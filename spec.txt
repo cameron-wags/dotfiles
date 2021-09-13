@@ -116,6 +116,7 @@
         zsh-syntax-highlighting
 
     :section gitwants
+	https://aur.archlinux.org/paper-icon-theme.git
         https://aur.archlinux.org/arc-x-icons-theme.git
         https://aur.archlinux.org/smenu-git.git
         git@github.com:cameron-wags/aur.git
