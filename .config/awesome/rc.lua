@@ -289,7 +289,6 @@ awful.screen.connect_for_each_screen(function(s)
     right_widgets = {
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(true),
-            volume_ind,
             my_textclock,
     }
 
