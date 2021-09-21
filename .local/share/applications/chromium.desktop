@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
-Name=Browser
+Name=Chromium
 Exec=/usr/bin/chromium %u
