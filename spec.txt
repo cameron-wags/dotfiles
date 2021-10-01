@@ -33,7 +33,7 @@
         iwd # networkmanager alternative
         pavucontrol
         tlp
-        tlp-ui
+        tlpui
         upower
         xbindkeys # dotfile: .config/X11/xbindkeysrc
         xssstate

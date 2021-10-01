@@ -16,7 +16,7 @@ cd "$HOME/repo/linux-conf"
 # Install software & config
 
 echo "Running install spec"
-source installspec.sh
+./installspec.sh
 
 read -p "Install spec'd packages? [y/N]: " -n 1 answer
 echo ""
