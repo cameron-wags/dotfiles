@@ -118,6 +118,7 @@ local volume_ind = volume_widget({
     refresh_rate = 60,
     widget_type = 'arc',
     mute_color = '#AA3333',
+    max_volume = 125,
     size = 40,
     thickness = 6
 })
