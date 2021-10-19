@@ -15,7 +15,7 @@ xset -dpms &
 # Timing is configured via xset
 # Watching done by xssstate
 # Blanking timer done by a patch in slock
-xsidle.sh slock &
+#xsidle.sh slock &
 
 while true; do
 	stime=$(xstatusbar -t)
