@@ -122,5 +122,6 @@
         https://aur.archlinux.org/smenu-git.git
         git@github.com:cameron-wags/aur.git
         git@github.com:cameron-wags/dmenu.git
+	git@github.com:cameron-wags/fuzzy-cd.git
         https://aur.archlinux.org/lf-git.git
         https://aur.archlinux.org/visual-studio-code-bin.git
