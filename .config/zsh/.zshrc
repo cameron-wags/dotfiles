@@ -87,6 +87,8 @@ if [[ -r /usr/share/zsh/functions/command-not-found.zsh ]]; then
     source /usr/share/zsh/functions/command-not-found.zsh
     export PKGFILE_PROMPT_INSTALL_MISSING=1
 fi
+
+source /usr/share/fuzzy-cd/fuzzy-cd.sh
 # }}}
 
 ## Set terminal title {{{
