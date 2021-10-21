@@ -1,4 +1,7 @@
 #!/bin/sh
 
-mpv --hwdec=auto --geometry=60% --ytdl --ytdl-raw-options=limit-rate=10M "$(xclip -out -selection XA_CLIPBOARD)"
+#mpv --hwdec=auto --geometry=60% --ytdl --ytdl-raw-options=limit-rate=10M "$(xclip -out -selection XA_CLIPBOARD)"
+
+vpath="$(yt-dlp "$(xclip -out -selection XA_CLIPBOARD)" --quiet --hls-use-mpegts --exec 'echo')"
+mpv --hwdec=auto --geometry=60% "$vpath" && rm "$vpath"
 
