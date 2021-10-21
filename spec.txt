@@ -109,7 +109,6 @@
         virt-viewer
         vlc
         youtube-dl
-        yt-dlp
         zip
         zsh
         zsh-autosuggestions
@@ -123,6 +122,7 @@
         https://aur.archlinux.org/smenu-git.git
         git@github.com:cameron-wags/aur.git
         git@github.com:cameron-wags/dmenu.git
-	git@github.com:cameron-wags/fuzzy-cd.git
+        git@github.com:cameron-wags/fuzzy-cd.git
+        https://aur.archlinux.org/yt-dlp.git
         https://aur.archlinux.org/lf-git.git
         https://aur.archlinux.org/visual-studio-code-bin.git
