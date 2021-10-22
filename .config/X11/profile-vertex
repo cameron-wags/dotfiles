@@ -17,9 +17,9 @@ xset -dpms &
 # Blanking timer done by a patch in slock
 #xsidle.sh slock &
 
-while true; do
-	stime=$(xstatusbar -t)
-	sleep $stime
-done &
+#while true; do
+#	stime=$(xstatusbar -t)
+#	sleep $stime
+#done &
 
-export LAUNCHWM=dwm
+export LAUNCHWM=awesome
