@@ -2,6 +2,9 @@
 
 #mpv --hwdec=auto --geometry=60% --ytdl --ytdl-raw-options=limit-rate=10M "$(xclip -out -selection XA_CLIPBOARD)"
 
-vpath="$(yt-dlp "$(xclip -out -selection XA_CLIPBOARD)" --quiet --hls-use-mpegts --exec 'echo')"
-mpv --hwdec=auto --geometry=60% "$vpath" && rm "$vpath"
+#vpath="$(yt-dlp "$(xclip -out -selection XA_CLIPBOARD)" --quiet --hls-use-mpegts --exec 'echo')"
+#mpv --hwdec=auto --geometry=60% "$vpath" && rm "$vpath"
+
+streamlink --url "$(xclip -out -selection XA_CLIPBOARD)" --player mpv --stream "1080p,720p,best" \
+    --player-args "--hwdec=auto --geometry=60%"
 

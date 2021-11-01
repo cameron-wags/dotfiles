@@ -97,6 +97,7 @@
         rdesktop
         rxvt-unicode
         rxvt-unicode-terminfo
+        streamlink
         sxiv
         tailscale
         ttf-cascadia-code
