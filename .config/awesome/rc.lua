@@ -639,10 +639,10 @@ awful.rules.rules = {
           "Gpick",
           "Kruler",
           "MessageWin",  -- kalarm.
-	  "mpv",
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
+          "mpv",
           "veromix",
           "xtightvncviewer"},
 
@@ -656,11 +656,15 @@ awful.rules.rules = {
           "ConfigManager",  -- Thunderbird's about:config.
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
-      }, properties = { floating = true }},
+      },
+      properties = { floating = true }},
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      }, properties = { 
+          titlebars_enabled = true,
+          placement = awful.placement.centered
+      }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
