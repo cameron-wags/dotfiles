@@ -59,6 +59,7 @@
         awesome
         aws-cli
         base-devel
+	blueman
         bluez
         bluez-utils
         cmake
@@ -69,7 +70,7 @@
         entr
         ffmpeg
         firefox
-		fzf
+	fzf
         gimp
         guvcview
         git
