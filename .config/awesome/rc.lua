@@ -64,6 +64,7 @@ terminal = "urxvt"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 dmenu_run_cmd = "dmenu_run -i -p '>' -fn 'Dank Mono:size=13:antialias=true' -nb '#000000' -nf '#8F8F8F' -sb '#008080' -sf '#FFFFFF'"
+locker = "slock"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -345,7 +346,10 @@ global_keys_vertex = gears.table.join(
     awful.key({ super,            }, "F2", function() volume_widget:dec() end,
               {description = "decrease volume", group = "system"}),
     awful.key({ super,            }, "F1", function() volume_widget:toggle() end,
-              {description = "mute volume", group = "system"})
+              {description = "mute volume", group = "system"}),
+
+    awful.key({ super,            }, "l", function() awful.spawn(locker) end,
+              {description = "lock screen", group = "awesome"})
 )
 
 globalkeys = gears.table.join(
