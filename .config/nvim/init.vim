@@ -21,6 +21,8 @@ set smartcase
 "Unsets search highlighting when hitting return
 noremap <CR> :noh<CR><CR>
 
+set mouse=a
+
 set number relativenumber
 
 set shiftwidth=4
