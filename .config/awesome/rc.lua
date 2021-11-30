@@ -300,6 +300,7 @@ awful.screen.connect_for_each_screen(function(s)
         right_widgets = {
                 layout = wibox.layout.fixed.horizontal,
                 wibox.widget.systray(true),
+                spacer,
                 volume_ind,
                 spacer,
                 brightness_ind,
