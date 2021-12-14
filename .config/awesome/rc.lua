@@ -480,7 +480,7 @@ clientkeys = gears.table.join(
         {description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey,           }, "c",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "space",  awful.client.floating.toggle                     ,
+    awful.key({ modkey, "Shift"   }, "space",  function (c) c.floating = not c.floating      end,
               {description = "toggle floating", group = "client"}),
 --  dwm Mod+Return behavior
     awful.key({ modkey,           }, "Return",
@@ -743,7 +743,13 @@ client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("focus", function(c) 
+    if awful.client.next(1, c) == nil or awful.client.next(1, c).startup_id == c.startup_id then
+        c.border_color = beautiful.border_normal
+    else
+        c.border_color = beautiful.border_focus 
+    end
+end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
