@@ -475,6 +475,7 @@ clientkeys = gears.table.join(
     awful.key({ modkey,           }, "f",
         function (c)
             c.fullscreen = not c.fullscreen
+            c.height = c.screen.geometry.height
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
