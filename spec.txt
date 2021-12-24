@@ -40,6 +40,7 @@
 
     :section gitwants
         git@github.com:cameron-wags/dwm.git
+        https://aur.archlinux.org/florence.git
         git@github.com:cameron-wags/slock.git
         git@github.com:cameron-wags/xstatusbar.git
 
