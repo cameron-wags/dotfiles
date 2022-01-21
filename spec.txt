@@ -60,7 +60,7 @@
         awesome
         aws-cli
         base-devel
-	blueman
+        blueman
         bluez
         bluez-utils
         cmake
@@ -71,14 +71,14 @@
         entr
         ffmpeg
         firefox
-	fzf
+        fzf
         gimp
-        guvcview
         git
         git-lfs
         gnome-keyring
         go
         graphviz
+        guvcview
         htop
         jdk-openjdk
         libreoffice-fresh
@@ -94,7 +94,8 @@
         openssh
         openssl
         perl-term-readkey
-        pulseaudio
+        pipewire
+        pipewire-pulse
         qemu
         rdesktop
         rxvt-unicode
@@ -111,6 +112,7 @@
         vim-runtime
         virt-viewer
         vlc
+        wireplumber
         youtube-dl
         zip
         zsh
