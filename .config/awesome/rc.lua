@@ -60,7 +60,7 @@ beautiful.init("~/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 browser = "chromium"
-terminal = "urxvt"
+terminal = "kitty"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 dmenu_run_cmd = "dmenu_run -i -p '>' -fn 'Dank Mono:size=13:antialias=true' -nb '#000000' -nf '#8F8F8F' -sb '#008080' -sf '#FFFFFF'"
