@@ -81,6 +81,7 @@
         guvcview
         htop
         jdk-openjdk
+        kitty
         libreoffice-fresh
         man-db
         mpv
