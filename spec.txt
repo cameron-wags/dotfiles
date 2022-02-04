@@ -99,6 +99,7 @@
         pipewire-pulse
         qemu
         rdesktop
+        rustup
         rxvt-unicode
         rxvt-unicode-terminfo
         streamlink
