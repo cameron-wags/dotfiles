@@ -337,16 +337,16 @@ root.buttons(gears.table.join(
 -- {{{ Key bindings
 
 global_keys_vertex = gears.table.join(
-    awful.key({ super,            }, "F12", function() brightness_widget:inc() end,
+    awful.key({ }, "XF86MonBrightnessUp", function() brightness_widget:inc() end,
               {description = "increase brightness", group = "system"}),
-    awful.key({ super,            }, "F11", function() brightness_widget:dec() end,
+    awful.key({ }, "XF86MonBrightnessDown", function() brightness_widget:dec() end,
               {description = "decrease brightness", group = "system"}),
 
-    awful.key({ super,            }, "F3", function() volume_widget:inc() end,
+    awful.key({ }, "XF86AudioRaiseVolume", function() volume_widget:inc() end,
               {description = "increase volume", group = "system"}),
-    awful.key({ super,            }, "F2", function() volume_widget:dec() end,
+    awful.key({ }, "XF86AudioLowerVolume", function() volume_widget:dec() end,
               {description = "decrease volume", group = "system"}),
-    awful.key({ super,            }, "F1", function() volume_widget:toggle() end,
+    awful.key({ } , "XF86AudioMute", function() volume_widget:toggle() end,
               {description = "mute volume", group = "system"}),
 
     awful.key({ super,            }, "l", function() awful.spawn(locker) end,
