@@ -96,6 +96,12 @@ awful.layout.layouts = {
 }
 -- }}}
 
+local function t_size(T)
+    local count = 0
+    for _ in pairs(T) do count = count + 1 end
+    return count
+end
+
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 
@@ -746,7 +752,7 @@ client.connect_signal("mouse::enter", function(c)
 end)
 
 client.connect_signal("focus", function(c) 
-    if awful.client.next(1, c) == nil or awful.client.next(1, c).startup_id == c.startup_id then
+    if t_size(c.screen.tiled_clients) == 1 then
         c.border_color = beautiful.border_normal
     else
         c.border_color = beautiful.border_focus 
