@@ -7,12 +7,11 @@
         bin/xsettoggle.sh
         bin/setbg
         bin/displaymnt
-    
+
     :section wants # package names
         calibre
         reflector
         pasystray
-        pulseaudio-alsa
         qbittorrent
 
     :section gitwants # repos must have a PKGBUILD, also aur has to be installed
@@ -23,7 +22,7 @@
         .config/X11/*-euclid
         bin/awesome-edit
         bin/updatemirrors
-    
+
     :section wants # all of these will take some special configuration, the reminder should be enough
         acpi
         chrony
@@ -49,12 +48,12 @@
     :section hostrenames
         .config/X11/profile
         .config/X11/xresources
-    
+
     :section copiesdir
         .config 644
         .local/share/applications 644
         bin 755
-    
+
     :section wants
         adobe-source-code-pro-fonts
         awesome
@@ -96,9 +95,11 @@
         openssl
         perl-term-readkey
         pipewire
+        pipewire-alsa
         pipewire-pulse
         qemu
         rdesktop
+        ripgrep
         rustup
         rxvt-unicode
         rxvt-unicode-terminfo
@@ -133,3 +134,4 @@
         https://aur.archlinux.org/yt-dlp.git
         https://aur.archlinux.org/lf-git.git
         https://aur.archlinux.org/visual-studio-code-bin.git
+        https://aur.archlinux.org/nerd-fonts-dejavu-complete.git
