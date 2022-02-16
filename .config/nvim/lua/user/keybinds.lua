@@ -9,10 +9,8 @@ map("n", "<CR>", ":noh<CR>", { noremap = true })
 
 -- Linewise toggle current line using C-/
 map('n', '<C-_>', '<CMD>lua require("Comment.api").call("toggle_current_linewise_op")<CR>g@$', { noremap = true })
-
 -- Linewise toggle using C-/
 map('x', '<C-_>', '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', { noremap = true })
-
 
 -- Disable Arrow keys in Normal mode
 map("", "<up>", "", { noremap = false })
@@ -64,4 +62,3 @@ map("n", "<leader>g", ":Rg<CR>", { noremap = true })
 map("n", "<leader>t", ":Tags<CR>", { noremap = true })
 map("n", "<leader>m", ":Marks<CR>", { noremap = true })
 
-map("n", "<leader>cd", ":lua require'telescope'.extensions.zoxide.list{}<CR>", { noremap = true, silent = true })
