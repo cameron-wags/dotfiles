@@ -33,4 +33,5 @@ export ZDOTDIR=\"$TARGET_DIR\"
 # }}}
 
 ln -s "$TARGET_DIR/.zprofile" "$HOME/.zprofile"
+chsh -s `which zsh`
 
