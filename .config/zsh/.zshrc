@@ -88,7 +88,7 @@ if [[ -r /usr/share/zsh/functions/command-not-found.zsh ]]; then
     export PKGFILE_PROMPT_INSTALL_MISSING=1
 fi
 
-source /usr/share/fuzzy-cd/fuzzy-cd.sh
+#source /usr/share/fuzzy-cd/fuzzy-cd.sh
 # }}}
 
 ## Set terminal title {{{
@@ -236,6 +236,6 @@ case $(basename "$(cat "/proc/$PPID/comm")") in
 esac
 
 # Set block cursor
-echo -e '\e[?6c'
+#echo -e '\e[?6c'
 
 # vim:foldmethod=marker
