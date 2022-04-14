@@ -33,5 +33,6 @@ export ZDOTDIR=\"$TARGET_DIR\"
 # }}}
 
 ln -s "$TARGET_DIR/.zprofile" "$HOME/.zprofile"
-chsh -s `which zsh`
+
+echo "$SHELL" | grep -Eiq '/zsh$' || echo -e '\n\n Shell is not zsh. To set your default shell to zsh, run this:\n chsh -s `which zsh`\n'
 
