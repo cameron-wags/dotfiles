@@ -3,6 +3,11 @@ if not status_ok then
 	return
 end
 
+local encoding_ignore_utf8 = function()
+    local ret, _ = (vim.bo.fenc or vim.go.enc):gsub("^utf%-8$", "")
+    return ret
+end
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -11,6 +16,7 @@ lualine.setup({
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = { "alpha", "toggleterm" },
 		-- always_divide_middle = true,
+        globalstatus = true,
 	},
 	sections = {
 		lualine_a = { "mode" },
@@ -31,7 +37,7 @@ lualine.setup({
 			{ "filename", color = { fg = "#ffffff" } },
 			{ "filesize" },
 		},
-		lualine_x = { "encoding", "fileformat", "filetype" },
+		lualine_x = { encoding_ignore_utf8, "fileformat", "filetype" },
 		lualine_y = { "progress" },
 		lualine_z = { "location" },
 	},

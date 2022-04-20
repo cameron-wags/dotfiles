@@ -2,7 +2,7 @@ local options = {
 	backup = false, -- creates a backup file
 	cmdheight = 1, -- more space in the neovim command line for displaying messages
 	completeopt = { "menuone", "noselect" }, -- mostly just for cmp
-	conceallevel = 2, -- so that `` is visible in markdown files
+	conceallevel = 0, -- so that `` is visible in markdown files
 	fileencoding = "utf-8", -- the encoding written to a file
 	hlsearch = true, -- highlight all matches on previous search pattern
 	ignorecase = true, -- ignore case in search patterns
@@ -43,7 +43,7 @@ vim.opt.shortmess:append("c")
 vim.cmd("set whichwrap+=<,>,[,],h,l")
 TERMINAL = vim.fn.expand("$TERMINAL")
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
-vim.o.titlestring = "%<%F%=%l/%L - Nvim"
+vim.o.titlestring = "%<%F - Nvim"
 
 vim.cmd([[
     set iskeyword+=-                      	" treat dash separated words as a word text object

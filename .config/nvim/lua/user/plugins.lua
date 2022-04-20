@@ -41,9 +41,9 @@ packer.init({
 -- Install your plugins here
 return packer.startup(function(use)
 	use("wbthomason/packer.nvim")
-	use("nlknguyen/copy-cut-paste.vim")
+	-- use("nlknguyen/copy-cut-paste.vim")
 	-- use("godlygeek/tabular")
-	use("plasticboy/vim-markdown") -- depends on tabular
+	-- use("plasticboy/vim-markdown") -- depends on tabular
 	-- live html/css/js preview in browser
 	--use({ "turbio/bracey.vim", cmd = "Bracey" })
 	use("tpope/vim-surround")
@@ -57,12 +57,12 @@ return packer.startup(function(use)
 	use("junegunn/fzf.vim")
 	-- puts vim working directory at project root
 	use("airblade/vim-rooter")
-	use("norcalli/nvim-colorizer.lua")
+	-- use("norcalli/nvim-colorizer.lua")
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	-- bracket pair colorizer
 	-- use("p00f/nvim-ts-rainbow")
 	-- language server support
-	use("jose-elias-alvarez/null-ls.nvim")
+	-- use("jose-elias-alvarez/null-ls.nvim")
 	-- treesitter parser state viewer
 	--use("nvim-treesitter/playground")
 	-- smart renames/current scope highlighting
@@ -87,7 +87,7 @@ return packer.startup(function(use)
 	-- path completions
 	use("hrsh7th/cmp-path")
 	-- completions for the command line
-	-- use("hrsh7th/cmp-cmdline")
+	use("hrsh7th/cmp-cmdline")
 	-- snippets engine
 	use("L3MON4D3/LuaSnip") -- depends on cmp_luasnip
 	-- connects LuaSnip to nvim-cmp
@@ -116,9 +116,9 @@ return packer.startup(function(use)
 	-- automatically delete bracket/paren/quote pairs
 	--use("windwp/nvim-autopairs")
 	-- adds icons to completions saying what they are
-	use("onsails/lspkind-nvim")
+	-- use("onsails/lspkind-nvim")
 	-- better integrated terminals
-	-- use("akinsho/toggleterm.nvim")
+	use("akinsho/toggleterm.nvim")
     -- Language support, but more people like treesitter
     --use("sheerun/vim-polyglot")
 

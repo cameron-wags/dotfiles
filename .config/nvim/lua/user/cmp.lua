@@ -4,7 +4,7 @@ capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local nvim_lsp = require("lspconfig")
-local servers = { "clangd", "rust_analyzer", "pyright", "tsserver" }
+local servers = { "clangd", "rust_analyzer", "pyright", "tsserver", "jsonls" }
 for _, lsp in ipairs(servers) do
 	nvim_lsp[lsp].setup({
 		-- on_attach = my_custom_on_attach,
@@ -76,21 +76,24 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "buffer", keyword_length = 3 },
 	},
-	formatting = {
-		format = require("lspkind").cmp_format({
-			with_text = true,
-			menu = {
-				buffer = "[buf]",
-				nvim_lsp = "[LSP]",
-				nvim_lua = "[VimApi]",
-				path = "[path]",
-				luasnip = "[snip]",
-			},
-		}),
-	},
-	documentation = {
-		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-	},
+	-- formatting = {
+	-- 	format = require("lspkind").cmp_format({
+	-- 		with_text = true,
+	-- 		menu = {
+	-- 			buffer = "[buf]",
+	-- 			nvim_lsp = "[LSP]",
+	-- 			nvim_lua = "[VimApi]",
+	-- 			path = "[path]",
+	-- 			luasnip = "[snip]",
+	-- 		},
+	-- 	}),
+	-- },
+	-- documentation = {
+	-- 	border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+	-- },
+    window = {
+        documentation = "native"
+    },
 	experimental = {
 		ghost_text = true,
 		native_menu = false,
@@ -112,4 +115,4 @@ cmp.setup.cmdline(
 	}
 )
 
-require("luasnip/loaders/from_vscode").lazy_load()
+-- require("luasnip/loaders/from_vscode").lazy_load()
