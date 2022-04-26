@@ -40,15 +40,11 @@ packer.init({
 
 -- Install your plugins here
 return packer.startup(function(use)
+    -- Caches modules to decrease load time
+    use ("lewis6991/impatient.nvim")
 	use("wbthomason/packer.nvim")
 	-- use("nlknguyen/copy-cut-paste.vim")
-	-- use("godlygeek/tabular")
-	-- use("plasticboy/vim-markdown") -- depends on tabular
-	-- live html/css/js preview in browser
-	--use({ "turbio/bracey.vim", cmd = "Bracey" })
 	use("tpope/vim-surround")
-	-- Git commit logs but for undo
-	--use({ "mbbill/undotree", cmd = "UndotreeShow" })
 	use("junegunn/fzf", {
 		run = function()
 			vim.fn["fzf#install"](0)
@@ -57,20 +53,13 @@ return packer.startup(function(use)
 	use("junegunn/fzf.vim")
 	-- puts vim working directory at project root
 	use("airblade/vim-rooter")
-	-- use("norcalli/nvim-colorizer.lua")
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	-- bracket pair colorizer
-	-- use("p00f/nvim-ts-rainbow")
 	-- language server support
 	-- use("jose-elias-alvarez/null-ls.nvim")
-	-- treesitter parser state viewer
-	--use("nvim-treesitter/playground")
 	-- smart renames/current scope highlighting
 	use("nvim-treesitter/nvim-treesitter-refactor")
 	use("nvim-lua/plenary.nvim")
 	use("nvim-lua/popup.nvim") -- depends on plenary
-	-- git gutter and diff preview
-	-- use("lewis6991/gitsigns.nvim") -- depends on plenary
 	use("nvim-telescope/telescope.nvim") -- depends on plenary
 	use("nvim-telescope/telescope-fzy-native.nvim")
 	-- tries to find language servers?
@@ -92,8 +81,6 @@ return packer.startup(function(use)
 	use("L3MON4D3/LuaSnip") -- depends on cmp_luasnip
 	-- connects LuaSnip to nvim-cmp
 	use("saadparwaiz1/cmp_luasnip") -- depends on LuaSnip, nvim-cmp
-	-- more snippets
-	--use("rafamadriz/friendly-snippets")
 	-- use language servers w/o restarting
 	use("williamboman/nvim-lsp-installer") -- depends on nvim-lspconfig
 	-- ah yes why not have icons
@@ -104,8 +91,6 @@ return packer.startup(function(use)
 	use("akinsho/bufferline.nvim") -- depends on nvim-web-devicons(optional)
 	-- indentation guides
 	use("lukas-reineke/indent-blankline.nvim")
-	-- greeter for when you open vim not knowing what you're about to edit
-	-- use("goolord/alpha-nvim") -- depends on nvim-web-devicons
 	-- status line
 	use("nvim-lualine/lualine.nvim") -- depends on nvim-web-devicons
 	-- toggles comments
