@@ -27,9 +27,10 @@ map("i", "<right>", "", { noremap = false })
 -- Buffer cycle
 map("n", "<S-TAB>", ":bnext<CR>", { noremap = true })
 map("n", "<C-S-TAB>", ":bprevious<CR>", { noremap = true })
-map("n", "<M-q>", ":bdelete<CR>", { noremap = true })
-map("n", "<C-s>", ":w<CR>", { noremap = true })
+-- map("n", "<M-q>", ":bdelete<CR>", { noremap = true })
+map("n", "<C-q>", ":bdelete<CR>", { noremap = true })
 map("n", "<leader>q", ":bdelete<CR>", { noremap = true })
+map("n", "<C-s>", ":w<CR>", { noremap = true })
 
 -- Resize with arrows
 map("n", "<C-Up>", ":resize +2<CR>", { noremap = true })
@@ -41,8 +42,7 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", { noremap = true })
 map("v", "<", "<gv", {noremap = true})
 map("v", ">", ">gv", {noremap = true})
 
-map("n", "<leader>u", ":UndotreeToggle<CR>", { noremap = true })
-
+-- Telescope formatters
 map("n", "<leader>fr", [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true })
 map("n", "<leader>fc", [[<Cmd>lua require('telescope.builtin').colorscheme()<CR>]], { noremap = true })
 map("n", "<leader>fg", [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true })
@@ -54,6 +54,8 @@ map('v', 'K', ":m '<-2<CR>gv=gv", {noremap = true})
 
 -- Nvim Tree
 map("n", "<M-e>", ":NvimTreeToggle<CR>", { noremap = true })
+map("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true })
+-- map("n", "<leader>e", ":NvimTreeFocus<CR>", { noremap = true })
 
 -- FZF
 map("", "<leader>.", ":Files<CR>", { noremap = false })
