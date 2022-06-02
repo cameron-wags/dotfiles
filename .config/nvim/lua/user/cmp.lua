@@ -92,7 +92,7 @@ cmp.setup({
 	-- 	border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
 	-- },
     window = {
-        documentation = "native"
+        documentation = cmp.config.window.bordered(),
     },
 	experimental = {
 		ghost_text = true,
