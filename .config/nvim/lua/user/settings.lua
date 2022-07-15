@@ -44,6 +44,7 @@ vim.cmd("set whichwrap+=<,>,[,],h,l")
 TERMINAL = vim.fn.expand("$TERMINAL")
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
 vim.o.titlestring = "%<%F - Nvim"
+vim.cmd('filetype on')
 
 vim.cmd([[
     set iskeyword+=-                      	" treat dash separated words as a word text object

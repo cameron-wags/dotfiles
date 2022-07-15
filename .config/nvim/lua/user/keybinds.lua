@@ -1,4 +1,4 @@
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
 --Remap space as leader key
 map("", "<Space>", "<Nop>", { noremap = true, silent = true })
@@ -8,9 +8,9 @@ vim.g.mapleader = " "
 map("n", "<CR>", ":noh<CR>", { noremap = true })
 
 -- Linewise toggle current line using C-/
-map('n', '<C-_>', '<CMD>lua require("Comment.api").call("toggle_current_linewise_op")<CR>g@$', { noremap = true })
+map('n', '<C-/>', require("Comment.api").toggle_current_linewise, { noremap = true })
 -- Linewise toggle using C-/
-map('x', '<C-_>', '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', { noremap = true })
+map('x', '<C-/>', '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', { noremap = true })
 
 -- Disable Arrow keys in Normal mode
 map("", "<up>", "", { noremap = false })
@@ -43,10 +43,10 @@ map("v", "<", "<gv", {noremap = true})
 map("v", ">", ">gv", {noremap = true})
 
 -- Telescope formatters
-map("n", "<leader>fr", [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true })
-map("n", "<leader>fc", [[<Cmd>lua require('telescope.builtin').colorscheme()<CR>]], { noremap = true })
-map("n", "<leader>fg", [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], { noremap = true })
-map("n", "<leader>fh", [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], { noremap = true })
+map("n", "<leader>fr", require('telescope.builtin').oldfiles, { noremap = true })
+map("n", "<leader>fc", require('telescope.builtin').colorscheme, { noremap = true })
+map("n", "<leader>fg", require('telescope.builtin').live_grep, { noremap = true })
+map("n", "<leader>fh", require('telescope.builtin').help_tags, { noremap = true })
 
 -- Moving the selected line from Visual Mode
 map('v', 'J', ":m '>+1<CR>gv=gv", {noremap = true})
