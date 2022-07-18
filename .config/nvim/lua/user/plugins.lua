@@ -122,7 +122,11 @@ return packer.startup(function()
     --use("sheerun/vim-polyglot")
 
 	-- coLorscheme
-	use "catppuccin/nvim"
+	use {
+        "catppuccin/nvim",
+        as = "catppuccin",
+        run = "CatppuccinCompile"
+    }
 	-- use("rebelot/kanagawa.nvim")
 	--use("folke/tokyonight.nvim")
 	--use("LunarVim/onedarker.nvim")

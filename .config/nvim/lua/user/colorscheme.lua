@@ -1,64 +1,53 @@
--- vim.g.tokyonight_style = "night"
--- vim.g.tokyonight_italic_functions = true
--- vim.g.tokyonight_sidebars = { "terminal", "packer" }
--- vim.g.tokyonight_transparent = false
--- vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 
 require("catppuccin").setup({
+    dim_inactive = {
+        enabled = false,
+        shade = "dark",
+        percentage = 0.15,
+    },
 	transparent_background = false,
 	term_colors = true,
+    compile = {
+        enabled = true,
+        path = vim.fn.stdpath "cache" .. "/catppuccin",
+        suffix = "_compiled",
+    },
 	styles = {
-		comments = "italic",
-		functions = "italic",
-		keywords = "italic",
-		strings = "NONE",
-		variables = "NONE",
+		comments = { "italic" },
+		functions = { "italic" },
+		keywords = {"italic" },
+		strings = {},
+		variables = {},
 	},
 	integrations = {
 		treesitter = true,
 		native_lsp = {
 			enabled = true,
 			virtual_text = {
-				errors = "italic",
-				hints = "italic",
-				warnings = "italic",
-				information = "italic",
+				errors = { "italic" },
+				hints = { "italic" },
+				warnings = { "italic" },
+				information = { "italic" },
 			},
 			underlines = {
-				errors = "underline",
-				hints = "underline",
-				warnings = "underline",
-				information = "underline",
+				errors = { "underline" },
+				hints = { "underline" },
+				warnings = { "underline" },
+				information = { "underline" },
 			},
-			gitsigns = false,
-			telescope = true,
-			nvimtree = {
-				enabled = true,
-				show_root = false,
-			},
-			dashboard = true,
-			bufferline = true,
-			cmp = true,
-		},
+        },
+        gitsigns = true,
+        telescope = true,
+        nvimtree = {
+            enabled = true,
+            show_root = false,
+        },
+        dashboard = true,
+        bufferline = true,
+        cmp = true,
 	},
 })
-
---[[
-require("kanagawa").setup({
-	undercurl = true, -- enable undercurls
-	commentStyle = "italic",
-	functionStyle = "NONE",
-	keywordStyle = "italic",
-	statementStyle = "bold",
-	typeStyle = "NONE",
-	variablebuiltinStyle = "italic",
-	specialReturn = true, -- special highlight for the return keyword
-	specialException = true, -- special highlight for exception handling keywords
-	transparent = false, -- do not set background color
-	colors = {},
-	overrides = {},
-})
---]]
 
 local colorscheme = "catppuccin"
 
