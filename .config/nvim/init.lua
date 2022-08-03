@@ -1,4 +1,4 @@
-require("impatient")
+pcall(require, "impatient")
 require("user.plugins")
 require("user.settings")
 require("user.keybinds")
