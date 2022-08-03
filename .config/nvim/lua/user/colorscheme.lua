@@ -41,7 +41,7 @@ require("catppuccin").setup({
         telescope = true,
         nvimtree = {
             enabled = true,
-            show_root = false,
+            show_root = true,
         },
         dashboard = true,
         bufferline = true,

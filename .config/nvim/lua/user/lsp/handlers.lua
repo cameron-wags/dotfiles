@@ -86,8 +86,8 @@ local function lsp_keymaps(bufnr)
 	vim.keymap.set( "n", "gl",
         vim.lsp.diagnostic.show_line_diagnostics,
 		opts)
-	vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
-    vim.keymap.set("n", "<leader>fq", vim.lsp.buf.formatting, opts)
+	-- vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+    vim.keymap.set("n", "<leader>ff", vim.lsp.buf.formatting, opts)
 end
 
 M.on_attach = function(client, bufnr)

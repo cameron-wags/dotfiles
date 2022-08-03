@@ -45,6 +45,7 @@ TERMINAL = vim.fn.expand("$TERMINAL")
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
 vim.o.titlestring = "%<%F - Nvim"
 vim.cmd('filetype on')
+vim.g.catppuccin_flavour = 'mocha'
 
 vim.cmd([[
     set iskeyword+=-                      	" treat dash separated words as a word text object
