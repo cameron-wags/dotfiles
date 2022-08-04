@@ -95,8 +95,14 @@ return packer.startup(function()
   use 'L3MON4D3/LuaSnip' -- depends on cmp_luasnip
   -- connects LuaSnip to nvim-cmp
   use 'saadparwaiz1/cmp_luasnip' -- depends on LuaSnip, nvim-cmp
-  -- use language servers w/o restarting
-  use 'williamboman/nvim-lsp-installer' -- depends on nvim-lspconfig
+  -- lsp tooling manager
+  use {
+    'williamboman/mason.nvim',
+    requires = {
+      'williamboman/mason-lspconfig.nvim',
+      'neovim/nvim-lspconfig'
+    }
+  }
   -- file tree
   use {
     'kyazdani42/nvim-tree.lua',
