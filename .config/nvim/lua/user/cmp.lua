@@ -1,24 +1,22 @@
 -- Add additional capabilities supported by nvim-cmp
-local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if not cmp_nvim_lsp_ok then
-  return
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+-- local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+-- if not cmp_nvim_lsp_ok then
+--   return
+-- end
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
-if not lspconfig_ok then
-  return
-end
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'jsonls' }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
-    -- on_attach = my_custom_on_attach,
-    capabilities = capabilities,
-  })
-end
+-- local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
+-- if not lspconfig_ok then
+--   return
+-- end
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+-- local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'jsonls' }
+-- for _, lsp in ipairs(servers) do
+--   lspconfig[lsp].setup{
+--     capabilities = capabilities,
+--   }
+-- end
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -30,8 +28,8 @@ if not luasnip_ok then
   return
 end
 
-local cmp_status_ok, cmp = pcall(require, 'cmp')
-if not cmp_status_ok then
+local cmp_ok, cmp = pcall(require, 'cmp')
+if not cmp_ok then
   return
 end
 
@@ -100,6 +98,7 @@ cmp.setup({
   -- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
   -- },
   window = {
+    completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
   experimental = {

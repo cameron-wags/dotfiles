@@ -38,70 +38,15 @@ packer.init({
   },
 })
 
-local use = packer.use;
--- Install your plugins here
-return packer.startup(function()
+return packer.startup(function(use)
   -- Caches modules to decrease load time
   use 'lewis6991/impatient.nvim'
   use 'wbthomason/packer.nvim'
   -- use('nlknguyen/copy-cut-paste.vim')
-  use 'tpope/vim-surround'
   -- puts vim working directory at project root
   use {
     'notjedi/nvim-rooter.lua',
     config = function() require 'nvim-rooter'.setup() end
-  }
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = function()
-      require 'nvim-treesitter.install'.update({ with_sync = true })
-    end
-  }
-  -- language server support
-  -- use('jose-elias-alvarez/null-ls.nvim')
-  -- smart renames/current scope highlighting
-  use {
-    'nvim-treesitter/nvim-treesitter-refactor',
-    requires = 'nvim-treesitter/nvim-treesitter'
-  }
-  use {
-    'nvim-lua/popup.nvim',
-    requires = 'nvim-lua/plenary.nvim'
-  }
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = 'nvim-lua/plenary.nvim'
-  }
-  use {
-    'nvim-telescope/telescope-fzy-native.nvim',
-    requires = 'nvim-telescope/telescope.nvim'
-  }
-  -- tries to find language servers?
-  -- more: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-  use 'neovim/nvim-lspconfig'
-  -- completions engine
-  use 'hrsh7th/nvim-cmp'
-  -- lua interface for completions
-  use 'hrsh7th/cmp-nvim-lua'
-  -- lisp interface for completions
-  use 'hrsh7th/cmp-nvim-lsp'
-  -- completions for words in current file
-  use 'hrsh7th/cmp-buffer'
-  -- path completions
-  use 'hrsh7th/cmp-path'
-  -- completions for the command line
-  use 'hrsh7th/cmp-cmdline'
-  -- snippets engine
-  use 'L3MON4D3/LuaSnip' -- depends on cmp_luasnip
-  -- connects LuaSnip to nvim-cmp
-  use 'saadparwaiz1/cmp_luasnip' -- depends on LuaSnip, nvim-cmp
-  -- lsp tooling manager
-  use {
-    'williamboman/mason.nvim',
-    requires = {
-      'williamboman/mason-lspconfig.nvim',
-      'neovim/nvim-lspconfig'
-    }
   }
   -- file tree
   use {
@@ -114,31 +59,88 @@ return packer.startup(function()
     tag = 'v2.*',
     requires = 'kyazdani42/nvim-web-devicons',
   }
-  -- indentation guides
-  use 'lukas-reineke/indent-blankline.nvim'
   -- status line
   use {
     'nvim-lualine/lualine.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
   }
-  -- toggles comments
-  use {
-    'JoosepAlviste/nvim-ts-context-commentstring',
-    requires = 'nvim-treesitter',
-  }
-  use {
-    'numToStr/Comment.nvim',
-    requires = { 'JoosepAlviste/nvim-ts-context-commentstring', opt = true },
-  }
-  -- automatically open & delete bracket/paren/quote pairs
-  use 'windwp/nvim-autopairs'
+  -- indentation guides
+  use 'lukas-reineke/indent-blankline.nvim'
   -- popup terminal w/persistence
   use {
     'akinsho/toggleterm.nvim',
     tag = 'v2.*',
   }
+  use 'tpope/vim-surround'
+  -- automatically open & delete bracket/paren/quote pairs
+  use 'windwp/nvim-autopairs'
 
-  -- coLorscheme
+  -- syntax highlighting support
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      require 'nvim-treesitter.install'.update({ with_sync = true })
+    end
+  }
+  -- smart renames/current scope highlighting
+  use {
+    'nvim-treesitter/nvim-treesitter-refactor',
+    requires = 'nvim-treesitter/nvim-treesitter'
+  }
+  -- Comment toggling
+  use {
+    'numToStr/Comment.nvim',
+    requires = { 'JoosepAlviste/nvim-ts-context-commentstring', opt = true },
+  }
+  -- toggles comments in jsx/vue files
+  use {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    requires = 'nvim-treesitter',
+  }
+
+  use {
+    'nvim-lua/popup.nvim',
+    requires = 'nvim-lua/plenary.nvim'
+  }
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = 'nvim-lua/plenary.nvim'
+  }
+  use {
+    'nvim-telescope/telescope-fzy-native.nvim',
+    requires = 'nvim-telescope/telescope.nvim'
+  }
+
+  -- lsp actions for non-lsp utilities like eslint
+  -- use('jose-elias-alvarez/null-ls.nvim')
+  -- lsp tooling manager
+  use {
+    'williamboman/mason.nvim',
+    requires = {
+      'williamboman/mason-lspconfig.nvim',
+      'neovim/nvim-lspconfig'
+    }
+  }
+  -- completions engine
+  use 'hrsh7th/nvim-cmp'
+  -- integrates language server completions
+  use 'hrsh7th/cmp-nvim-lsp'
+  -- nvim-cmp source for neovim's lua api
+  use 'hrsh7th/cmp-nvim-lua'
+  -- completions for words in current file
+  use 'hrsh7th/cmp-buffer'
+  -- path completions
+  use 'hrsh7th/cmp-path'
+  -- completions for the command line
+  use 'hrsh7th/cmp-cmdline'
+  -- snippets engine
+  use {
+    'L3MON4D3/LuaSnip',
+    -- connects LuaSnip to nvim-cmp
+    requires = 'saadparwaiz1/cmp_luasnip'
+  }
+
+  -- colorscheme
   use {
     'catppuccin/nvim',
     as = 'catppuccin',

@@ -13,7 +13,7 @@ map('n', '<CR>', ':noh<CR>')
 -- Linewise toggle current line using C-/
 map('n', '<C-/>', '<Plug>(comment_toggle_current_linewise)')
 -- Linewise toggle on visual selection using C-/
-map('x', '<C-/>', '<Plug>(comment_toggle_linewise)')
+map('x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)')
 
 -- Disable Arrow keys in Normal mode
 map('', '<up>', '')
