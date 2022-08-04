@@ -62,9 +62,9 @@ map("n", "<leader>e", ":NvimTreeToggle<CR>")
 -- map("n", "<leader>e", ":NvimTreeFocus<CR>", { noremap = true })
 
 -- FZF
-map("", "<leader>.", ":Files<CR>")
-map("", "<leader>,", ":Buffers<CR>")
-map("n", "<leader>g", ":Rg<CR>")
+-- map("", "<leader>.", ":Files<CR>")
+-- map("", "<leader>,", ":Buffers<CR>")
+-- map("n", "<leader>g", ":Rg<CR>")
 -- map("n", "<leader>t", ":Tags<CR>")
-map("n", "<leader>m", ":Marks<CR>")
+-- map("n", "<leader>m", ":Marks<CR>")
 
