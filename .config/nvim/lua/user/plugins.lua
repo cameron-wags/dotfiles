@@ -117,10 +117,11 @@ return packer.startup(function()
   }
   -- toggles comments
   use {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    requires = 'nvim-treesitter',
+  }
+  use {
     'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end,
     requires = { 'JoosepAlviste/nvim-ts-context-commentstring', opt = true },
   }
   -- automatically open & delete bracket/paren/quote pairs
@@ -141,6 +142,6 @@ return packer.startup(function()
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
-    require('packer').sync()
+    require 'packer'.sync()
   end
 end)

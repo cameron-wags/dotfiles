@@ -1,14 +1,14 @@
-local status_ok, toggleterm = pcall(require, "toggleterm")
+local status_ok, toggleterm = pcall(require, 'toggleterm')
 if not status_ok then
   return
 end
 
-toggleterm.setup{
+toggleterm.setup {
   -- size can be a number or function which is passed the current terminal
   size = function(term)
-    if term.direction == "horizontal" then
+    if term.direction == 'horizontal' then
       return vim.o.lines * 0.7
-    elseif term.direction == "vertical" then
+    elseif term.direction == 'vertical' then
       return vim.o.columns * 0.7
     end
   end,
@@ -24,14 +24,14 @@ toggleterm.setup{
     -- highlights which map to a highlight group name and a table of it's values
     -- NOTE: this is only a subset of values, any group placed here will be set for the terminal window split
     -- Normal = {
-    --   guibg = "<VALUE-HERE>",
+    --   guibg = '<VALUE-HERE>',
     -- },
     -- NormalFloat = {
     --   link = 'Normal'
     -- },
     -- FloatBorder = {
-    --   guifg = "<VALUE-HERE>",
-    --   guibg = "<VALUE-HERE>",
+    --   guifg = '<VALUE-HERE>',
+    --   guibg = '<VALUE-HERE>',
     -- },
   },
   shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
@@ -60,26 +60,26 @@ toggleterm.setup{
 
 -- function _G.set_terminal_keymaps()
 --   local opts = { noremap = true }
---   vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
+--   vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
 -- end
 --
--- vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+-- vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 --
--- local Terminal = require("toggleterm.terminal").Terminal
+-- local Terminal = require('toggleterm.terminal').Terminal
 --
--- local node = Terminal:new({ cmd = "node", hidden = true })
+-- local node = Terminal:new({ cmd = 'node', hidden = true })
 --
 -- function _NODE_TOGGLE()
 --   node:toggle()
 -- end
 --
--- local ncdu = Terminal:new({ cmd = "ncdu", hidden = true })
+-- local ncdu = Terminal:new({ cmd = 'ncdu', hidden = true })
 --
 -- function _NCDU()
 --   ncdu:toggle()
 -- end
 --
--- local ytop = Terminal:new({ cmd = "ytop", hidden = true })
+-- local ytop = Terminal:new({ cmd = 'ytop', hidden = true })
 --
 -- function _YTOP()
 --   ytop:toggle()

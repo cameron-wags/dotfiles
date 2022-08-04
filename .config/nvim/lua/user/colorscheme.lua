@@ -1,22 +1,26 @@
-vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+vim.g.catppuccin_flavour = 'mocha' -- latte, frappe, macchiato, mocha
+local catppuccin_ok, catppuccin = pcall(require, 'catppuccin')
+if not catppuccin_ok then
+  return
+end
 
-require("catppuccin").setup({
+catppuccin.setup {
   dim_inactive = {
     enabled = false,
-    shade = "dark",
+    shade = 'dark',
     percentage = 0.15,
   },
   transparent_background = false,
   term_colors = true,
   compile = {
     enabled = true,
-    path = vim.fn.stdpath "cache" .. "/catppuccin",
-    suffix = "_compiled",
+    path = vim.fn.stdpath 'cache' .. '/catppuccin',
+    suffix = '_compiled',
   },
   styles = {
-    comments = { "italic" },
-    functions = { "italic" },
-    keywords = { "italic" },
+    comments = { 'italic', 'bold' },
+    functions = { 'italic' },
+    keywords = { 'italic' },
     strings = {},
     variables = {},
   },
@@ -25,16 +29,16 @@ require("catppuccin").setup({
     native_lsp = {
       enabled = true,
       virtual_text = {
-        errors = { "italic" },
-        hints = { "italic" },
-        warnings = { "italic" },
-        information = { "italic" },
+        errors = { 'italic' },
+        hints = { 'italic' },
+        warnings = { 'italic' },
+        information = { 'italic' },
       },
       underlines = {
-        errors = { "underline" },
-        hints = { "underline" },
-        warnings = { "underline" },
-        information = { "underline" },
+        errors = { 'underline' },
+        hints = { 'underline' },
+        warnings = { 'underline' },
+        information = { 'underline' },
       },
     },
     bufferline = true,
@@ -51,12 +55,12 @@ require("catppuccin").setup({
     },
     telescope = true,
   },
-})
+}
 
-local colorscheme = "catppuccin"
+local colorscheme = 'catppuccin'
 
-local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
+local status_ok, _ = pcall(vim.cmd, 'colorscheme ' .. colorscheme)
 if not status_ok then
-  vim.notify("colorscheme " .. colorscheme .. " not found!")
+  vim.notify('colorscheme ' .. colorscheme .. ' not found!')
   return
 end

@@ -1,13 +1,13 @@
 local options = {
   backup = false, -- creates a backup file
   cmdheight = 1, -- more space in the neovim command line for displaying messages
-  completeopt = { "menuone", "noselect" }, -- mostly just for cmp
+  completeopt = { 'menuone', 'noselect' }, -- mostly just for cmp
   conceallevel = 0, -- so that `` is visible in markdown files
-  clipboard = "unnamed",
-  fileencoding = "utf-8", -- the encoding written to a file
+  clipboard = 'unnamed',
+  fileencoding = 'utf-8', -- the encoding written to a file
   hlsearch = true, -- highlight all matches on previous search pattern
   ignorecase = true, -- ignore case in search patterns
-  mouse = "a", -- allow the mouse to be used in neovim
+  mouse = 'a', -- allow the mouse to be used in neovim
   pumheight = 10, -- pop up menu height
   showmode = false, -- we don't need to see things like -- INSERT -- anymore
   showtabline = 2, -- always show tabs
@@ -28,24 +28,24 @@ local options = {
   number = true, -- set numbered lines
   relativenumber = true, -- set relative numbered lines
   numberwidth = 2, -- set number column width to 2 {default 4}
-  signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
+  signcolumn = 'yes', -- always show the sign column, otherwise it would shift the text each time
   wrap = true, -- display lines as one long line
   scrolloff = 5, -- is one of my fav
   sidescrolloff = 8,
   title = true,
   list = false, -- an innocent name for displaying whitespace characters
-  visualbell = true --,
+  visualbell = true,
 }
 
 for key, value in pairs(options) do
   vim.opt[key] = value
 end
 
-vim.opt.shortmess:append("c")
-vim.cmd("set whichwrap+=<,>,[,],h,l")
-TERMINAL = vim.fn.expand("$TERMINAL")
+vim.opt.shortmess:append('c')
+vim.cmd('set whichwrap+=<,>,[,],h,l')
+TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
-vim.o.titlestring = "%<%F - Nvim"
+vim.o.titlestring = '%<%F - Nvim'
 vim.cmd('filetype on')
 vim.g.catppuccin_flavour = 'mocha'
 
