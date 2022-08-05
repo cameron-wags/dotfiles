@@ -39,62 +39,50 @@ packer.init({
 })
 
 return packer.startup(function(use)
-  -- Caches modules to decrease load time
-  use 'lewis6991/impatient.nvim'
+  use 'lewis6991/impatient.nvim' -- Caches modules to decrease load time
   use 'wbthomason/packer.nvim'
   -- use('nlknguyen/copy-cut-paste.vim')
-  -- puts vim working directory at project root
   use {
-    'notjedi/nvim-rooter.lua',
+    'notjedi/nvim-rooter.lua', -- puts vim working directory at project root
     config = function() require 'nvim-rooter'.setup() end
   }
-  -- file tree
   use {
-    'kyazdani42/nvim-tree.lua',
+    'kyazdani42/nvim-tree.lua', -- file tree
     requires = 'kyazdani42/nvim-web-devicons'
   }
-  -- good looking buffer 'tabs'
   use {
-    'akinsho/bufferline.nvim',
+    'akinsho/bufferline.nvim', -- good looking buffer 'tabs'
     tag = 'v2.*',
     requires = 'kyazdani42/nvim-web-devicons',
   }
-  -- status line
   use {
-    'nvim-lualine/lualine.nvim',
+    'nvim-lualine/lualine.nvim', -- status line
     requires = 'kyazdani42/nvim-web-devicons',
   }
-  -- indentation guides
-  use 'lukas-reineke/indent-blankline.nvim'
-  -- popup terminal w/persistence
+  use 'lukas-reineke/indent-blankline.nvim' -- indentation guides
   use {
-    'akinsho/toggleterm.nvim',
+    'akinsho/toggleterm.nvim', -- popup terminal w/persistence
     tag = 'v2.*',
   }
   use 'tpope/vim-surround'
-  -- automatically open & delete bracket/paren/quote pairs
-  use 'windwp/nvim-autopairs'
+  use 'windwp/nvim-autopairs' -- automatically open & delete bracket/paren/quote pairs
 
-  -- syntax highlighting support
   use {
-    'nvim-treesitter/nvim-treesitter',
+    'nvim-treesitter/nvim-treesitter', -- syntax highlighting support
     run = function()
       require 'nvim-treesitter.install'.update({ with_sync = true })
     end
   }
-  -- smart renames/current scope highlighting
   use {
-    'nvim-treesitter/nvim-treesitter-refactor',
+    'nvim-treesitter/nvim-treesitter-refactor', -- smart renames/current scope highlighting
     requires = 'nvim-treesitter/nvim-treesitter'
   }
-  -- Comment toggling
   use {
-    'numToStr/Comment.nvim',
+    'numToStr/Comment.nvim', -- Comment toggling
     requires = { 'JoosepAlviste/nvim-ts-context-commentstring', opt = true },
   }
-  -- toggles comments in jsx/vue files
   use {
-    'JoosepAlviste/nvim-ts-context-commentstring',
+    'JoosepAlviste/nvim-ts-context-commentstring', -- toggles comments in jsx/vue files
     requires = 'nvim-treesitter',
   }
 
@@ -111,36 +99,25 @@ return packer.startup(function(use)
     requires = 'nvim-telescope/telescope.nvim'
   }
 
-  -- lsp actions for non-lsp utilities like eslint
-  -- use('jose-elias-alvarez/null-ls.nvim')
-  -- lsp tooling manager
+  -- use('jose-elias-alvarez/null-ls.nvim') -- lsp actions for non-lsp utilities like eslint
   use {
-    'williamboman/mason.nvim',
+    'williamboman/mason.nvim', -- lsp tooling manager
     requires = {
       'williamboman/mason-lspconfig.nvim',
       'neovim/nvim-lspconfig'
     }
   }
-  -- completions engine
-  use 'hrsh7th/nvim-cmp'
-  -- integrates language server completions
-  use 'hrsh7th/cmp-nvim-lsp'
-  -- nvim-cmp source for neovim's lua api
-  use 'hrsh7th/cmp-nvim-lua'
-  -- completions for words in current file
-  use 'hrsh7th/cmp-buffer'
-  -- path completions
-  use 'hrsh7th/cmp-path'
-  -- completions for the command line
-  use 'hrsh7th/cmp-cmdline'
-  -- snippets engine
+  use 'hrsh7th/nvim-cmp' -- completions engine
+  use 'hrsh7th/cmp-nvim-lsp' -- integrates language server completions
+  use 'hrsh7th/cmp-nvim-lua' -- nvim-cmp source for neovim's lua api
+  use 'hrsh7th/cmp-buffer' -- completions for words in current file
+  use 'hrsh7th/cmp-path' -- path completions
+  use 'hrsh7th/cmp-cmdline' -- completions for the command line
   use {
-    'L3MON4D3/LuaSnip',
-    -- connects LuaSnip to nvim-cmp
-    requires = 'saadparwaiz1/cmp_luasnip'
+    'L3MON4D3/LuaSnip', -- snippets engine
+    requires = 'saadparwaiz1/cmp_luasnip' -- connects LuaSnip to nvim-cmp
   }
 
-  -- colorscheme
   use {
     'catppuccin/nvim',
     as = 'catppuccin',

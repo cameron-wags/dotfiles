@@ -33,6 +33,9 @@ catppuccin.setup {
   },
   highlight_overrides = {
     mocha = {
+      VertSplit = {
+        fg = mocha.text,
+      },
       Comment = {
         fg = mocha.overlay0,
       }

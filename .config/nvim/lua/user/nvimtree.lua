@@ -84,12 +84,12 @@ nvim_tree.setup {
           symlink_open = '',
         },
         git = {
-          unstaged = '✗',
-          staged = '✓',
+          unstaged = '',
+          staged = '',
           unmerged = '',
           renamed = '➜',
           untracked = '★',
-          deleted = '',
+          deleted = '',
           ignored = '◌',
         },
       },
@@ -127,7 +127,8 @@ nvim_tree.setup {
   },
   git = {
     enable = true,
-    ignore = true,
+    ignore = false,
+    show_on_dirs = true,
     timeout = 500,
   },
   actions = {

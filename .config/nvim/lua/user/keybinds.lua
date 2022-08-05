@@ -1,6 +1,13 @@
+local ext_map = {
+  lsp = {}
+}
+
 local map = function(mode, bind, action, opts)
   opts = opts or { noremap = true }
   vim.keymap.set(mode, bind, action, opts)
+end
+local lsp_map = function(m, b, a)
+  table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
 end
 
 --Remap space as leader key
@@ -59,3 +66,22 @@ map('v', 'K', ":m '<-2<CR>gv=gv")
 -- Nvim Tree
 map('n', '<M-e>', ':NvimTreeToggle<CR>')
 map('n', '<leader>e', ':NvimTreeToggle<CR>')
+
+lsp_map('n', 'gD', vim.lsp.buf.declaration)
+lsp_map('n', 'gd', vim.lsp.buf.definition)
+lsp_map('n', 'K', vim.lsp.buf.hover)
+lsp_map('n', 'gi', vim.lsp.buf.implementation)
+lsp_map('n', '<C-k>', vim.lsp.buf.signature_help)
+lsp_map('n', '<leader>wa', vim.lsp.buf.add_workspace_folder)
+lsp_map('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder)
+lsp_map('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
+lsp_map('n', '<leader>rn', vim.lsp.buf.rename)
+lsp_map('n', '<leader>ca', vim.lsp.buf.code_action)
+lsp_map('n', 'gr', vim.lsp.buf.references)
+lsp_map('n', '<leader>of', vim.diagnostic.open_float)
+lsp_map('n', '[d', vim.diagnostic.goto_prev)
+lsp_map('n', ']d', vim.diagnostic.goto_next)
+lsp_map('n', '<leader>ff', vim.lsp.buf.formatting)
+-- lsp_map('n', '<leader>q', vim.diagnostic.setloclist)
+
+return ext_map

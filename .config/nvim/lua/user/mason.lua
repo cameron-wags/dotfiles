@@ -46,26 +46,16 @@ local settings_for_server = function(name)
   end
 end
 
+local keybinds_ok, keybinds = pcall(require, 'user.keybinds')
+if not keybinds_ok then
+  return
+end
+
 local attach = function(client, bufnr)
   local buf_opts = { noremap = true, silent = true, buffer = bufnr }
-  local n_map = function(bind, action)
-    return vim.keymap.set('n', bind, action, buf_opts)
+  for _, map in pairs(keybinds.lsp) do
+    vim.keymap.set(map.mode, map.bind, map.action, buf_opts)
   end
-  n_map('gD', vim.lsp.buf.declaration)
-  n_map('gd', vim.lsp.buf.definition)
-  n_map('K', vim.lsp.buf.hover)
-  n_map('gi', vim.lsp.buf.implementation)
-  n_map('<C-k>', vim.lsp.buf.signature_help)
-  n_map('<leader>wa', vim.lsp.buf.add_workspace_folder)
-  n_map('<leader>wr', vim.lsp.buf.remove_workspace_folder)
-  n_map('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-  n_map('<leader>rn', vim.lsp.buf.rename)
-  n_map('<leader>ca', vim.lsp.buf.code_action)
-  n_map('gr', vim.lsp.buf.references)
-  n_map('<leader>of', vim.diagnostic.open_float)
-  n_map('[d', vim.diagnostic.goto_prev)
-  n_map(']d', vim.diagnostic.goto_next)
-  n_map('<leader>ff', vim.lsp.buf.formatting)
 
   vim.api.nvim_create_autocmd('CursorHold', {
     buffer = bufnr,
@@ -81,7 +71,6 @@ local attach = function(client, bufnr)
       vim.diagnostic.open_float(nil, opts)
     end
   })
-  -- n_map('<leader>q', vim.diagnostic.setloclist)
 end
 
 -- Add additional capabilities supported by nvim-cmp
