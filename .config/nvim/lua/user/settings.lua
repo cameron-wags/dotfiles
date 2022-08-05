@@ -41,13 +41,14 @@ for key, value in pairs(options) do
   vim.opt[key] = value
 end
 
+vim.g.do_filetype_lua = true
+
 vim.opt.shortmess:append('c')
 vim.cmd('set whichwrap+=<,>,[,],h,l')
 TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
 vim.o.titlestring = '%<%F - Nvim'
 vim.cmd('filetype on')
-vim.g.catppuccin_flavour = 'mocha'
 
 vim.cmd([[
   set iskeyword+=-                      	" treat dash separated words as a word text object

@@ -144,7 +144,7 @@ return packer.startup(function(use)
   use {
     'catppuccin/nvim',
     as = 'catppuccin',
-    run = 'CatppuccinCompile'
+    run = ':CatppuccinCompile'
   }
 
   -- Automatically set up your configuration after cloning packer.nvim

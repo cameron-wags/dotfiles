@@ -1,28 +1,3 @@
--- Add additional capabilities supported by nvim-cmp
--- local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
--- if not cmp_nvim_lsp_ok then
---   return
--- end
-
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
--- local lspconfig_ok, lspconfig = pcall(require, 'lspconfig')
--- if not lspconfig_ok then
---   return
--- end
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
--- local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'jsonls' }
--- for _, lsp in ipairs(servers) do
---   lspconfig[lsp].setup{
---     capabilities = capabilities,
---   }
--- end
-
-local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-end
-
 local luasnip_ok, luasnip = pcall(require, 'luasnip')
 if not luasnip_ok then
   return
@@ -33,7 +8,11 @@ if not cmp_ok then
   return
 end
 
--- nvim-cmp setup
+local has_words_before = function()
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -82,21 +61,6 @@ cmp.setup({
     { name = 'luasnip' },
     { name = 'buffer', keyword_length = 3 },
   },
-  -- formatting = {
-  -- 	format = require('lspkind').cmp_format({
-  -- 		with_text = true,
-  -- 		menu = {
-  -- 			buffer = '[buf]',
-  -- 			nvim_lsp = '[LSP]',
-  -- 			nvim_lua = '[VimApi]',
-  -- 			path = '[path]',
-  -- 			luasnip = '[snip]',
-  -- 		},
-  -- 	}),
-  -- },
-  -- documentation = {
-  -- 	border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
-  -- },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
@@ -121,4 +85,3 @@ cmp.setup.cmdline(
     },
   }
 )
-

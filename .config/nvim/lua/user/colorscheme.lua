@@ -1,4 +1,5 @@
 vim.g.catppuccin_flavour = 'mocha' -- latte, frappe, macchiato, mocha
+
 local catppuccin_ok, catppuccin = pcall(require, 'catppuccin')
 if not catppuccin_ok then
   return
@@ -33,7 +34,7 @@ catppuccin.setup {
   highlight_overrides = {
     mocha = {
       Comment = {
-        fg = mocha.lavender,
+        fg = mocha.overlay0,
       }
     },
   },

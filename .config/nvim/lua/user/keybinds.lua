@@ -1,4 +1,4 @@
-local function map(mode, bind, action, opts)
+local map = function(mode, bind, action, opts)
   opts = opts or { noremap = true }
   vim.keymap.set(mode, bind, action, opts)
 end

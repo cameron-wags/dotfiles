@@ -15,7 +15,6 @@ lualine.setup {
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
     disabled_filetypes = { 'alpha', 'toggleterm' },
-    -- always_divide_middle = true,
     globalstatus = true,
   },
   sections = {
@@ -34,7 +33,7 @@ lualine.setup {
       },
     },
     lualine_c = {
-      { 'filename', color = { fg = '#ffffff' } },
+      { 'filename', path = 1, color = { fg = '#ffffff' } },
       { 'filesize' },
     },
     lualine_x = { encoding_ignore_utf8, 'fileformat', 'filetype' },
