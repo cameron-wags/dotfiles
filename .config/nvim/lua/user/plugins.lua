@@ -65,6 +65,7 @@ return packer.startup(function(use)
     tag = 'v2.*',
   }
   use 'tpope/vim-surround'
+  use 'tpope/vim-sleuth'
   use 'windwp/nvim-autopairs' -- automatically open & delete bracket/paren/quote pairs
 
   use {
@@ -117,6 +118,8 @@ return packer.startup(function(use)
     'L3MON4D3/LuaSnip', -- snippets engine
     requires = 'saadparwaiz1/cmp_luasnip' -- connects LuaSnip to nvim-cmp
   }
+
+  use 'cameron-wags/splash.nvim'
 
   use {
     'catppuccin/nvim',

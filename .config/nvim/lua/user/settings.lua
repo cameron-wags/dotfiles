@@ -41,7 +41,7 @@ for key, value in pairs(options) do
   vim.opt[key] = value
 end
 
-vim.g.do_filetype_lua = true
+vim.g.do_filetype_lua = 1
 
 vim.opt.shortmess:append('c')
 vim.cmd('set whichwrap+=<,>,[,],h,l')
