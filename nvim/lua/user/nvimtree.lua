@@ -3,12 +3,15 @@ if not status_ok then
   return
 end
 
-local config_status_ok, nvim_tree_config = pcall(require, 'nvim-tree.config')
-if not config_status_ok then
+local api_ok, api = pcall(require, 'nvim-tree.api')
+if not api_ok then
   return
 end
 
-local tree_cb = nvim_tree_config.nvim_tree_callback
+local open_keep_focus = function()
+  api.node.open.edit()
+  api.tree.focus()
+end
 
 nvim_tree.setup {
   auto_reload_on_write = true,
@@ -38,10 +41,10 @@ nvim_tree.setup {
     mappings = {
       custom_only = false,
       list = {
-        -- user mappings go here
-        { key = { 'l', '<CR>', 'o' }, cb = tree_cb('edit') },
-        { key = 'h', cb = tree_cb('close_node') },
-        { key = 'v', cb = tree_cb('vsplit') },
+        { key = { 'l', '<CR>', 'o' }, action = 'edit' },
+        { key = { 'e' }, action = 'open_keep_focus', action_cb = open_keep_focus },
+        { key = 'h', action = 'close_node' },
+        { key = 'v', action = 'vsplit' },
       },
     },
   },

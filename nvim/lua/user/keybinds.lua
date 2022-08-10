@@ -6,9 +6,6 @@ local map = function(mode, bind, action, opts)
   opts = opts or { noremap = true }
   vim.keymap.set(mode, bind, action, opts)
 end
-local lsp_map = function(m, b, a)
-  table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
-end
 
 --Remap space as leader key
 map('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -66,6 +63,10 @@ map('v', 'K', ":m '<-2<CR>gv=gv")
 -- Nvim Tree
 map('n', '<M-e>', ':NvimTreeToggle<CR>')
 map('n', '<leader>e', ':NvimTreeToggle<CR>')
+
+local lsp_map = function(m, b, a)
+  table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
+end
 
 lsp_map('n', 'gD', vim.lsp.buf.declaration)
 lsp_map('n', 'gd', vim.lsp.buf.definition)
