@@ -1,6 +1,3 @@
-[user]
-	email = cam.wagstaff@gmail.com
-	name = Cameron Wagstaff
 [commit]
 	gpgsign = true
 [interactive]
