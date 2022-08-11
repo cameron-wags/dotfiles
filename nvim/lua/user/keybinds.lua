@@ -18,6 +18,9 @@ map('n', '<CR>', ':noh<CR>')
 map('n', '<C-/>', '<Plug>(comment_toggle_current_linewise)')
 -- Linewise toggle on visual selection using C-/
 map('x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)')
+-- C-/ sends this on some platforms
+map('n', '<C-_>', '<Plug>(comment_toggle_current_linewise)')
+map('x', '<C-_>', '<Plug>(comment_toggle_linewise_visual)')
 
 -- Disable Arrow keys in Normal mode
 map('', '<up>', '')
@@ -34,8 +37,6 @@ map('i', '<right>', '')
 -- Buffer cycle
 map('n', '<S-TAB>', ':bnext<CR>')
 map('n', '<C-S-TAB>', ':bprevious<CR>')
--- map('n', '<M-q>', ':bdelete<CR>')
-map('n', '<C-q>', ':bdelete<CR>')
 map('n', '<leader>q', ':bdelete!<CR>')
 map('n', '<C-s>', ':w<CR>')
 map('n', '<leader>t', ':enew<CR>')
@@ -46,13 +47,20 @@ map('n', '<C-Down>', ':resize -2<CR>')
 map('n', '<C-Left>', ':vertical resize -2<CR>')
 map('n', '<C-Right>', ':vertical resize +2<CR>')
 
+-- Change windows
+map('n', '<M-h>', ':winc h<CR>')
+map('n', '<M-j>', ':winc j<CR>')
+map('n', '<M-k>', ':winc k<CR>')
+map('n', '<M-l>', ':winc l<CR>')
+
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- Telescope formatters
 map('n', '<leader>fr', require 'telescope.builtin'.oldfiles)
-map('n', '<leader>fc', require 'telescope.builtin'.colorscheme)
+map('n', '<leader>fb', require 'telescope.builtin'.buffers)
+map('n', '<leader>fo', require 'telescope.builtin'.find_files)
 map('n', '<leader>fg', require 'telescope.builtin'.live_grep)
 map('n', '<leader>fh', require 'telescope.builtin'.help_tags)
 

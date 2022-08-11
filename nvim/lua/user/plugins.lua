@@ -41,7 +41,7 @@ packer.init({
 return packer.startup(function(use)
   use 'lewis6991/impatient.nvim' -- Caches modules to decrease load time
   use 'wbthomason/packer.nvim'
-  -- use('nlknguyen/copy-cut-paste.vim')
+
   use {
     'notjedi/nvim-rooter.lua', -- puts vim working directory at project root
     config = function() require 'nvim-rooter'.setup() end
@@ -98,6 +98,10 @@ return packer.startup(function(use)
   use {
     'nvim-telescope/telescope-fzy-native.nvim',
     requires = 'nvim-telescope/telescope.nvim'
+  }
+
+  use {
+    'stevearc/dressing.nvim',
   }
 
   -- use('jose-elias-alvarez/null-ls.nvim') -- lsp actions for non-lsp utilities like eslint
