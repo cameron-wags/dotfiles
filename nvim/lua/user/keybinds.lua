@@ -8,11 +8,11 @@ local map = function(mode, bind, action, opts)
 end
 
 --Remap space as leader key
-map('', '<Space>', '<Nop>', { noremap = true, silent = true })
+map('', '<Space>', '<Nop>', { silent = true, noremap = true })
 vim.g.mapleader = ' '
 
 --Clear hlsearch with return
-map('n', '<CR>', ':noh<CR>')
+map('n', '<CR>', '<Cmd>noh<CR>')
 
 -- Linewise toggle current line using C-/
 map('n', '<C-/>', '<Plug>(comment_toggle_current_linewise)')
@@ -35,32 +35,31 @@ map('i', '<left>', '')
 map('i', '<right>', '')
 
 -- Buffer cycle
-map('n', '<S-TAB>', ':bnext<CR>')
-map('n', '<C-S-TAB>', ':bprevious<CR>')
-map('n', '<leader>q', ':bdelete!<CR>')
-map('n', '<C-s>', ':w<CR>')
-map('n', '<leader>t', ':enew<CR>')
+map('n', '<S-TAB>', '<Cmd>bnext<CR>')
+map('n', '<C-S-TAB>', '<Cmd>bprevious<CR>')
+map('n', '<leader>q', '<Cmd>bdelete!<CR>')
+map('n', '<leader>t', '<Cmd>enew<CR>')
 
 -- Resize with arrows
-map('n', '<C-Up>', ':resize +2<CR>')
-map('n', '<C-Down>', ':resize -2<CR>')
-map('n', '<C-Left>', ':vertical resize -2<CR>')
-map('n', '<C-Right>', ':vertical resize +2<CR>')
+map('n', '<C-Up>', '<Cmd>resize +2<CR>')
+map('n', '<C-Down>', '<Cmd>resize -2<CR>')
+map('n', '<C-Left>', '<Cmd>vertical resize -2<CR>')
+map('n', '<C-Right>', '<Cmd>vertical resize +2<CR>')
 
 -- Change windows
-map('n', '<M-h>', ':winc h<CR>')
-map('n', '<M-j>', ':winc j<CR>')
-map('n', '<M-k>', ':winc k<CR>')
-map('n', '<M-l>', ':winc l<CR>')
+map('n', '<M-h>', '<Cmd>winc h<CR>')
+map('n', '<M-j>', '<Cmd>winc j<CR>')
+map('n', '<M-k>', '<Cmd>winc k<CR>')
+map('n', '<M-l>', '<Cmd>winc l<CR>')
 
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- Telescope formatters
-map('n', '<leader>fr', require 'telescope.builtin'.oldfiles)
-map('n', '<leader>fb', require 'telescope.builtin'.buffers)
+map('n', '<leader>o', require 'telescope.builtin'.buffers)
 map('n', '<leader>fo', require 'telescope.builtin'.find_files)
+map('n', '<leader>fr', require 'telescope.builtin'.oldfiles)
 map('n', '<leader>fg', require 'telescope.builtin'.live_grep)
 map('n', '<leader>fh', require 'telescope.builtin'.help_tags)
 
@@ -69,8 +68,7 @@ map('v', 'J', ":m '>+1<CR>gv=gv")
 map('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- Nvim Tree
-map('n', '<M-e>', ':NvimTreeToggle<CR>')
-map('n', '<leader>e', ':NvimTreeToggle<CR>')
+map('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
 
 local lsp_map = function(m, b, a)
   table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
@@ -90,7 +88,6 @@ lsp_map('n', 'gr', vim.lsp.buf.references)
 lsp_map('n', '<leader>of', vim.diagnostic.open_float)
 lsp_map('n', '[d', vim.diagnostic.goto_prev)
 lsp_map('n', ']d', vim.diagnostic.goto_next)
-lsp_map('n', '<leader>ff', vim.lsp.buf.formatting)
--- lsp_map('n', '<leader>q', vim.diagnostic.setloclist)
+lsp_map('n', '<leader>p', vim.lsp.buf.formatting)
 
 return ext_map

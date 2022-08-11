@@ -14,13 +14,12 @@ lualine.setup {
     theme = 'catppuccin',
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
-    disabled_filetypes = { 'alpha', 'toggleterm' },
+    disabled_filetypes = { 'toggleterm' },
     globalstatus = true,
   },
   sections = {
     lualine_a = { 'mode' },
     lualine_b = {
-      -- { 'filetype', colored = false },
       { 'branch' },
       {
         'diff',
@@ -48,5 +47,5 @@ lualine.setup {
     lualine_y = {},
     lualine_z = {},
   },
-  extensions = { 'nvim-tree', 'toggleterm' },
+  extensions = { 'nvim-tree' },
 }
