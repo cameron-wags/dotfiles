@@ -12,6 +12,8 @@ nvim_autopairs.setup {
   },
   disable_filetype = { 'TelescopePrompt' },
   disable_in_macro = true,
+  disable_in_visualblock = true,
+  enable_check_bracket_line = true,
   fast_wrap = {
     map = '<M-a>',
     chars = { '{', '[', '(', '"', "'" },
