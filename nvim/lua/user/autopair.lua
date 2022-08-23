@@ -14,16 +14,17 @@ nvim_autopairs.setup {
   disable_in_macro = true,
   disable_in_visualblock = true,
   enable_check_bracket_line = true,
+  ignored_next_char = '%w', -- don't pair when i'm against a word char
   fast_wrap = {
-    map = '<M-a>',
+    map = '<M-w>',
     chars = { '{', '[', '(', '"', "'" },
     pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], '%s+', ''),
     offset = 0, -- Offset from pattern match
     end_key = '$',
     keys = 'qwertyuiopzxcvbnmasdfghjkl',
     check_comma = true,
-    highlight = 'PmenuSel',
-    highlight_grey = 'LineNr',
+    highlight = 'Search',
+    highlight_grey = 'Comment',
   },
 }
 
