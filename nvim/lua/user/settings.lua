@@ -37,12 +37,15 @@ local options = {
   visualbell = true,
 }
 
+--Remap space as leader key
+vim.keymap.set('', '<Space>', '<Nop>', { silent = true, noremap = true })
+vim.g.mapleader = ' '
+
 for key, value in pairs(options) do
   vim.opt[key] = value
 end
 
 vim.g.do_filetype_lua = 1
-
 vim.opt.shortmess:append('c')
 vim.cmd('set whichwrap+=<,>,[,],h,l')
 TERMINAL = vim.fn.expand('$TERMINAL')

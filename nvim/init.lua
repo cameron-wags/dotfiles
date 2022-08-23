@@ -1,6 +1,6 @@
 pcall(require, 'impatient')
-require 'user.plugins'
 require 'user.settings'
+require 'user.plugins'
 require 'user.keybinds'
 require 'user.treesitter'
 require 'user.mason'

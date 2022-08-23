@@ -7,10 +7,6 @@ local map = function(mode, bind, action, opts)
   vim.keymap.set(mode, bind, action, opts)
 end
 
---Remap space as leader key
-map('', '<Space>', '<Nop>', { silent = true, noremap = true })
-vim.g.mapleader = ' '
-
 --Clear hlsearch with return
 map('n', '<CR>', '<Cmd>noh<CR>')
 
@@ -57,11 +53,15 @@ map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- Telescope formatters
-map('n', '<leader>o', require 'telescope.builtin'.buffers)
-map('n', '<leader>fo', require 'telescope.builtin'.find_files)
-map('n', '<leader>fr', require 'telescope.builtin'.oldfiles)
-map('n', '<leader>fg', require 'telescope.builtin'.live_grep)
-map('n', '<leader>fh', require 'telescope.builtin'.help_tags)
+local tscope = require('telescope.builtin')
+map('n', '<leader>,', tscope.buffers)
+map('n', '<leader>.', tscope.find_files)
+map('n', '<leader>fr', tscope.oldfiles)
+map('n', '<leader>fg', tscope.live_grep)
+map('n', '<leader>fh', tscope.help_tags)
+map('n', '<leader>gr', tscope.lsp_references)
+map('n', '<leader>gd', tscope.lsp_definitions)
+map('n', '<leader>gs', tscope.lsp_document_symbols)
 
 -- Moving the selected line from Visual Mode
 map('v', 'J', ":m '>+1<CR>gv=gv")
