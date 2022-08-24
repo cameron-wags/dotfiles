@@ -55,10 +55,7 @@ return packer.startup(function(use)
     requires = 'kyazdani42/nvim-web-devicons',
   }
   use 'lukas-reineke/indent-blankline.nvim' -- indentation guides
-  use {
-    'akinsho/toggleterm.nvim', -- popup terminal w/persistence
-    tag = 'v2.*',
-  }
+  use 'numToStr/FTerm.nvim'
   use 'tpope/vim-surround'
   use 'tpope/vim-sleuth'
   use 'windwp/nvim-autopairs' -- automatically open & delete bracket/paren/quote pairs

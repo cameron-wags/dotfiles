@@ -50,6 +50,10 @@ map('n', '<M-j>', '<Cmd>winc j<CR>')
 map('n', '<M-k>', '<Cmd>winc k<CR>')
 map('n', '<M-l>', '<Cmd>winc l<CR>')
 
+-- Integrated terminal
+map('n', '<M-i>', require'FTerm'.toggle)
+map('t', '<M-i>', require'FTerm'.toggle, {})
+
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')
