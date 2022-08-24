@@ -11,11 +11,11 @@ end
 map('n', '<CR>', '<Cmd>noh<CR>')
 
 -- Linewise toggle current line using C-/
-map('n', '<C-/>', '<Plug>(comment_toggle_current_linewise)')
+map('n', '<C-/>', '<Plug>(comment_toggle_linewise_current)')
 -- Linewise toggle on visual selection using C-/
 map('x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)')
 -- C-/ sends this on some platforms
-map('n', '<C-_>', '<Plug>(comment_toggle_current_linewise)')
+map('n', '<C-_>', '<Plug>(comment_toggle_linewise_current)')
 map('x', '<C-_>', '<Plug>(comment_toggle_linewise_visual)')
 
 -- Disable Arrow keys in Normal mode
@@ -32,7 +32,9 @@ map('i', '<right>', '')
 
 -- Buffer cycle
 map('n', '<S-TAB>', '<Cmd>bnext<CR>')
-map('n', '<C-S-TAB>', '<Cmd>bprevious<CR>')
+-- map('n', '<C-S-TAB>', '<Cmd>bprevious<CR>')
+map('n', '<leader>h', '<Cmd>bprevious<CR>')
+map('n', '<leader>l', '<Cmd>bnext<CR>')
 map('n', '<leader>q', '<Cmd>bdelete!<CR>')
 map('n', '<leader>t', '<Cmd>enew<CR>')
 
