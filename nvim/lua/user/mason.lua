@@ -78,24 +78,24 @@ local cmp_nvim_lsp_ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
 if not cmp_nvim_lsp_ok then
   return
 end
-local capabilities_for_server = function(server_name)
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
-  -- if server_name == 'tsserver' then
-  --   capabilities.document_formatting = false
-  -- end
-  return capabilities
-end
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
 mason_lspconfig.setup_handlers {
   function(server_name)
     require 'lspconfig'[server_name].setup {
       on_attach = attach,
       settings = settings_for_server(server_name),
-      capabilities = capabilities_for_server(server_name),
+      capabilities = capabilities,
     }
   end
 }
+
+local nok, null_ls = pcall(require, 'user.null-ls')
+if not nok then
+  return
+end
+null_ls.setup(attach)
 
 local setsign = function(sname, stext)
   vim.fn.sign_define(sname, { texthl = sname, text = stext, numhl = '' })

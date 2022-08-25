@@ -96,7 +96,6 @@ return packer.startup(function(use)
     'stevearc/dressing.nvim',
   }
 
-  -- use('jose-elias-alvarez/null-ls.nvim') -- lsp actions for non-lsp utilities like eslint
   use {
     'williamboman/mason.nvim', -- lsp tooling manager
     requires = {
@@ -114,6 +113,7 @@ return packer.startup(function(use)
     'L3MON4D3/LuaSnip', -- snippets engine
     requires = 'saadparwaiz1/cmp_luasnip' -- connects LuaSnip to nvim-cmp
   }
+  use('jose-elias-alvarez/null-ls.nvim') -- lsp actions for non-lsp utilities and formatters
 
   use 'cameron-wags/splash.nvim'
 

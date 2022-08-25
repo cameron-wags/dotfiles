@@ -51,8 +51,8 @@ map('n', '<M-k>', '<Cmd>winc k<CR>')
 map('n', '<M-l>', '<Cmd>winc l<CR>')
 
 -- Integrated terminal
-map('n', '<M-i>', require'FTerm'.toggle)
-map('t', '<M-i>', require'FTerm'.toggle, {})
+map('n', '<M-i>', require 'FTerm'.toggle)
+map('t', '<M-i>', require 'FTerm'.toggle, {})
 
 -- Stay in indent mode
 map('v', '<', '<gv')
@@ -94,6 +94,6 @@ lsp_map('n', 'gr', vim.lsp.buf.references)
 lsp_map('n', '<leader>of', vim.diagnostic.open_float)
 lsp_map('n', '[d', vim.diagnostic.goto_prev)
 lsp_map('n', ']d', vim.diagnostic.goto_next)
-lsp_map('n', '<leader>p', vim.lsp.buf.formatting)
+lsp_map('n', '<leader>p', function() vim.lsp.buf.format { async = true } end)
 
 return ext_map
