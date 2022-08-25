@@ -26,7 +26,23 @@ configs.setup {
   auto_intall = true,
   highlight = {
     enable = true, -- false will disable the whole extension
-    disable = {}, -- list of language that will be disabled
+    -- list of language that will be disabled
+    disable = function(_, bufnr)
+      local first_line = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+      local first_length = 0
+      if #first_line > 0 then
+        first_length = string.len(first_line[1])
+      end
+
+      if first_length > 1000 then
+        vim.schedule(function()
+          vim.notify('treesitter disabled:\n\treload or :TSBufEnable {module} after formatting the buffer',
+            vim.log.levels.WARN)
+        end)
+        return true
+      end
+      return false
+    end,
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
