@@ -1,4 +1,9 @@
-require 'FTerm'.setup {
+local ok, fterm = pcall(require, 'FTerm')
+if not ok then
+  return
+end
+
+fterm.setup {
   ---Filetype of the terminal buffer
   ---@type string
   ft = 'FTerm',
