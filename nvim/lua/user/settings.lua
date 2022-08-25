@@ -69,6 +69,6 @@ vim.cmd([[
   set smarttab                            " Makes tabbing smarter will realize you have 2 vs 4
   set incsearch
   set nocompatible
-  autocmd BufWritePre * %s/\s\+$//e
+  " autocmd BufWritePre * %s/\s\+$//e  " Quietly remove trailing whitespace
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 ]])
