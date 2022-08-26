@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# specify either 'nightly' or 'stable'
+channel='nightly'
+
+# Nvim's binaries will be installed to ~/.local/nvim-<channel>
+install_location="$HOME/.local"
+appdir="nvim-$channel"
+
+# Symlink the nvim executable to a place in your $PATH.
+# Or blank it out to handle that yourself.
+symlink_location="$HOME/.local/bin"
+
+url="https://github.com/neovim/neovim/releases/download/$channel/nvim-macos.tar.gz"
+tarfile='nvim.tar.gz'
+
+set -e
+
+echo -e "Downloading neovim $channel!\n$url"
+curl -L "$url" -o "$tarfile"
+xattr -c "$tarfile"
+
+echo "Extracting..."
+mkdir "$appdir"
+tar -xzf "$tarfile" -C "$appdir" --strip-components=1 >/dev/null
+
+if [ ! -d "$install_location" ]; then
+  echo "Creating install dir $install_location/"
+  mkdir -p "$install_location"
+fi
+
+echo "Installing to $install_location/$appdir"
+cp -r "$appdir" "$install_location"
+
+if [ -n "$symlink_location" ]; then
+  nvim_exe="$install_location/$appdir/bin/nvim"
+  echo "Symlinking $symlink_location/nvim -> $nvim_exe"
+  ln -f -s "$nvim_exe" "$symlink_location"
+fi
+
+echo "Deleting temp files '$tarfile' '$appdir/'"
+rm -r "$tarfile" "$appdir"
+
+echo "Neovim $channel installed!"
