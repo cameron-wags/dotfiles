@@ -3,8 +3,18 @@ if not status_ok then
   return
 end
 
-local encoding_ignore_utf8 = function()
+local symbols = {
+  -- unix = ' ',
+  unix = '',
+  dos = ' ',
+  mac = ' ',
+}
+
+-- Tell me if the file isn't utf-8 or unix line endings.
+local fileinfo_ignore_norms = function()
   local ret, _ = (vim.bo.fenc or vim.go.enc):gsub('^utf%-8$', '')
+  local fmt = vim.bo.fileformat
+  ret = ret .. (symbols[fmt] or fmt)
   return ret
 end
 
@@ -50,8 +60,7 @@ lualine.setup {
         },
         -- padding = { left = 1, right = 2 },
       },
-      encoding_ignore_utf8,
-      'fileformat',
+      fileinfo_ignore_norms,
       'filetype',
     },
     lualine_y = { 'progress' },
