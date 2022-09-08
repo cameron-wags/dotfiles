@@ -107,10 +107,11 @@ setsign('DiagnosticSignInfo', '')
 setsign('DiagnosticSignHint', '')
 
 vim.diagnostic.config {
-  virtual_text = {
-    prefix = '',
-    spacing = 2,
-  },
+  -- virtual_text = {
+  --   prefix = '',
+  --   spacing = 2,
+  -- },
+  virtual_text = false,
   signs = true,
   update_in_insert = true,
   underline = true,

@@ -96,6 +96,15 @@ return packer.startup(function(use)
     'stevearc/dressing.nvim',
   }
 
+  -- Display diagnostics in virtual lines instead of text off to the side
+  -- https://sr.ht/~whynothugo/lsp_lines.nvim/
+  use {
+    'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+    config = function()
+      require 'lsp_lines'.setup()
+    end,
+  }
+
   use {
     'williamboman/mason.nvim', -- lsp tooling manager
     requires = {
