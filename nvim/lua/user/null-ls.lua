@@ -3,13 +3,17 @@ if not ok then
   return
 end
 
+-- null ls builtins:
+-- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins
 local M = {}
 M.setup = function(attach)
   null_ls.setup {
     on_attach = attach,
     sources = {
-      null_ls.builtins.formatting.eslint_d,
       null_ls.builtins.formatting.prettierd,
+      null_ls.builtins.formatting.eslint_d,
+      null_ls.builtins.formatting.fixjson,
+      null_ls.builtins.formatting.shfmt,
     },
     cmd = { "nvim" },
     debounce = 250,
