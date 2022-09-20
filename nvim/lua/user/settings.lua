@@ -46,15 +46,26 @@ for key, value in pairs(options) do
 end
 
 vim.opt.formatoptions = vim.opt.formatoptions
-  - "a" -- Auto formatting is BAD.
-  - "t" -- Don't auto format my code. I got linters for that.
-  + "c" -- In general, I like it when comments respect textwidth
-  + "q" -- Allow formatting comments w/ gq
-  + "o" -- O and o continue comments
-  + "r" -- But do continue when pressing enter.
-  + "n" -- Indent past the formatlistpat, not underneath it.
-  + "j" -- Auto-remove comments when J'ing lines
-  - "2" -- I'm not in gradeschool anymore
+    - "a" -- Auto formatting is BAD.
+    - "t" -- Don't auto format my code. I got linters for that.
+    + "c" -- In general, I like it when comments respect textwidth
+    + "q" -- Allow formatting comments w/ gq
+    + "o" -- O and o continue comments
+    + "r" -- But do continue when pressing enter.
+    + "n" -- Indent past the formatlistpat, not underneath it.
+    + "j" -- Auto-remove comments when J'ing lines
+    - "2" -- I'm not in gradeschool anymore
+
+-- Neovide on Mac:
+--   launchctl setenv NEOVIDE_FRAME buttonless
+--   launchctl setenv NEOVIDE_MULTIGRID true
+if vim.fn.exists("g:neovide") then
+  vim.g.neovide_hide_mouse_when_typing = true
+  vim.g.neovide_input_macos_alt_is_meta = true
+  vim.g.neovide_cursor_animation_length = 0.03
+  vim.g.neovide_remember_window_size = true
+  vim.opt.guifont = 'JetBrainsMono Nerd Font Mono:h11.5'
+end
 
 vim.g.do_filetype_lua = 1
 vim.opt.shortmess:append('c')

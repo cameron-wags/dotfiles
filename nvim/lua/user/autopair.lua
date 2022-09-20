@@ -29,8 +29,8 @@ nvim_autopairs.setup {
 }
 
 -- Integrate autopairs with cmp
-local cmp_status_ok, cmp = pcall(require, 'cmp')
-if not cmp_status_ok then
+local cmp_ok, cmp = pcall(require, 'cmp')
+if not cmp_ok then
   return
 end
 local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
