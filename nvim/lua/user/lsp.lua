@@ -57,20 +57,20 @@ local attach = function(client, bufnr)
     vim.keymap.set(map.mode, map.bind, map.action, buf_opts)
   end
 
-  vim.api.nvim_create_autocmd('CursorHold', {
-    buffer = bufnr,
-    callback = function()
-      local opts = {
-        focusable = false,
-        close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
-        border = 'rounded',
-        source = 'always',
-        prefix = ' ',
-        scope = 'cursor',
-      }
-      vim.diagnostic.open_float(nil, opts)
-    end
-  })
+  -- vim.api.nvim_create_autocmd('CursorHold', {
+  --   buffer = bufnr,
+  --   callback = function()
+  --     local opts = {
+  --       focusable = false,
+  --       close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+  --       border = 'rounded',
+  --       source = 'always',
+  --       prefix = ' ',
+  --       scope = 'cursor',
+  --     }
+  --     vim.diagnostic.open_float(nil, opts)
+  --   end
+  -- })
 end
 
 -- Add additional capabilities supported by nvim-cmp
@@ -97,21 +97,13 @@ if not nok then
 end
 null_ls.setup(attach)
 
-local setsign = function(sname, stext)
-  vim.fn.sign_define(sname, { texthl = sname, text = stext, numhl = '' })
-end
-
-setsign('DiagnosticSignError', '✗')
-setsign('DiagnosticSignWarn', '!')
-setsign('DiagnosticSignInfo', '')
-setsign('DiagnosticSignHint', '')
-
 vim.diagnostic.config {
   -- virtual_text = {
   --   prefix = '',
   --   spacing = 2,
   -- },
-  virtual_text = false,
+  -- virtual_text = false,
+  virtual_lines = true,
   signs = true,
   update_in_insert = true,
   underline = true,
@@ -125,6 +117,24 @@ vim.diagnostic.config {
     prefix = '',
   },
 }
+
+vim.api.nvim_create_autocmd('InsertEnter', {
+  callback = function()
+    vim.diagnostic.config {
+      virtual_lines = false,
+      virtual_text = true,
+    }
+  end
+})
+
+vim.api.nvim_create_autocmd('InsertLeave', {
+  callback = function()
+    vim.diagnostic.config {
+      virtual_lines = true,
+      virtual_text = false,
+    }
+  end
+})
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'rounded',
