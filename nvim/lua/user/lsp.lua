@@ -102,7 +102,7 @@ vim.diagnostic.config {
   --   prefix = '',
   --   spacing = 2,
   -- },
-  -- virtual_text = false,
+  virtual_text = false,
   virtual_lines = true,
   signs = true,
   update_in_insert = true,
