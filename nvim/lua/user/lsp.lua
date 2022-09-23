@@ -21,7 +21,6 @@ mason.setup {
 
 mason_lspconfig.setup {
   ensure_installed = {
-    'eslint',
     'sumneko_lua',
     'tsserver',
   },
