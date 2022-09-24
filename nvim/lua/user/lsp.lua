@@ -21,6 +21,10 @@ mason.setup {
 
 mason_lspconfig.setup {
   ensure_installed = {
+    'eslint_d',
+    'fixjson',
+    'prettierd',
+    'shfmt',
     'sumneko_lua',
     'tsserver',
   },
