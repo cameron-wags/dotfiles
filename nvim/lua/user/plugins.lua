@@ -43,6 +43,16 @@ return packer.startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use {
+    'rmagatti/auto-session',
+    config = function()
+      require'auto-session'.setup {
+        log_level = 'error',
+        -- auto_session_suppress_dirs = {},
+        -- auto_session_allowed_dirs = {}
+      }
+    end
+  }
+  use {
     'notjedi/nvim-rooter.lua', -- puts vim working directory at project root
     config = function() require 'nvim-rooter'.setup() end
   }
