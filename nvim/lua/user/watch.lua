@@ -34,6 +34,6 @@ local unset_watch = function()
   vim.api.nvim_del_autocmd(state.autocmd)
 end
 
-vim.api.nvim_create_user_command('Watch', set_watch, { nargs = '*' })
+vim.api.nvim_create_user_command('Watch', set_watch, { nargs = '*', complete = 'shellcmd' })
 vim.api.nvim_create_user_command('WatchPeek', review_watch, {})
 vim.api.nvim_create_user_command('WatchStop', unset_watch, {})
