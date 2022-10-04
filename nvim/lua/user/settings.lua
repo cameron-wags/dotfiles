@@ -83,3 +83,10 @@ vim.cmd([[
   " autocmd BufWritePre * %s/\s\+$//e  " Quietly remove trailing whitespace
   autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 ]])
+
+vim.cmd([[
+  augroup highlight_yank
+    autocmd!
+    au TextYankPost * silent! lua vim.highlight.on_yank({higrooup="Visual", timeout=250})
+  augroup END
+]])

@@ -69,6 +69,7 @@ return packer.startup(function(use)
   use 'tpope/vim-surround'
   use 'tpope/vim-sleuth'
   use 'windwp/nvim-autopairs' -- automatically open & delete bracket/paren/quote pairs
+  use 'mechatroner/rainbow_csv'
 
   use {
     'nvim-treesitter/nvim-treesitter', -- syntax highlighting support

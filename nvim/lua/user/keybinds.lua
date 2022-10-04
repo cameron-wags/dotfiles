@@ -39,10 +39,10 @@ map('n', '<leader>q', '<Cmd>bdelete!<CR>')
 map('n', '<leader>t', '<Cmd>enew<CR>')
 
 -- Resize with arrows
-map('n', '<C-Up>', '<Cmd>resize +2<CR>')
-map('n', '<C-Down>', '<Cmd>resize -2<CR>')
-map('n', '<C-Left>', '<Cmd>vertical resize -2<CR>')
-map('n', '<C-Right>', '<Cmd>vertical resize +2<CR>')
+map('n', '<M-Up>', '<Cmd>resize +2<CR>')
+map('n', '<M-Down>', '<Cmd>resize -2<CR>')
+map('n', '<M-Left>', '<Cmd>vertical resize -2<CR>')
+map('n', '<M-Right>', '<Cmd>vertical resize +2<CR>')
 
 -- Change windows
 map('n', '<M-h>', '<Cmd>winc h<CR>')
@@ -75,6 +75,15 @@ map('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- Nvim Tree
 map('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
+
+-- open urls under the cursor
+if vim.fn.has('mac') then
+  map('n', 'gx', '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>')
+elseif vim.fn.has('unix') then
+  map('n', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>')
+else
+  vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
+end
 
 local lsp_map = function(m, b, a)
   table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
