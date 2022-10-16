@@ -65,9 +65,11 @@ cmp.setup({
     -- completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
-  experimental = {
-    ghost_text = true,
-    native_menu = false,
+  -- experimental = {
+  --   -- ghost_text = true,
+  -- },
+  view = {
+    entries = 'custom',
   },
 })
 
