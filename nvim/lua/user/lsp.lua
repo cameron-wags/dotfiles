@@ -20,16 +20,33 @@ mason.setup {
 }
 
 mason_lspconfig.setup {
-  ensure_installed = {
-    -- 'eslint_d',
-    -- 'fixjson',
-    -- 'prettierd',
-    -- 'shfmt',
-    -- 'sumneko_lua',
-    -- 'tsserver',
-  },
-  automatic_installation = true,
+  automatic_installation = false,
 }
+
+local ensure_installed = {
+  'eslint_d',
+  'fixjson',
+  'prettierd',
+  'shfmt',
+  'lua-language-server',
+  'typescript-language-server',
+}
+
+local ok, mason_registry = pcall(require, 'mason-registry')
+if not ok then
+  return
+end
+
+local not_installed = {}
+for _, package in ipairs(ensure_installed) do
+  if not mason_registry.is_installed(package) then
+    table.insert(not_installed, package)
+  end
+end
+
+if #not_installed > 0 then
+  vim.api.nvim_cmd({ cmd = 'MasonInstall', args = not_installed }, {})
+end
 
 local settings_for_server = function(name)
   if name == 'sumneko_lua' then
