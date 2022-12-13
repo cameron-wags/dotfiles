@@ -12,13 +12,7 @@ end
 local mocha = palettes.get_palette 'mocha'
 
 catppuccin.setup {
-  dim_inactive = {
-    enabled = false,
-    shade = 'dark',
-    percentage = 0.15,
-  },
   transparent_background = false,
-  term_colors = true,
   compile = {
     enabled = true,
     path = vim.fn.stdpath 'cache' .. '/catppuccin',
@@ -31,16 +25,18 @@ catppuccin.setup {
     strings = {},
     variables = {},
   },
-  highlight_overrides = {
-    mocha = {
-      VertSplit = {
-        fg = mocha.text,
+  custom_highlights = function(colors)
+    return {
+      Cursor = {
+        fg = colors.base,
+        bg = colors.text,
       },
-      Comment = {
-        fg = mocha.overlay0,
-      }
-    },
-  },
+      lCursor = {
+        fg = colors.base,
+        bg = colors.text,
+      },
+    }
+  end,
   integrations = {
     treesitter = true,
     native_lsp = {
@@ -94,10 +90,31 @@ catppuccin.setup {
   },
 }
 
-local colorscheme = 'catppuccin'
+-- local set_gruvbox = function()
+-- local ok, gruvbox = pcall(require, 'gruvbox')
+-- if not ok then
+--   return
+-- end
 
-local status_ok, _ = pcall(vim.cmd, 'colorscheme ' .. colorscheme)
-if not status_ok then
-  vim.notify('colorscheme ' .. colorscheme .. ' not found!')
-  return
-end
+-- gruvbox.setup {
+--   undercurl = true,
+--   underline = true,
+--   bold = true,
+--   italic = true,
+--   strikethrough = true,
+--   invert_selection = false,
+--   invert_signs = false,
+--   invert_tabline = true,
+--   invert_intend_guides = false,
+--   inverse = true, -- invert background for search, diffs, statuslines and errors
+--   contrast = "hard", -- can be "hard", "soft" or empty string
+--   overrides = {},
+--   dim_inactive = false,
+--   transparent_mode = false,
+-- }
+
+-- vim.o.background = 'light'
+-- vim.api.nvim_command('colo gruvbox')
+-- end
+
+-- vim.api.nvim_create_user_command('Lights', set_gruvbox, {})

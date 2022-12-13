@@ -58,7 +58,11 @@ return packer.startup(function(use)
   }
   use {
     'kyazdani42/nvim-tree.lua', -- file tree
-    requires = 'kyazdani42/nvim-web-devicons'
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function()
+      require 'user.nvimtree'
+    end,
+    cmd = { 'NvimTreeToggle' },
   }
   use {
     'nvim-lualine/lualine.nvim', -- status line
@@ -137,11 +141,31 @@ return packer.startup(function(use)
 
   use 'cameron-wags/splash.nvim'
 
+  -- use {
+  --   'nyoom-engineering/oxocarbon.nvim',
+  --   config = function()
+  --     vim.cmd.colorscheme 'oxocarbon'
+  --   end
+  -- }
+
+  -- use {
+  --   'folke/tokyonight.nvim',
+  --   config = function()
+  --     vim.cmd.colorscheme 'tokyonight-night'
+  --   end
+  -- }
+
   use {
     'catppuccin/nvim',
     as = 'catppuccin',
-    run = ':CatppuccinCompile'
+    run = ':CatppuccinCompile',
+    config = function()
+      require 'user.colorscheme'
+      vim.cmd.colorscheme 'catppuccin'
+    end,
   }
+
+  use 'ellisonleao/gruvbox.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -51,8 +51,8 @@ map('n', '<M-k>', '<Cmd>winc k<CR>')
 map('n', '<M-l>', '<Cmd>winc l<CR>')
 
 -- Integrated terminal
-map('n', '<M-i>', require 'FTerm'.toggle)
-map('t', '<M-i>', require 'FTerm'.toggle, {})
+map('n', '<M-;>', function() require 'FTerm'.toggle() end)
+map('t', '<M-;>', function() require 'FTerm'.toggle() end, {})
 
 -- Stay in indent mode
 map('v', '<', '<gv')

@@ -61,11 +61,18 @@ vim.opt.formatoptions = vim.opt.formatoptions
 --   launchctl setenv NEOVIDE_MULTIGRID true
 if vim.fn.exists("g:neovide") then
   vim.g.neovide_hide_mouse_when_typing = true
+  vim.g.neovide_input_use_logo = false
   vim.g.neovide_input_macos_alt_is_meta = true
   vim.g.neovide_cursor_animation_length = 0.03
+  -- vim.g.neovide_scroll_animation_length = 0.03
   vim.g.neovide_remember_window_size = true
   vim.opt.guifont = 'JetBrainsMono Nerd Font Mono:h11.5'
 end
+
+vim.opt.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175'
+-- vim.cmd('highlight Cursor guifg=bg guibg=fg')
+-- vim.cmd('highlight lCursor guifg=bg guibg=fg')
+-- vim.cmd('colo catppuccin')
 
 vim.g.do_filetype_lua = 1
 vim.opt.shortmess:append('c')
