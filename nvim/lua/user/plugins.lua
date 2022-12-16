@@ -1,175 +1,294 @@
-local fn = vim.fn
-
 -- Automatically install packer
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system({
-    'git',
-    'clone',
-    '--depth',
-    '1',
-    'https://github.com/wbthomason/packer.nvim',
-    install_path,
-  })
-  print('Installing packer close and reopen Neovim...')
-  vim.cmd([[packadd packer.nvim]])
+local ensure_packer = function()
+	local fn = vim.fn
+	local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+		vim.cmd [[packadd packer.nvim]]
+		return true
+	end
+	return false
 end
-
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]])
+local packer_bootstrap = ensure_packer()
+-- Reload the config when saving this file
+local packer_user_config = vim.api.nvim_create_augroup('packer_user_config', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost',
+	{
+		group = packer_user_config,
+		pattern = 'plugins.lua',
+		callback = function()
+			vim.cmd '%so'
+			vim.cmd 'PackerSync'
+		end,
+	})
 
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, 'packer')
 if not status_ok then
-  return
+	return
 end
 
 -- Have packer use a popup window
 packer.init({
-  display = {
-    open_fn = function()
-      return require 'packer.util'.float({ border = 'rounded' })
-    end,
-  },
+	display = {
+		open_fn = function()
+			return require 'packer.util'.float({ border = 'rounded' })
+		end,
+	},
 })
 
-return packer.startup(function(use)
-  use 'lewis6991/impatient.nvim' -- Caches modules to decrease load time
-  use 'wbthomason/packer.nvim'
+packer.startup(function(use)
+	use 'lewis6991/impatient.nvim' -- Caches modules to decrease load time
+	use 'wbthomason/packer.nvim'
 
-  -- use {
-  --   'rmagatti/auto-session',
-  --   config = function()
-  --     require'auto-session'.setup {
-  --       log_level = 'error',
-  --       -- auto_session_suppress_dirs = {},
-  --       auto_session_allowed_dirs = { '/Users/cameron/repo/*' },
-  --     }
-  --   end
-  -- }
-  use {
-    'notjedi/nvim-rooter.lua', -- puts vim working directory at project root
-    config = function() require 'nvim-rooter'.setup() end
-  }
-  use {
-    'kyazdani42/nvim-tree.lua', -- file tree
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function()
-      require 'user.nvimtree'
-    end,
-    cmd = { 'NvimTreeToggle' },
-  }
-  use {
-    'nvim-lualine/lualine.nvim', -- status line
-    requires = 'kyazdani42/nvim-web-devicons',
-  }
-  use 'lukas-reineke/indent-blankline.nvim' -- indentation guides
-  use 'numToStr/FTerm.nvim'
-  use 'tpope/vim-surround'
-  use 'tpope/vim-sleuth'
-  use 'windwp/nvim-autopairs' -- automatically open & delete bracket/paren/quote pairs
-  use 'mechatroner/rainbow_csv'
+	use {
+		'notjedi/nvim-rooter.lua', -- puts vim working directory at project root
+		config = function() require 'nvim-rooter'.setup() end
+	}
+	use {
+		'kyazdani42/nvim-tree.lua', -- file tree
+		requires = 'kyazdani42/nvim-web-devicons',
+		config = function() require 'user.nvimtree' end,
+		cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
+	}
+	use {
+		'nvim-lualine/lualine.nvim', -- status line
+		requires = 'kyazdani42/nvim-web-devicons',
+		config = function() require 'user.lualine' end,
+	}
 
-  use {
-    'nvim-treesitter/nvim-treesitter', -- syntax highlighting support
-    run = function()
-      require 'nvim-treesitter.install'.update({ with_sync = true })
-    end
-  }
-  use {
-    'nvim-treesitter/nvim-treesitter-refactor', -- smart renames/current scope highlighting
-    requires = 'nvim-treesitter/nvim-treesitter'
-  }
-  use {
-    'numToStr/Comment.nvim', -- Comment toggling
-    requires = { 'JoosepAlviste/nvim-ts-context-commentstring', opt = true },
-  }
-  use {
-    'JoosepAlviste/nvim-ts-context-commentstring', -- toggles comments in jsx/vue files
-    requires = 'nvim-treesitter',
-  }
+	use { 'numToStr/FTerm.nvim',
+		config = function()
+			require 'FTerm'.setup {
+				ft = 'FTerm',
+				border = 'rounded',
+				auto_close = true,
+				dimensions = {
+					height = 1.0,
+					width = 1.0,
+					x = 0.5,
+					y = 0.5,
+				},
+			}
+		end,
+		module = 'FTerm',
+	}
 
-  use {
-    'nvim-lua/popup.nvim',
-    requires = 'nvim-lua/plenary.nvim'
-  }
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = 'nvim-lua/plenary.nvim'
-  }
-  use {
-    'nvim-telescope/telescope-fzy-native.nvim',
-    requires = 'nvim-telescope/telescope.nvim'
-  }
+	use {
+		'tpope/vim-surround',
+		event = "CursorMoved",
+	}
 
-  use {
-    'stevearc/dressing.nvim',
-  }
+	use {
+		'nmac427/guess-indent.nvim',
+		config = function()
+			require 'guess-indent'.setup()
+		end,
+	}
 
-  -- Display diagnostics in virtual lines instead of text off to the side
-  -- https://sr.ht/~whynothugo/lsp_lines.nvim/
-  use {
-    'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    config = function()
-      require 'lsp_lines'.setup()
-    end,
-  }
+	use {
+		-- syntax highlighting support
+		'nvim-treesitter/nvim-treesitter',
+		run = function()
+			require 'nvim-treesitter.install'.update({ with_sync = true })
+		end,
+		config = function() require 'user.treesitter' end,
+	}
+	use {
+		'nvim-treesitter/nvim-treesitter-refactor', -- smart renames/current scope highlighting
+		requires = 'nvim-treesitter/nvim-treesitter'
+	}
 
-  use {
-    'williamboman/mason.nvim', -- lsp tooling manager
-    requires = {
-      'williamboman/mason-lspconfig.nvim',
-      'neovim/nvim-lspconfig'
-    }
-  }
-  use 'hrsh7th/nvim-cmp' -- completions engine
-  use 'hrsh7th/cmp-nvim-lsp' -- integrates language server completions
-  use 'hrsh7th/cmp-nvim-lua' -- nvim-cmp source for neovim's lua api
-  use 'hrsh7th/cmp-buffer' -- completions for words in current file
-  use 'hrsh7th/cmp-path' -- path completions
-  use 'hrsh7th/cmp-cmdline' -- completions for the command line
-  use {
-    'L3MON4D3/LuaSnip', -- snippets engine
-    requires = 'saadparwaiz1/cmp_luasnip' -- connects LuaSnip to nvim-cmp
-  }
-  use('jose-elias-alvarez/null-ls.nvim') -- lsp actions for non-lsp utilities and formatters
+	use {
+		'numToStr/Comment.nvim', -- Comment toggling
+		requires = { 'JoosepAlviste/nvim-ts-context-commentstring', opt = true },
+		config = function() require 'user.comment' end,
+		event = 'CursorMoved',
+	}
+	use {
+		'JoosepAlviste/nvim-ts-context-commentstring', -- toggles comments in jsx/vue files
+		requires = 'nvim-treesitter',
+		module_pattern = 'ts_context_commentstring.*',
+	}
 
-  use 'cameron-wags/splash.nvim'
+	use {
+		'nvim-lua/plenary.nvim',
+		module = 'plenary',
+		module_pattern = 'plenary.*'
+	}
 
-  -- use {
-  --   'nyoom-engineering/oxocarbon.nvim',
-  --   config = function()
-  --     vim.cmd.colorscheme 'oxocarbon'
-  --   end
-  -- }
+	use {
+		'nvim-lua/popup.nvim',
+		requires = 'nvim-lua/plenary.nvim',
+		module = 'popup',
+	}
 
-  -- use {
-  --   'folke/tokyonight.nvim',
-  --   config = function()
-  --     vim.cmd.colorscheme 'tokyonight-night'
-  --   end
-  -- }
+	use {
+		'nvim-telescope/telescope-fzy-native.nvim',
+		module = 'telescope._extensions.fzy_native',
+	}
 
-  use {
-    'catppuccin/nvim',
-    as = 'catppuccin',
-    run = ':CatppuccinCompile',
-    config = function()
-      require 'user.colorscheme'
-      vim.cmd.colorscheme 'catppuccin'
-    end,
-  }
+	use {
+		'nvim-telescope/telescope.nvim',
+		requires = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzy-native.nvim' },
+		module = 'telescope.builtin',
+		config = function()
+			local telescope = require 'telescope'
+			telescope.setup {
+				defaults = {
+					layout_strategy = 'flex',
+					layout_config = {
+						flex = {
+							prompt_position = 'bottom',
+							flip_columns = 180,
+							flip_lines = 60,
+							horizontal = {
+								preview_width = 0.6,
+							},
+							vertical = {
+								preview_height = 0.45,
+							},
+						},
+					},
+				},
+				extensions = {
+					fzy_native = {
+						override_generic_sorter = true,
+						override_file_sorter = true,
+					}
+				}
+			}
+			telescope.load_extension('fzy_native')
+		end,
+	}
 
-  use 'ellisonleao/gruvbox.nvim'
+	use {
+		'stevearc/dressing.nvim',
+	}
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require 'packer'.sync()
-  end
+	use {
+		'L3MON4D3/LuaSnip', -- snippets engine
+		event = 'CursorMoved',
+	}
+
+	use {
+		'saadparwaiz1/cmp_luasnip', -- connects luasnip to nvim-cmp
+		after = 'LuaSnip'
+	}
+	use {
+		'jose-elias-alvarez/null-ls.nvim', -- lsp actions for non-lsp utilities and formatters
+		after = "LuaSnip"
+	}
+
+	use {
+		'williamboman/mason.nvim', -- lsp tooling manager
+		-- cmd = 'Mason',
+		-- module = 'mason', -- these might mess up load order
+		after = 'null-ls.nvim',
+	}
+
+	use {
+		'williamboman/mason-lspconfig.nvim',
+		after = 'mason.nvim'
+	}
+
+	use {
+		'neovim/nvim-lspconfig',
+		config = function() require 'user.lsp' end,
+		after = 'mason-lspconfig.nvim'
+	}
+	-- Display diagnostics in virtual lines instead of text off to the side
+	-- https://sr.ht/~whynothugo/lsp_lines.nvim/
+	use {
+		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+		config = function()
+			require 'lsp_lines'.setup()
+		end,
+		after = 'nvim-lspconfig',
+	}
+
+	use {
+		'hrsh7th/cmp-nvim-lsp', -- integrates language server completions
+		after = 'nvim-lspconfig',
+	}
+	use { -- nvim-cmp source for neovim's lua api
+		'hrsh7th/cmp-nvim-lua',
+		ft = 'lua',
+		after = 'nvim-lspconfig',
+	}
+	use {
+		'hrsh7th/cmp-buffer', -- completions for words in current file
+		after = 'nvim-lspconfig',
+	}
+	use {
+		'hrsh7th/cmp-path', -- path completions
+		after = 'nvim-lspconfig',
+	}
+	use {
+		'hrsh7th/cmp-cmdline', -- completions for the command line
+		after = 'nvim-lspconfig',
+	}
+	use {
+		'hrsh7th/nvim-cmp', -- completions engine
+		config = function() require 'user.cmp' end,
+		after = {
+			'cmp-nvim-lsp',
+			'cmp-nvim-lua',
+			'cmp-buffer',
+			'cmp-path',
+			'cmp-cmdline',
+		},
+	}
+	use {
+		'windwp/nvim-autopairs', -- automatically open & delete bracket/paren/quote pairs
+		requires = 'hrsh7th/nvim-cmp',
+		event = 'InsertEnter',
+		config = function()
+			require 'user.autopair'
+		end,
+		after = 'nvim-cmp',
+	}
+
+	-- use 'cameron-wags/splash.nvim'
+	use {
+		'mhinz/vim-startify',
+		config = function()
+			require 'user.startify'
+		end,
+	}
+
+	use {
+		'folke/tokyonight.nvim',
+		config = function()
+			require('tokyonight').setup {
+				transparent = false,
+				terminal_colors = true,
+				style = 'night',
+			}
+			vim.cmd.colorscheme 'tokyonight'
+		end,
+	}
+
+	-- use {
+	-- 	'sainnhe/sonokai',
+	-- 	config = function()
+	-- 		vim.g.sonokai_style = 'espresso'
+	-- 		vim.g.sonokai_better_performance = 1
+	-- 		vim.cmd.colorscheme 'sonokai'
+	-- 	end
+	-- }
+
+	-- use {
+	-- 	'catppuccin/nvim',
+	-- 	as = 'catppuccin',
+	-- 	run = ':CatppuccinCompile',
+	-- 	config = function()
+	-- 		require 'user.colorscheme'
+	-- 		vim.cmd.colorscheme 'catppuccin'
+	-- 	end,
+	-- }
+
+	if packer_bootstrap then
+		packer.sync()
+	end
 end)

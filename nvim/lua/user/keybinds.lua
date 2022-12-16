@@ -1,10 +1,10 @@
 local ext_map = {
-  lsp = {}
+	lsp = {}
 }
 
 local map = function(mode, bind, action, opts)
-  opts = opts or { noremap = true }
-  vim.keymap.set(mode, bind, action, opts)
+	opts = opts or { noremap = true }
+	vim.keymap.set(mode, bind, action, opts)
 end
 
 --Clear hlsearch with return
@@ -31,11 +31,12 @@ map('i', '<left>', '')
 map('i', '<right>', '')
 
 -- Buffer cycle
-map('n', '<S-TAB>', '<Cmd>bnext<CR>')
--- map('n', '<C-S-TAB>', '<Cmd>bprevious<CR>')
-map('n', '<leader>h', '<Cmd>bprevious<CR>')
-map('n', '<leader>l', '<Cmd>bnext<CR>')
-map('n', '<leader>q', '<Cmd>bdelete!<CR>')
+map('n', '<leader>h', '<Cmd>bp<CR>')
+map('n', '<leader>l', '<Cmd>bn<CR>')
+map('n', '<C-h>', '<Cmd>bp<CR>')
+map('n', '<C-l>', '<Cmd>bn<CR>')
+-- map('n', '<leader>q', '<Cmd>bd!<CR>')
+map('n', '<leader>q', '<Cmd>bp|bd!#<CR>')
 map('n', '<leader>t', '<Cmd>enew<CR>')
 
 -- Resize with arrows
@@ -59,15 +60,20 @@ map('v', '<', '<gv')
 map('v', '>', '>gv')
 
 -- Telescope formatters
-local tscope = require('telescope.builtin')
-map('n', '<leader>,', tscope.buffers)
-map('n', '<leader>.', tscope.find_files)
-map('n', '<leader>fr', tscope.oldfiles)
-map('n', '<leader>fg', tscope.live_grep)
-map('n', '<leader>fh', tscope.help_tags)
-map('n', '<leader>gr', tscope.lsp_references)
-map('n', '<leader>gd', tscope.lsp_definitions)
-map('n', '<leader>gs', tscope.lsp_document_symbols)
+local function tscope(fn)
+	return function()
+		require 'telescope.builtin'[fn]()
+	end
+end
+
+map('n', '<leader>,', tscope 'buffers')
+map('n', '<leader>.', tscope 'find_files')
+map('n', '<leader>fr', tscope 'oldfiles')
+map('n', '<leader>fg', tscope 'live_grep')
+map('n', '<leader>fh', tscope 'help_tags')
+map('n', '<leader>gr', tscope 'lsp_references')
+map('n', '<leader>gd', tscope 'lsp_definitions')
+map('n', '<leader>gs', tscope 'lsp_document_symbols')
 
 -- Moving the selected line from Visual Mode
 map('v', 'J', ":m '>+1<CR>gv=gv")
@@ -78,15 +84,15 @@ map('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
 
 -- open urls under the cursor
 if vim.fn.has('mac') then
-  map('n', 'gx', '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>')
+	map('n', 'gx', '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>')
 elseif vim.fn.has('unix') then
-  map('n', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>')
+	map('n', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>')
 else
-  vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
+	vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
 end
 
 local lsp_map = function(m, b, a)
-  table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
+	table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
 end
 
 lsp_map('n', 'gD', vim.lsp.buf.declaration)
@@ -100,7 +106,7 @@ lsp_map('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspa
 lsp_map('n', 'gr', vim.lsp.buf.references)
 lsp_map('n', '<leader>rn', vim.lsp.buf.rename)
 lsp_map('n', '<leader>ca', vim.lsp.buf.code_action)
-lsp_map('n', '<leader>of', vim.diagnostic.open_float)
+lsp_map('n', '<leader>d', vim.diagnostic.open_float)
 lsp_map('n', '[d', vim.diagnostic.goto_prev)
 lsp_map('n', ']d', vim.diagnostic.goto_next)
 lsp_map('n', '<leader>p', function() vim.lsp.buf.format { async = true } end)
