@@ -10,19 +10,6 @@ M.setup = function(attach)
 	null_ls.setup {
 		on_attach = attach,
 		sources = {
-			null_ls.builtins.diagnostics.cspell.with {
-				diagnostic_config = {
-					underline = true,
-					virtual_text = false,
-					virtual_lines = false,
-					signs = true,
-					update_in_insert = false,
-					severity_sort = true,
-				},
-				diagnostics_postprocess = function(diagnostic)
-					diagnostic.severity = vim.diagnostic.severity.HINT
-				end,
-			},
 			null_ls.builtins.formatting.prettierd,
 			null_ls.builtins.formatting.eslint_d,
 			null_ls.builtins.formatting.fixjson,
