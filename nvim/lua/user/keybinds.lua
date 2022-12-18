@@ -91,24 +91,9 @@ else
 	vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
 end
 
-local lsp_map = function(m, b, a)
-	table.insert(ext_map.lsp, { mode = m, bind = b, action = a })
-end
+map('n', '<leader>p', function() vim.lsp.buf.format { async = true } end)
+map('n', '<leader>rn', vim.lsp.buf.rename)
+map('n', '<leader>ca', vim.lsp.buf.code_action)
+map('n', '<leader>d', vim.diagnostic.open_float)
 
-lsp_map('n', 'gD', vim.lsp.buf.declaration)
-lsp_map('n', 'gd', vim.lsp.buf.definition)
-lsp_map('n', 'K', vim.lsp.buf.hover)
--- lsp_map('n', 'gi', vim.lsp.buf.implementation)
-lsp_map('n', '<C-k>', vim.lsp.buf.signature_help)
-lsp_map('n', '<leader>wa', vim.lsp.buf.add_workspace_folder)
-lsp_map('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder)
-lsp_map('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-lsp_map('n', 'gr', vim.lsp.buf.references)
-lsp_map('n', '<leader>rn', vim.lsp.buf.rename)
-lsp_map('n', '<leader>ca', vim.lsp.buf.code_action)
-lsp_map('n', '<leader>d', vim.diagnostic.open_float)
-lsp_map('n', '[d', vim.diagnostic.goto_prev)
-lsp_map('n', ']d', vim.diagnostic.goto_next)
-lsp_map('n', '<leader>p', function() vim.lsp.buf.format { async = true } end)
-
-return ext_map
+-- return ext_map

@@ -167,87 +167,50 @@ packer.startup(function(use)
 	}
 
 	use {
-		'L3MON4D3/LuaSnip', -- snippets engine
-		event = 'CursorMoved',
-	}
+		'VonHeikemen/lsp-zero.nvim',
+		requires = {
+			{ 'neovim/nvim-lspconfig' },
+			{ 'williamboman/mason.nvim' },
+			{ 'williamboman/mason-lspconfig.nvim' },
 
-	use {
-		'saadparwaiz1/cmp_luasnip', -- connects luasnip to nvim-cmp
-		after = 'LuaSnip'
-	}
-	use {
-		'jose-elias-alvarez/null-ls.nvim', -- lsp actions for non-lsp utilities and formatters
-		after = "LuaSnip"
-	}
+			{ 'hrsh7th/nvim-cmp' },
+			{ 'hrsh7th/cmp-buffer' },
+			{ 'hrsh7th/cmp-path' },
+			{ 'saadparwaiz1/cmp_luasnip' },
+			{ 'hrsh7th/cmp-nvim-lsp' },
+			{ 'hrsh7th/cmp-nvim-lua' },
 
-	use {
-		'williamboman/mason.nvim', -- lsp tooling manager
-		-- cmd = 'Mason',
-		-- module = 'mason', -- these might mess up load order
-		after = 'null-ls.nvim',
-	}
-
-	use {
-		'williamboman/mason-lspconfig.nvim',
-		after = 'mason.nvim'
-	}
-
-	use {
-		'neovim/nvim-lspconfig',
-		config = function() require 'user.lsp' end,
-		after = 'mason-lspconfig.nvim'
-	}
-	-- Display diagnostics in virtual lines instead of text off to the side
-	-- https://sr.ht/~whynothugo/lsp_lines.nvim/
-	use {
-		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-		config = function()
-			require 'lsp_lines'.setup()
-		end,
-		after = 'nvim-lspconfig',
-	}
-
-	use {
-		'hrsh7th/cmp-nvim-lsp', -- integrates language server completions
-		after = 'nvim-lspconfig',
-	}
-	use { -- nvim-cmp source for neovim's lua api
-		'hrsh7th/cmp-nvim-lua',
-		ft = 'lua',
-		after = 'nvim-lspconfig',
-	}
-	use {
-		'hrsh7th/cmp-buffer', -- completions for words in current file
-		after = 'nvim-lspconfig',
-	}
-	use {
-		'hrsh7th/cmp-path', -- path completions
-		after = 'nvim-lspconfig',
-	}
-	use {
-		'hrsh7th/cmp-cmdline', -- completions for the command line
-		after = 'nvim-lspconfig',
-	}
-	use {
-		'hrsh7th/nvim-cmp', -- completions engine
-		config = function() require 'user.cmp' end,
-		after = {
-			'cmp-nvim-lsp',
-			'cmp-nvim-lua',
-			'cmp-buffer',
-			'cmp-path',
-			'cmp-cmdline',
+			{ 'L3MON4D3/LuaSnip' },
 		},
+		config = function() require 'user.lsp-zero' end,
 	}
+
 	use {
-		'windwp/nvim-autopairs', -- automatically open & delete bracket/paren/quote pairs
-		requires = 'hrsh7th/nvim-cmp',
-		event = 'InsertEnter',
-		config = function()
-			require 'user.autopair'
-		end,
-		after = 'nvim-cmp',
+		'jose-elias-alvarez/null-ls.nvim',
+		config = function() require 'user.null-ls' end,
 	}
+
+	-- -- Display diagnostics in virtual lines instead of text off to the side
+	-- -- https://sr.ht/~whynothugo/lsp_lines.nvim/
+	-- use {
+	-- 	'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+	-- 	config = function()
+	-- 		require 'lsp_lines'.setup()
+	-- 	end,
+	-- 	after = 'nvim-lspconfig',
+	-- }
+	-- 	'hrsh7th/cmp-cmdline', -- completions for the command line
+	-- 	after = 'nvim-lspconfig',
+	-- }
+	-- use {
+	-- 	'windwp/nvim-autopairs', -- automatically open & delete bracket/paren/quote pairs
+	-- 	requires = 'hrsh7th/nvim-cmp',
+	-- 	event = 'InsertEnter',
+	-- 	config = function()
+	-- 		require 'user.autopair'
+	-- 	end,
+	-- 	after = 'nvim-cmp',
+	-- }
 
 	-- use 'cameron-wags/splash.nvim'
 	use {
