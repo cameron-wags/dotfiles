@@ -7,9 +7,6 @@ require 'mason.settings'.set {
 			package_uninstalled = '✗'
 		}
 	},
-	providers = {
-		'mason.providers.client',
-	}
 }
 
 local lsp = require('lsp-zero')
