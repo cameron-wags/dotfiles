@@ -12,7 +12,7 @@ require 'mason.settings'.set {
 local lsp = require('lsp-zero')
 
 lsp.set_preferences({
-	suggest_lsp_servers = true,
+	suggest_lsp_servers = false,
 	setup_servers_on_start = true,
 	set_lsp_keymaps = true,
 	configure_diagnostics = true,
@@ -20,10 +20,10 @@ lsp.set_preferences({
 	manage_nvim_cmp = true,
 	call_servers = 'local',
 	sign_icons = {
-		error = '✘',
-		warn = '▲',
-		hint = '⚑',
-		info = ''
+		error = 'E',
+		warn = 'W',
+		hint = 'H',
+		info = 'I'
 	}
 })
 
@@ -49,4 +49,9 @@ lsp.ensure_installed {
 	'shfmt',
 	'lua-language-server',
 	'typescript-language-server',
+}
+
+vim.diagnostic.config {
+	virtual_text = true,
+	update_in_insert = true,
 }
