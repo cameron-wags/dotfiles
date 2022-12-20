@@ -9,9 +9,9 @@ require 'mason.settings'.set {
 	},
 }
 
-local lsp = require('lsp-zero')
+local lsp = require 'lsp-zero'
 
-lsp.set_preferences({
+lsp.set_preferences {
 	suggest_lsp_servers = false,
 	setup_servers_on_start = true,
 	set_lsp_keymaps = true,
@@ -25,7 +25,7 @@ lsp.set_preferences({
 		hint = 'H',
 		info = 'I'
 	}
-})
+}
 
 lsp.nvim_workspace()
 

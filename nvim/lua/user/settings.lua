@@ -7,6 +7,15 @@ local options = {
 	cursorline = true, -- highlight the current line
 	expandtab = false, -- convert tabs to spaces
 	fileencoding = 'utf-8', -- the encoding written to a file
+	formatoptions = 'ajncrq',
+	guicursor = {
+		'n-v-c:block',
+		'i-ci-ve:ver25',
+		'r-cr:hor20',
+		'o:hor50',
+		'a:blinkwait500-blinkoff400-blinkon250-Cursor',
+		'sm:block-blinkwait175-blinkoff150-blinkon175'
+	},
 	hlsearch = true, -- highlight all matches on previous search pattern
 	ignorecase = true, -- ignore case in search patterns
 	incsearch = true, -- preview search matches
@@ -31,6 +40,7 @@ local options = {
 	swapfile = true, -- creates a swapfile
 	tabstop = 2, -- insert 2 spaces for a tab
 	termguicolors = true, -- set term gui colors (most terminals support this)
+	textwidth = 80,
 	title = true,
 	undofile = true, -- enable persistent undo
 	updatetime = 300, -- faster completion (4000ms default)
@@ -38,7 +48,6 @@ local options = {
 	wrap = true, -- display lines as one long line
 	writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 }
-
 for key, value in pairs(options) do
 	vim.opt[key] = value
 end
@@ -49,23 +58,11 @@ vim.g.mapleader = ' '
 
 vim.opt.whichwrap = vim.opt.whichwrap + '<,>,[,],h,l'
 
-vim.opt.formatoptions = vim.opt.formatoptions
-		- "a" -- Auto formatting is BAD.
-		- "t" -- Don't auto format my code. I got linters for that.
-		+ "c" -- In general, I like it when comments respect textwidth
-		+ "q" -- Allow formatting comments w/ gq
-		- "o" -- O and o don't continue comments
-		+ "r" -- But do continue when pressing enter.
-		+ "n" -- Indent past the formatlistpat, not underneath it.
-		+ "j" -- Auto-remove comments when J'ing lines
-		- "2" -- I'm not in gradeschool anymore
-
 -- treat dash separated words as a word text object
 -- vim.opt.iskeyword = vim.opt.iskeyword + '-'
 
-vim.opt.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait500-blinkoff400-blinkon250-Cursor,sm:block-blinkwait175-blinkoff150-blinkon175'
-
 vim.g.do_filetype_lua = 1
+vim.cmd('filetype on')
 
 vim.opt.shortmess:append('c')
 vim.o.listchars = 'space: ,leadmultispace: ,tab: ,trail:•,nbsp:+' -- how to draw whitespace
@@ -73,16 +70,16 @@ vim.o.listchars = 'space: ,leadmultispace: ,tab: ,trail:•,nbsp:+' -- how
 TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
 vim.o.titlestring = '%<%F - Nvim'
-vim.cmd('filetype on')
-
 
 -- highlight yanked text for 250ms using the "Visual" highlight group
-vim.cmd([[
-  augroup highlight_yank
-    autocmd!
-    au TextYankPost * silent! lua vim.highlight.on_yank({higrooup="Visual", timeout=250})
-  augroup END
-]])
+vim.api.nvim_create_autocmd('TextYankPost',
+	{
+		group = vim.api.nvim_create_augroup('highlight_yank', { clear = true }),
+		pattern = '*',
+		callback = function()
+			vim.highlight.on_yank { timeout = 250 }
+		end,
+	})
 
 -- Neovide on Mac:
 --   launchctl setenv NEOVIDE_FRAME buttonless
