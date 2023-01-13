@@ -1,14 +1,10 @@
-local ext_map = {
-	lsp = {}
-}
-
 local map = function(mode, bind, action, opts)
 	opts = opts or { noremap = true }
 	vim.keymap.set(mode, bind, action, opts)
 end
 
 --Clear hlsearch with return
-map('n', '<CR>', '<Cmd>noh<CR>')
+map('n', '<leader><CR>', '<Cmd>noh<CR>')
 
 -- Linewise toggle current line using C-/
 map('n', '<C-/>', '<Plug>(comment_toggle_linewise_current)')
