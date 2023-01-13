@@ -7,7 +7,7 @@ local options = {
 	cursorline = true, -- highlight the current line
 	expandtab = false, -- convert tabs to spaces
 	fileencoding = 'utf-8', -- the encoding written to a file
-	formatoptions = 'ajncrq',
+	formatoptions = 'jncrq',
 	guicursor = {
 		'n-v-c:block',
 		'i-ci-ve:ver25',
