@@ -202,6 +202,7 @@ packer.startup(function(use)
 	-- 	'hrsh7th/cmp-cmdline', -- completions for the command line
 	-- 	after = 'nvim-lspconfig',
 	-- }
+
 	use {
 		'windwp/nvim-autopairs', -- automatically open & delete bracket/paren/quote pairs
 		requires = 'hrsh7th/nvim-cmp',
@@ -219,17 +220,17 @@ packer.startup(function(use)
 		end,
 	}
 
-	use {
-		'folke/tokyonight.nvim',
-		config = function()
-			require('tokyonight').setup {
-				transparent = false,
-				terminal_colors = true,
-				style = 'night',
-			}
-			vim.cmd.colorscheme 'tokyonight'
-		end,
-	}
+	-- use {
+	-- 	'folke/tokyonight.nvim',
+	-- 	config = function()
+	-- 		require('tokyonight').setup {
+	-- 			transparent = false,
+	-- 			terminal_colors = true,
+	-- 			style = 'night',
+	-- 		}
+	-- 		vim.cmd.colorscheme 'tokyonight'
+	-- 	end,
+	-- }
 
 	-- use {
 	-- 	'sainnhe/sonokai',
@@ -240,15 +241,15 @@ packer.startup(function(use)
 	-- 	end
 	-- }
 
-	-- use {
-	-- 	'catppuccin/nvim',
-	-- 	as = 'catppuccin',
-	-- 	run = ':CatppuccinCompile',
-	-- 	config = function()
-	-- 		require 'user.colorscheme'
-	-- 		vim.cmd.colorscheme 'catppuccin'
-	-- 	end,
-	-- }
+	use {
+		'catppuccin/nvim',
+		as = 'catppuccin',
+		run = ':CatppuccinCompile',
+		config = function()
+			require 'user.colorscheme'
+			vim.cmd.colorscheme 'catppuccin'
+		end,
+	}
 
 	if packer_bootstrap then
 		packer.sync()

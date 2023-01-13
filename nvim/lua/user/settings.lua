@@ -65,7 +65,7 @@ vim.g.do_filetype_lua = 1
 vim.cmd('filetype on')
 
 vim.opt.shortmess:append('c')
-vim.o.listchars = 'space: ,leadmultispace: ,tab: ,trail:•,nbsp:+' -- how to draw whitespace
+vim.o.listchars = 'space: ,leadmultispace: ,tab:ﲖ ,trail:•,nbsp:+' -- how to draw whitespace
 
 TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd('TextYankPost',
 		group = vim.api.nvim_create_augroup('highlight_yank', { clear = true }),
 		pattern = '*',
 		callback = function()
-			vim.highlight.on_yank { timeout = 250 }
+			vim.highlight.on_yank { higroup = 'CurSearch', timeout = 250 }
 		end,
 	})
 
