@@ -202,15 +202,14 @@ packer.startup(function(use)
 	-- 	'hrsh7th/cmp-cmdline', -- completions for the command line
 	-- 	after = 'nvim-lspconfig',
 	-- }
-	-- use {
-	-- 	'windwp/nvim-autopairs', -- automatically open & delete bracket/paren/quote pairs
-	-- 	requires = 'hrsh7th/nvim-cmp',
-	-- 	event = 'InsertEnter',
-	-- 	config = function()
-	-- 		require 'user.autopair'
-	-- 	end,
-	-- 	after = 'nvim-cmp',
-	-- }
+	use {
+		'windwp/nvim-autopairs', -- automatically open & delete bracket/paren/quote pairs
+		requires = 'hrsh7th/nvim-cmp',
+		config = function()
+			require 'user.autopair'
+		end,
+		after = 'lsp-zero.nvim',
+	}
 
 	-- use 'cameron-wags/splash.nvim'
 	use {
