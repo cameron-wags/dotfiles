@@ -1,36 +1,8 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
-end
-vim.opt.rtp:prepend(lazypath)
-
-local opts = {}
-
-require 'lazy'.setup({
+return {
 	{
 		'notjedi/nvim-rooter.lua',
 		lazy = false,
 		config = true,
-	},
-	{
-		'kyazdani42/nvim-tree.lua',
-		lazy = true,
-		dependencies = { 'kyazdani42/nvim-web-devicons' },
-		cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
-		config = function() require 'user.nvimtree' end,
-	},
-	{
-		'nvim-lualine/lualine.nvim',
-		lazy = false,
-		dependencies = { 'kyazdani42/nvim-web-devicons' },
-		config = function() require 'user.lualine' end,
 	},
 	{
 		'numToStr/FTerm.nvim',
@@ -54,24 +26,7 @@ require 'lazy'.setup({
 	{
 		'nmac427/guess-indent.nvim',
 		lazy = false,
-		config = function()
-			require 'guess-indent'.setup()
-		end,
-	},
-	{
-		'nvim-treesitter/nvim-treesitter',
-		lazy = false,
-		build = function()
-			require 'nvim-treesitter.install'.update({ with_sync = true })
-		end,
-		dependencies = { 'nvim-treesitter/nvim-treesitter-refactor' },
-		config = function() require 'user.treesitter' end,
-	},
-	{
-		'numToStr/Comment.nvim',
-		dependencies = { { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = true } },
-		config = function() require 'user.comment' end,
-		event = 'VeryLazy',
+		config = true,
 	},
 	{
 		'nvim-lua/popup.nvim',
@@ -159,22 +114,6 @@ require 'lazy'.setup({
 		config = function() require 'user.autopair' end,
 		priority = 49,
 	},
-	{
-		'mhinz/vim-startify',
-		lazy = false,
-		config = function() require 'user.startify' end,
-		priority = 99,
-	},
-	{
-		'catppuccin/nvim',
-		lazy = false,
-		name = 'catppuccin',
-		config = function()
-			require 'user.colorscheme'
-			vim.cmd.colorscheme 'catppuccin'
-		end,
-		priority = 1000,
-	},
 	-- {
 	-- 	'mechatroner/rainbow_csv',
 	-- },
@@ -198,4 +137,4 @@ require 'lazy'.setup({
 			'RainbowMultiDelim',
 		},
 	},
-}, opts)
+}
