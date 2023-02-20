@@ -47,6 +47,10 @@ map('n', '<M-j>', '<Cmd>winc j<CR>')
 map('n', '<M-k>', '<Cmd>winc k<CR>')
 map('n', '<M-l>', '<Cmd>winc l<CR>')
 
+-- Moving the selected line from Visual Mode
+map('v', 'J', ":m '>+1<CR>gv=gv")
+map('v', 'K', ":m '<-2<CR>gv=gv")
+
 -- Integrated terminal
 map('n', '<M-;>', function() require 'FTerm'.toggle() end)
 map('t', '<M-;>', function() require 'FTerm'.toggle() end, {})
@@ -71,10 +75,6 @@ map('n', '<leader>gr', tscope 'lsp_references')
 map('n', '<leader>gd', tscope 'lsp_definitions')
 map('n', '<leader>gs', tscope 'lsp_document_symbols')
 
--- Moving the selected line from Visual Mode
-map('v', 'J', ":m '>+1<CR>gv=gv")
-map('v', 'K', ":m '<-2<CR>gv=gv")
-
 -- Nvim Tree
 map('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
 
@@ -92,4 +92,3 @@ map('n', '<leader>rn', vim.lsp.buf.rename)
 map('n', '<leader>ca', vim.lsp.buf.code_action)
 map('n', '<leader>d', vim.diagnostic.open_float)
 
--- return ext_map

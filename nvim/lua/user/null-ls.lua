@@ -13,13 +13,8 @@ null_ls.setup {
 		null_ls.builtins.formatting.beautysh,
 		null_ls.builtins.formatting.sql_formatter,
 	},
-	debounce = 250,
-	debug = true,
+	debug = false,
 	default_timeout = 15000,
-	diagnostics_format = "#{m}",
-	fallback_severity = vim.diagnostic.severity.ERROR,
-	log_level = "info",
-	notify_format = "[null-ls] %s",
 	should_attach = function(bufnr)
 		local ft_overrides = {
 			NvimTree = false,
@@ -31,8 +26,4 @@ null_ls.setup {
 		end
 		return true
 	end,
-	-- cmd = { "nvim" },
-	-- on_init = nil,
-	-- on_exit = nil,
-	update_in_insert = false,
 }

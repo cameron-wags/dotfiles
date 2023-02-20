@@ -1,9 +1,7 @@
 return {
 	'nvim-treesitter/nvim-treesitter',
 	lazy = false,
-	build = function()
-		require 'nvim-treesitter.install'.update({ with_sync = true })
-	end,
+	build = ':TSUpdate',
 	dependencies = { 'nvim-treesitter/nvim-treesitter-refactor' },
 	config = function()
 		require 'nvim-treesitter.configs'.setup {
@@ -32,7 +30,7 @@ return {
 				'yaml',
 			},
 			sync_install = false,
-			auto_intall = true,
+			auto_install = true,
 			highlight = {
 				enable = true, -- false will disable the whole extension
 				-- list of language that will be disabled
