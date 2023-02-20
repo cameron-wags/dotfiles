@@ -7,9 +7,9 @@ end
 map('n', '<leader><CR>', '<Cmd>noh<CR>')
 
 -- Linewise toggle current line using C-/
--- map('n', '<C-/>', '<Plug>(comment_toggle_linewise_current)')
+map('n', '<C-/>', '<Plug>(comment_toggle_linewise_current)')
 -- Linewise toggle on visual selection using C-/
--- map('x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)')
+map('x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)')
 -- C-/ sends this on some platforms
 map('n', '<C-_>', '<Plug>(comment_toggle_linewise_current)')
 map('x', '<C-_>', '<Plug>(comment_toggle_linewise_visual)')
