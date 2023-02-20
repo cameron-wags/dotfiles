@@ -1,36 +1,30 @@
 return {
 	{
 		'notjedi/nvim-rooter.lua',
-		lazy = false,
 		config = true,
-	},
-	{
-		'numToStr/FTerm.nvim',
-		lazy = true,
-		opts = {
-			ft = 'FTerm',
-			border = 'rounded',
-			auto_close = true,
-			dimensions = {
-				height = 1.0,
-				width = 1.0,
-				x = 0.5,
-				y = 0.5,
-			},
-		}
+		event = {
+			'BufEnter',
+			'BufRead',
+		},
 	},
 	{
 		'tpope/vim-surround',
-		event = 'VeryLazy',
+		event = {
+			'BufRead',
+			'BufNewFile',
+		},
 	},
 	{
 		'nmac427/guess-indent.nvim',
-		lazy = true,
 		config = true,
 		event = {
-			'BufReadPost',
+			'BufRead',
 			'BufNewFile',
 		},
+	},
+	{
+		'stevearc/dressing.nvim',
+		event = 'VeryLazy',
 	},
 	{
 		'nvim-lua/popup.nvim',
@@ -41,7 +35,7 @@ return {
 		'nvim-telescope/telescope.nvim',
 		lazy = true,
 		dependencies = {
-			{ 'nvim-lua/plenary.nvim', lazy = true },
+			{ 'nvim-lua/plenary.nvim',                    lazy = true },
 			{ 'nvim-telescope/telescope-fzy-native.nvim', lazy = true }
 		},
 		cmd = 'Telescope',
@@ -75,8 +69,19 @@ return {
 		end,
 	},
 	{
-		'stevearc/dressing.nvim',
-		event = 'VeryLazy',
+		'numToStr/FTerm.nvim',
+		lazy = true,
+		opts = {
+			ft = 'FTerm',
+			border = 'rounded',
+			auto_close = true,
+			dimensions = {
+				height = 1.0,
+				width = 1.0,
+				x = 0.5,
+				y = 0.5,
+			},
+		}
 	},
 	-- {
 	-- 	'mechatroner/rainbow_csv',

@@ -3,8 +3,10 @@
 return {
 	{
 		'VonHeikemen/lsp-zero.nvim',
-		event = 'VeryLazy',
-		-- lazy = false,
+		event = {
+			'BufRead',
+			'BufNewFile',
+		},
 		priority = 50,
 		dependencies = {
 			{ 'neovim/nvim-lspconfig' },
@@ -72,8 +74,10 @@ return {
 	{
 		'jose-elias-alvarez/null-ls.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
-		event = 'VeryLazy',
-		-- lazy = false,
+		event = {
+			'BufRead',
+			'BufNewFile',
+		},
 		priority = 49,
 		config = function()
 			local null_ls = require 'null-ls'
@@ -103,7 +107,6 @@ return {
 	{
 		'windwp/nvim-autopairs',
 		event = 'InsertEnter',
-		-- lazy = false,
 		priority = 49,
 		dependencies = { 'hrsh7th/nvim-cmp' },
 		config = function()
