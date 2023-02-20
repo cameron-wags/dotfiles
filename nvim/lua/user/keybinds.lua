@@ -6,13 +6,21 @@ end
 --Clear hlsearch with return
 map('n', '<leader><CR>', '<Cmd>noh<CR>')
 
--- Linewise toggle current line using C-/
-map('n', '<C-/>', '<Plug>(comment_toggle_linewise_current)')
--- Linewise toggle on visual selection using C-/
-map('x', '<C-/>', '<Plug>(comment_toggle_linewise_visual)')
+local esc = vim.api.nvim_replace_termcodes(
+	'<ESC>', true, false, true
+)
+map('n', '<C-/>', function() require 'Comment.api'.toggle.linewise.current() end)
+map('x', '<C-/>',
+	function()
+		vim.api.nvim_feedkeys(esc, 'nx', false)
+		require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
+	end)
 -- C-/ sends this on some platforms
-map('n', '<C-_>', '<Plug>(comment_toggle_linewise_current)')
-map('x', '<C-_>', '<Plug>(comment_toggle_linewise_visual)')
+map('n', '<C-_>', function() require 'Comment.api'.toggle.linewise.current() end)
+map('x', '<C-_>', function()
+	vim.api.nvim_feedkeys(esc, 'nx', false)
+	require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
+end)
 
 -- Disable Arrow keys in Normal mode
 map('', '<up>', '')
@@ -91,4 +99,3 @@ map('n', '<leader>p', function() vim.lsp.buf.format { async = true } end)
 map('n', '<leader>rn', vim.lsp.buf.rename)
 map('n', '<leader>ca', vim.lsp.buf.code_action)
 map('n', '<leader>d', vim.diagnostic.open_float)
-
