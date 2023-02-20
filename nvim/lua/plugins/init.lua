@@ -25,8 +25,12 @@ return {
 	},
 	{
 		'nmac427/guess-indent.nvim',
-		lazy = false,
+		lazy = true,
 		config = true,
+		event = {
+			'BufReadPost',
+			'BufNewFile',
+		},
 	},
 	{
 		'nvim-lua/popup.nvim',
