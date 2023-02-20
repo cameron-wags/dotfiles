@@ -3,10 +3,7 @@
 return {
 	{
 		'VonHeikemen/lsp-zero.nvim',
-		event = {
-			'BufRead',
-			'BufNewFile',
-		},
+		event = 'VeryLazy',
 		priority = 50,
 		dependencies = {
 			{ 'neovim/nvim-lspconfig' },
@@ -74,10 +71,7 @@ return {
 	{
 		'jose-elias-alvarez/null-ls.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
-		event = {
-			'BufRead',
-			'BufNewFile',
-		},
+		event = 'VeryLazy',
 		priority = 49,
 		config = function()
 			local null_ls = require 'null-ls'
