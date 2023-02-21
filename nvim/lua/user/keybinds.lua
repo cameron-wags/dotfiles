@@ -63,6 +63,8 @@ map('v', 'K', ":m '<-2<CR>gv=gv")
 map('n', '<M-;>', function() require 'FTerm'.toggle() end)
 map('t', '<M-;>', function() require 'FTerm'.toggle() end, {})
 
+map('n', '<leader>o', function() require 'oil'.open_float() end)
+
 -- Stay in indent mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')

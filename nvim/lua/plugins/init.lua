@@ -32,6 +32,18 @@ return {
 		dependencies = { 'nvim-lua/plenary.nvim', lazy = true },
 	},
 	{
+		'stevearc/oil.nvim',
+		lazy = false,
+		opts = {
+			float = {
+				padding = 3,
+			},
+			keymaps = {
+				['<leader>o'] = 'actions.close',
+			}
+		},
+	},
+	{
 		'nvim-telescope/telescope.nvim',
 		lazy = true,
 		dependencies = {
