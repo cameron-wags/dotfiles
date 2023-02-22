@@ -26,6 +26,9 @@ require 'lazy'.setup {
 	change_detection = {
 		notify = false,
 	},
+	dev = {
+		path = '~/g'
+	},
 }
 
 require 'user.keybinds'
