@@ -1,14 +1,16 @@
 local wezterm = require 'wezterm'
 
+local get_color_scheme = function(appearance)
+	if appearance:find 'Dark' then
+		return 'Catppuccin Mocha'
+	else
+		return 'Catppuccin Latte'
+	end
+end
+
 return {
-	-- color_scheme = 'Catppuccin Mocha',
-	color_scheme = (function(appearance)
-				if appearance:find 'Dark' then
-					return 'Catppuccin Mocha'
-				else
-					return 'Catppuccin Latte'
-				end
-			end)(wezterm.gui.get_appearance()),
+	use_ime = false,
+	color_scheme = get_color_scheme(wezterm.gui.get_appearance()),
 	force_reverse_window_cursor = false,
 	cursor_blink_rate = 325,
 	cursor_blink_ease_in = 'Constant',
