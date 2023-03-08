@@ -62,7 +62,7 @@ return {
 				enable_autocmd = false,
 			},
 			refactor = {
-				highlight_definitions = { enable = true },
+				highlight_definitions = { enable = false },
 			},
 		}
 	end,
