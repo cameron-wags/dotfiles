@@ -1,73 +1,108 @@
-local map = function(mode, bind, action, opts)
-	opts = opts or { noremap = true }
-	vim.keymap.set(mode, bind, action, opts)
+local function mkmap(mode, noremap)
+	return function(bind, action, desc)
+		vim.keymap.set(mode, bind, action, { noremap = noremap, desc = desc })
+	end
 end
 
+local nn = mkmap('n', true)
+local xn = mkmap('x', true)
+local vn = mkmap('v', true)
+local ino = mkmap('i', true)
+local tma = mkmap('t', false)
+
 --Clear hlsearch with return
-map('n', '<leader><CR>', '<Cmd>noh<CR>')
+nn('<leader><CR>', '<Cmd>noh<CR>', 'Clear search highlights')
 
 local esc = vim.api.nvim_replace_termcodes(
 	'<ESC>', true, false, true
 )
-map('n', '<C-/>', function() require 'Comment.api'.toggle.linewise.current() end)
-map('x', '<C-/>',
+nn('<C-/>', function() require 'Comment.api'.toggle.linewise.current() end, 'Comment - toggle current line')
+xn('<C-/>',
 	function()
 		vim.api.nvim_feedkeys(esc, 'nx', false)
 		require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
-	end)
+	end, 'Comment - toggle visual selection')
 -- C-/ sends this on some platforms
-map('n', '<C-_>', function() require 'Comment.api'.toggle.linewise.current() end)
-map('x', '<C-_>', function()
+nn('<C-_>', function() require 'Comment.api'.toggle.linewise.current() end, 'Comment - toggle current line')
+xn('<C-_>', function()
 	vim.api.nvim_feedkeys(esc, 'nx', false)
 	require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
-end)
+end, 'Comment - toggle visual selection')
 
 -- Disable Arrow keys in Normal mode
-map('', '<up>', '')
-map('', '<down>', '')
-map('', '<left>', '')
-map('', '<right>', '')
+nn('<up>', '')
+nn('<down>', '')
+nn('<left>', '')
+nn('<right>', '')
 
 -- Disable Arrow keys in Insert mode
-map('i', '<up>', '')
-map('i', '<down>', '')
-map('i', '<left>', '')
-map('i', '<right>', '')
+ino('<up>', '')
+ino('<down>', '')
+ino('<left>', '')
+ino('<right>', '')
 
 -- Buffer cycle
-map('n', '<leader>h', '<Cmd>bp<CR>')
-map('n', '<leader>l', '<Cmd>bn<CR>')
-map('n', '<C-h>', '<Cmd>bp<CR>')
-map('n', '<C-l>', '<Cmd>bn<CR>')
--- map('n', '<leader>q', '<Cmd>bd!<CR>')
-map('n', '<leader>q', '<Cmd>bp|bd!#<CR>')
-map('n', '<leader>t', '<Cmd>enew<CR>')
+nn('<leader>h', '<Cmd>bp<CR>', 'Buffer - goto previous')
+nn('<leader>l', '<Cmd>bn<CR>', 'Buffer - goto next')
+nn('<C-h>', '<Cmd>bp<CR>', 'Buffer - goto previous')
+nn('<C-l>', '<Cmd>bn<CR>', 'Buffer - goto next')
+nn('<leader>q', '<Cmd>bp|bd!#<CR>', 'Buffer - close without saving')
+nn('<leader>t', '<Cmd>enew<CR>', 'Buffer - create new')
 
 -- Resize with arrows
-map('n', '<M-Up>', '<Cmd>resize +2<CR>')
-map('n', '<M-Down>', '<Cmd>resize -2<CR>')
-map('n', '<M-Left>', '<Cmd>vertical resize -2<CR>')
-map('n', '<M-Right>', '<Cmd>vertical resize +2<CR>')
+nn('<M-Up>', '<Cmd>resize +2<CR>', 'Split - make taller')
+nn('<M-Down>', '<Cmd>resize -2<CR>', 'Split - make shorter')
+nn('<M-Left>', '<Cmd>vertical resize -2<CR>', 'Split - make narrower')
+nn('<M-Right>', '<Cmd>vertical resize +2<CR>', 'Split - make wider')
 
 -- Change windows
-map('n', '<M-h>', '<Cmd>winc h<CR>')
-map('n', '<M-j>', '<Cmd>winc j<CR>')
-map('n', '<M-k>', '<Cmd>winc k<CR>')
-map('n', '<M-l>', '<Cmd>winc l<CR>')
+nn('<M-h>', '<Cmd>winc h<CR>', 'Window - navigate left')
+nn('<M-j>', '<Cmd>winc j<CR>', 'Window - navigate down')
+nn('<M-k>', '<Cmd>winc k<CR>', 'Window - navigate up')
+nn('<M-l>', '<Cmd>winc l<CR>', 'Window - navigate right')
 
 -- Moving the selected line from Visual Mode
-map('v', 'J', ":m '>+1<CR>gv=gv")
-map('v', 'K', ":m '<-2<CR>gv=gv")
+vn('J', ":m '>+1<CR>gv=gv", 'Move visual selection down')
+vn('K', ":m '<-2<CR>gv=gv", 'Move visual selection up')
 
 -- Integrated terminal
-map('n', '<M-;>', function() require 'FTerm'.toggle() end)
-map('t', '<M-;>', function() require 'FTerm'.toggle() end, {})
+local fterm_lazygit = nil
+nn('<M-;>', function()
+	if fterm_lazygit then
+		fterm_lazygit:close()
+	end
+	require 'FTerm'.open()
+end, 'FTerm - toggle')
 
-map('n', '<leader>o', function() require 'oil'.open_float() end)
+tma('<M-;>', function()
+	if fterm_lazygit then
+		fterm_lazygit:close()
+	end
+	require 'FTerm'.close()
+end, 'FTerm - toggle')
+
+nn('<leader>s', function()
+	if not fterm_lazygit then
+		fterm_lazygit = require 'FTerm':new {
+			cmd = 'lazygit',
+			border = 'rounded',
+			auto_close = true,
+			dimensions = {
+				height = 1.0,
+				width = 1.0,
+				x = 0.5,
+				y = 0.5,
+			},
+		}
+	end
+	fterm_lazygit:open()
+end, 'Lazygit - open')
+
+nn('<leader>o', function() require 'oil'.open_float() end, 'Oil - open')
 
 -- Stay in indent mode
-map('v', '<', '<gv')
-map('v', '>', '>gv')
+vn('<', '<gv', 'Unindent line(s)')
+vn('>', '>gv', 'Indent lines(s)')
 
 -- Telescope formatters
 local function tscope(fn)
@@ -76,28 +111,28 @@ local function tscope(fn)
 	end
 end
 
-map('n', '<leader>,', tscope 'buffers')
-map('n', '<leader>.', tscope 'find_files')
-map('n', '<leader>fr', tscope 'oldfiles')
-map('n', '<leader>fg', tscope 'live_grep')
-map('n', '<leader>fh', tscope 'help_tags')
-map('n', '<leader>gr', tscope 'lsp_references')
-map('n', '<leader>gd', tscope 'lsp_definitions')
-map('n', '<leader>gs', tscope 'lsp_document_symbols')
+nn('<leader>,', tscope 'buffers', 'Telescope - buffers')
+nn('<leader>.', tscope 'find_files', 'Telescope - project files')
+nn('<leader>fr', tscope 'oldfiles', 'Telescope - oldfiles')
+nn('<leader>fg', tscope 'live_grep', 'Telescope - grep in project')
+nn('<leader>fh', tscope 'help_tags', 'Telescope - vim help')
+nn('<leader>gr', tscope 'lsp_references', 'Telescope - current symbol references')
+nn('<leader>gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
+nn('<leader>gs', tscope 'lsp_document_symbols', 'Telescope - current file symbols')
 
 -- Nvim Tree
-map('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
+nn('<leader>e', '<Cmd>NvimTreeToggle<CR>', 'NvimTree - toggle')
 
 -- open urls under the cursor
 if vim.fn.has('mac') then
-	map('n', 'gx', '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>')
+	nn('gx', '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', 'Open URL under cursor')
 elseif vim.fn.has('unix') then
-	map('n', 'gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>')
+	nn('gx', '<Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>', 'Open URL under cursor')
 else
 	vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
 end
 
-map('n', '<leader>p', function() vim.lsp.buf.format { async = true } end)
-map('n', '<leader>rn', vim.lsp.buf.rename)
-map('n', '<leader>ca', vim.lsp.buf.code_action)
-map('n', '<leader>d', vim.diagnostic.open_float)
+nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document')
+nn('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
+nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions')
+nn('<leader>d', vim.diagnostic.open_float, 'Diagnostics - open float')

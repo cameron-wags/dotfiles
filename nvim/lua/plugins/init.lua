@@ -84,7 +84,6 @@ return {
 		'numToStr/FTerm.nvim',
 		lazy = true,
 		opts = {
-			ft = 'FTerm',
 			border = 'rounded',
 			auto_close = true,
 			dimensions = {
