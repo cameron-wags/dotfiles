@@ -83,8 +83,13 @@ return {
 			vim.g.zenbones_transparent_background = false
 			vim.g.zenbones_darken_comments = 50 -- percentage, default 38
 
+			vim.g.zenwritten_compat = true
+			vim.g.zenwritten_lightness = 'bright'
+			vim.g.zenwritten_transparent_background = false
+			vim.g.zenwritten_darken_comments = 50 -- percentage, default 38
+
 			if vim.o.background == 'light' then
-				vim.cmd.colorscheme 'zenbones'
+				vim.cmd.colorscheme 'zenwritten'
 			end
 		end
 	},
