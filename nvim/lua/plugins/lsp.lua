@@ -53,7 +53,6 @@ return {
 			lsp.setup()
 
 			lsp.ensure_installed {
-				'beautysh',
 				'eslint_d',
 				'fixjson',
 				'prettierd',
@@ -80,7 +79,7 @@ return {
 					null_ls.builtins.formatting.prettierd,
 					null_ls.builtins.formatting.eslint_d,
 					null_ls.builtins.formatting.fixjson,
-					null_ls.builtins.formatting.beautysh,
+					null_ls.builtins.formatting.shfmt,
 					null_ls.builtins.formatting.sql_formatter,
 				},
 				default_timeout = 15000,
