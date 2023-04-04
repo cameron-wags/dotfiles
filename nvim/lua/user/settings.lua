@@ -71,6 +71,18 @@ TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
 vim.o.titlestring = '%<%F - Nvim'
 
+-- sets title to the loaded session
+vim.api.nvim_create_autocmd('SessionLoadPost', {
+	pattern = '*',
+	callback = function()
+		local sessionName = vim.fs.basename(vim.v.this_session)
+		if sessionName ~= '' then
+			vim.o.titlestring = sessionName
+		end
+	end
+})
+
+
 -- highlight yanked text for 250ms using the "Visual" highlight group
 vim.api.nvim_create_autocmd('TextYankPost',
 	{
