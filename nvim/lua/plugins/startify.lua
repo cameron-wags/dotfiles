@@ -11,6 +11,8 @@ return {
 		vim.g.startify_session_persistence = 1
 		vim.g.startify_enable_special = 0
 		vim.g.startify_padding_left = 10
+		vim.g.startify_session_sort = 1
+		vim.g.startify_fortune_use_unicode = 1
 
 		vim.api.nvim_create_user_command('Sesh', function()
 			local name = string.gsub(vim.fn.getcwd(-1, -1), vim.env.HOME .. '/g/', '')
