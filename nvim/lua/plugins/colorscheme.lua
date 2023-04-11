@@ -76,7 +76,8 @@ return {
 	},
 	{
 		'mcchrish/zenbones.nvim',
-		event = 'VeryLazy', -- not the default theme
+		lazy = false,
+		priority = 1000,
 		config = function()
 			vim.g.zenbones_compat = true
 			vim.g.zenbones_lightness = 'bright'
@@ -88,9 +89,11 @@ return {
 			vim.g.zenwritten_transparent_background = false
 			vim.g.zenwritten_darken_comments = 50 -- percentage, default 38
 
-			if vim.o.background == 'light' then
-				vim.cmd.colorscheme 'zenwritten'
-			end
+			vim.schedule(function()
+				if vim.o.background == 'light' then
+					vim.cmd.colorscheme 'zenwritten'
+				end
+			end)
 		end
 	},
 }
