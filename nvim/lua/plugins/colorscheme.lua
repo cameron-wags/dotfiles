@@ -2,6 +2,7 @@ return {
 	{
 		'catppuccin/nvim',
 		lazy = false,
+		enabled = false,
 		priority = 1000,
 		name = 'catppuccin',
 		config = function()
@@ -73,6 +74,18 @@ return {
 			}
 			vim.cmd.colorscheme 'catppuccin'
 		end,
+	},
+	{
+		'folke/tokyonight.nvim',
+		lazy = false,
+		priority = 1000,
+		enabled = true,
+		config = function()
+			require 'tokyonight'.setup {
+				style = 'night',
+			}
+			vim.cmd.colo 'tokyonight'
+		end
 	},
 	{
 		'mcchrish/zenbones.nvim',

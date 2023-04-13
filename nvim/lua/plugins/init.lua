@@ -94,6 +94,52 @@ return {
 			},
 		}
 	},
+	{
+		'echasnovski/mini.statusline',
+		version = false,
+		dependencies = { 'nvim-tree/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
+		config = function()
+			require 'gitsigns'.setup()
+			local sl = require 'mini.statusline'
+			sl.setup {
+				content = {
+					active = function()
+						local mode, mode_hl = sl.section_mode({ trunc_width = 120 })
+						local git           = sl.section_git({ trunc_width = 75 })
+						local diagnostics   = sl.section_diagnostics({ trunc_width = 75 })
+						local filename      = sl.section_filename({ trunc_width = 140 })
+						local fileinfo      = sl.section_fileinfo({ trunc_width = 120 })
+						local location      = sl.section_location({ trunc_width = 9999 })
+
+						return sl.combine_groups{
+							{ hl = mode_hl,                 strings = { mode } },
+							{ hl = 'MiniStatuslineDevinfo', strings = { git } },
+							'%<', -- Mark general truncate point
+							{ hl = 'Normal', strings = { filename } },
+							'%=', -- End left alignment
+							{ hl = 'MiniStatuslineDevinfo',  strings = { diagnostics } },
+							{ hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+							{ hl = mode_hl,                  strings = { location } },
+						}
+					end,
+					inactive = function ()
+						local filename      = sl.section_filename({ trunc_width = 140 })
+						return sl.combine_groups{
+							{ hl = 'MiniStatuslineDevinfo', strings = { filename } },
+						}
+					end
+				}
+			}
+		end
+	},
+	{
+		'echasnovski/mini.tabline',
+		version = false,
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		config = function()
+			require 'mini.tabline'.setup()
+		end
+	},
 	-- {
 	-- 	'mechatroner/rainbow_csv',
 	-- },

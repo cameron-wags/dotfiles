@@ -1,7 +1,8 @@
 return {
 	'nvim-lualine/lualine.nvim',
+	enabled = false,
 	lazy = false,
-	dependencies = { 'kyazdani42/nvim-web-devicons' },
+	dependencies = { 'nvim-tree/nvim-web-devicons' },
 	opts = {
 		options = {
 			component_separators = { left = '', right = '' },
