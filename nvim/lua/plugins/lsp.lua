@@ -36,7 +36,7 @@ return {
 				setup_servers_on_start = true,
 			}
 
-			lsp.on_attach(function(_, bufnr)
+			lsp.on_attach(function(client, bufnr)
 				lsp.default_keymaps { buffer = bufnr }
 			end)
 
@@ -48,6 +48,47 @@ return {
 			}
 
 			require 'lspconfig'.lua_ls.setup(lsp.nvim_lua_ls())
+
+			-- condensed form of this:
+			-- https://github.com/younger-1/nvim/blob/one/lua/young/lsp/providers/pyright.lua
+			require 'lspconfig'.pyright.setup {
+				settings = {
+					python = {
+						analysis = {
+							useLibraryCodeForTypes = true,
+						},
+					},
+				},
+				on_new_config = function(new_config, new_root_dir)
+					local _virtual_env
+					(function(root_dir)
+						local pipenv_dir
+
+						local pipenv_match = vim.fn.glob(require 'lspconfig.util'.path.join(root_dir, 'Pipfile.lock'))
+						if pipenv_match ~= '' then
+							pipenv_dir = vim.fn.trim(vim.fn.system 'pipenv --venv')
+						end
+
+						if not vim.env.VIRTUAL_ENV or vim.env.VIRTUAL_ENV == '' then
+							_virtual_env = pipenv_dir
+						end
+
+						if _virtual_env ~= '' then
+							vim.env.VIRTUAL_ENV = _virtual_env
+							vim.env.PATH = require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH
+						end
+
+						if _virtual_env ~= '' and vim.env.PYTHONHOME then
+							vim.env.old_PYTHONHOME = vim.env.PYTHONHOME
+							vim.env.PYTHONHOME = ''
+						end
+
+						return _virtual_env ~= '' and require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH or ''
+					end)(new_root_dir)
+
+					new_config.settings.python.pythonPath = vim.fn.exepath 'python'
+				end,
+			}
 
 			lsp.setup_nvim_cmp {
 				sources = {
@@ -64,13 +105,14 @@ return {
 			require 'cmp'.setup {
 				mapping = {
 					['<CR>'] = require 'cmp'.mapping.confirm { select = true },
-				}
+				},
 			}
 
 			lsp.ensure_installed {
 				'eslint_d',
 				'fixjson',
 				'prettierd',
+				'pyright',
 				'shfmt',
 				'lua-language-server',
 				'typescript-language-server',
