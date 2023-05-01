@@ -61,6 +61,12 @@ return {
 
 			lsp.setup()
 
+			require 'cmp'.setup {
+				mapping = {
+					['<CR>'] = require 'cmp'.mapping.confirm { select = true },
+				}
+			}
+
 			lsp.ensure_installed {
 				'eslint_d',
 				'fixjson',
