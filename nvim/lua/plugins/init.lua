@@ -77,7 +77,7 @@ return {
 					}
 				}
 			}
-			telescope.load_extension('fzy_native')
+			telescope.load_extension 'fzy_native'
 		end,
 	},
 	{
@@ -104,27 +104,27 @@ return {
 			sl.setup {
 				content = {
 					active = function()
-						local mode, mode_hl = sl.section_mode({ trunc_width = 120 })
-						local git           = sl.section_git({ trunc_width = 75 })
-						local diagnostics   = sl.section_diagnostics({ trunc_width = 75 })
-						local filename      = sl.section_filename({ trunc_width = 140 })
-						local fileinfo      = sl.section_fileinfo({ trunc_width = 120 })
-						local location      = sl.section_location({ trunc_width = 9999 })
+						local mode, mode_hl = sl.section_mode { trunc_width = 120 }
+						local git           = sl.section_git { trunc_width = 75 }
+						local diagnostics   = sl.section_diagnostics { trunc_width = 75 }
+						local filename      = sl.section_filename { trunc_width = 140 }
+						local fileinfo      = sl.section_fileinfo { trunc_width = 120 }
+						local location      = sl.section_location { trunc_width = 9999 }
 
-						return sl.combine_groups{
+						return sl.combine_groups {
 							{ hl = mode_hl,                 strings = { mode } },
 							{ hl = 'MiniStatuslineDevinfo', strings = { git } },
 							'%<', -- Mark general truncate point
-							{ hl = 'Normal', strings = { filename } },
+							{ hl = 'Normal',                 strings = { filename } },
 							'%=', -- End left alignment
 							{ hl = 'MiniStatuslineDevinfo',  strings = { diagnostics } },
 							{ hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
 							{ hl = mode_hl,                  strings = { location } },
 						}
 					end,
-					inactive = function ()
-						local filename      = sl.section_filename({ trunc_width = 140 })
-						return sl.combine_groups{
+					inactive = function()
+						local filename = sl.section_filename { trunc_width = 140 }
+						return sl.combine_groups {
 							{ hl = 'MiniStatuslineDevinfo', strings = { filename } },
 						}
 					end
