@@ -5,9 +5,15 @@ return {
 		'VonHeikemen/lsp-zero.nvim',
 		event = 'VeryLazy',
 		priority = 50,
+		branch = 'v2.x',
 		dependencies = {
 			{ 'neovim/nvim-lspconfig' },
-			{ 'williamboman/mason.nvim' },
+			{
+				'williamboman/mason.nvim',
+				build = function()
+					pcall(vim.cmd, 'MasonUpdate')
+				end,
+			},
 			{ 'williamboman/mason-lspconfig.nvim' },
 
 			{ 'hrsh7th/nvim-cmp' },
@@ -22,23 +28,26 @@ return {
 		config = function()
 			local lsp = require 'lsp-zero'
 
-			lsp.set_preferences {
-				suggest_lsp_servers = false,
-				setup_servers_on_start = true,
-				set_lsp_keymaps = true,
-				configure_diagnostics = true,
-				cmp_capabilities = true,
-				manage_nvim_cmp = true,
+			lsp.preset {
 				call_servers = 'local',
-				sign_icons = {
-					error = 'E',
-					warn = 'W',
-					hint = 'H',
-					info = 'I'
-				}
+				configure_diagnostics = true,
+				manage_nvim_cmp = true,
+				set_lsp_keymaps = true,
+				setup_servers_on_start = true,
 			}
 
-			lsp.nvim_workspace()
+			lsp.on_attach(function(_, bufnr)
+				lsp.default_keymaps { buffer = bufnr }
+			end)
+
+			lsp.set_sign_icons {
+				error = 'E',
+				warn = 'W',
+				hint = 'H',
+				info = 'I',
+			}
+
+			require 'lspconfig'.lua_ls.setup(lsp.nvim_lua_ls())
 
 			lsp.setup_nvim_cmp {
 				sources = {
