@@ -83,6 +83,15 @@ return {
 		config = function()
 			require 'tokyonight'.setup {
 				style = 'night',
+				on_highlights = function(hl, c)
+					hl.WinSeparator = {
+						bg = c.terminal_black,
+						fg = c.border,
+					}
+					hl.DiagnosticUnnecessary = {
+						fg = c.fg,
+					}
+				end
 			}
 			vim.cmd.colo 'tokyonight'
 		end
