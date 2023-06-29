@@ -66,7 +66,7 @@ return {
 
 						local pipenv_match = vim.fn.glob(require 'lspconfig.util'.path.join(root_dir, 'Pipfile.lock'))
 						if pipenv_match ~= '' then
-							pipenv_dir = vim.fn.trim(vim.fn.system 'pipenv --venv')
+							pipenv_dir = vim.fn.trim(vim.fn.system 'pipenv --venv --quiet')
 						end
 
 						if not vim.env.VIRTUAL_ENV or vim.env.VIRTUAL_ENV == '' then
@@ -134,7 +134,6 @@ return {
 			null_ls.setup {
 				sources = {
 					null_ls.builtins.formatting.prettierd,
-					null_ls.builtins.formatting.eslint_d,
 					null_ls.builtins.formatting.fixjson,
 					null_ls.builtins.formatting.shfmt,
 					null_ls.builtins.formatting.sql_formatter,
