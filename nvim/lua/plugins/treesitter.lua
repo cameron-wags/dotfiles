@@ -30,6 +30,10 @@ return {
 					'vue',
 					'yaml',
 				},
+				ignore_install = {
+					'csv',
+					'tsv',
+				},
 				sync_install = false,
 				auto_install = true,
 				highlight = {
