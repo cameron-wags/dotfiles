@@ -1,5 +1,5 @@
 return {
-	'mhinz/vim-startify',
+	'cameron-wags/vim-startify',
 	lazy = false,
 	config = function()
 		vim.g.startify_lists = {
