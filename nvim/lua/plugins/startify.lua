@@ -1,6 +1,7 @@
 return {
 	'cameron-wags/vim-startify',
 	lazy = false,
+	enabled = false,
 	config = function()
 		vim.g.startify_lists = {
 			{
