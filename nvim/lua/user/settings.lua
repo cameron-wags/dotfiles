@@ -65,7 +65,7 @@ vim.g.do_filetype_lua = 1
 vim.cmd('filetype on')
 
 vim.opt.shortmess:append('c')
-vim.o.listchars = 'space: ,leadmultispace: ,tab:→ ,trail:•,nbsp:+'
+vim.o.listchars = 'space: ,leadmultispace:> ,tab:→ ,trail:•,nbsp:+'
 
 TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
