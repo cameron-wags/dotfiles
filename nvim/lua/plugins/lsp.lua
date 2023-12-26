@@ -90,6 +90,7 @@ return {
 				end,
 			}
 
+
 			lsp.setup_nvim_cmp {
 				sources = {
 					{ name = 'nvim_lsp' },
@@ -116,6 +117,9 @@ return {
 				'shfmt',
 				'lua-language-server',
 				'typescript-language-server',
+				'jedi_language_server',
+				'pyright',
+				'autopep8',
 			}
 
 			vim.diagnostic.config {
@@ -132,11 +136,13 @@ return {
 		config = function()
 			local null_ls = require 'null-ls'
 			null_ls.setup {
+				-- https://github.com/nvimtools/none-ls.nvim
 				sources = {
 					null_ls.builtins.formatting.prettierd,
 					null_ls.builtins.formatting.fixjson,
 					null_ls.builtins.formatting.shfmt,
 					null_ls.builtins.formatting.sql_formatter,
+					null_ls.builtins.formatting.autopep8,
 				},
 				default_timeout = 15000,
 				should_attach = function(bufnr)
@@ -144,7 +150,7 @@ return {
 						NvimTree = false,
 						FTerm = false,
 					}
-					local this_ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+					local this_ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
 					if ft_overrides[this_ft] then
 						return ft_overrides[this_ft]
 					end

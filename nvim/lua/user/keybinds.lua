@@ -47,6 +47,7 @@ nn('<leader>l', '<Cmd>bn<CR>', 'Buffer - goto next')
 nn('<C-h>', '<Cmd>bp<CR>', 'Buffer - goto previous')
 nn('<C-l>', '<Cmd>bn<CR>', 'Buffer - goto next')
 nn('<leader>q', '<Cmd>bp|bd!#<CR>', 'Buffer - close without saving')
+nn('<leader>w', '<Cmd>w<CR>', 'Buffer - Write')
 nn('<leader>t', '<Cmd>enew<CR>', 'Buffer - create new')
 
 -- Resize with arrows
