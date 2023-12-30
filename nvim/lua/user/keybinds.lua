@@ -29,18 +29,6 @@ xn('<C-_>', function()
 	require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
 end, 'Comment - toggle visual selection')
 
--- Disable Arrow keys in Normal mode
-nn('<up>', '')
-nn('<down>', '')
-nn('<left>', '')
-nn('<right>', '')
-
--- Disable Arrow keys in Insert mode
-ino('<up>', '')
-ino('<down>', '')
-ino('<left>', '')
-ino('<right>', '')
-
 -- Buffer cycle
 nn('<leader>h', '<Cmd>bp<CR>', 'Buffer - goto previous')
 nn('<leader>l', '<Cmd>bn<CR>', 'Buffer - goto next')
