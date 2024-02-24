@@ -40,7 +40,10 @@ return {
 			},
 			keymaps = {
 				['<leader>o'] = 'actions.close',
-			}
+			},
+			view_options = {
+				show_hidden = true,
+			},
 		},
 	},
 	{
