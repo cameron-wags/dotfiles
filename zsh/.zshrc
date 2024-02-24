@@ -197,7 +197,7 @@ add-zsh-hook precmd mzc_termsupport_precmd
 add-zsh-hook preexec mzc_termsupport_preexec
 # }}}
 
-source ~/.config/shell/aliasrc
+source ~/.config/sh/aliases
 
 maiaprompt() {
     # Normally: source /usr/share/zsh/zsh-maia-prompt
