@@ -8,10 +8,36 @@ local get_color_scheme = function(appearance)
 	end
 end
 
+local mocha = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+mocha.background = '#000000';
+mocha.ansi = {
+	'#000000',
+	'#f38ba8',
+	'#a6e3a1',
+	'#f9e2af',
+	'#89b4fa',
+	'#f5c2e7',
+	'#94e2d5',
+	'#bac2de',
+}
+mocha.brights = {
+	'#585b70',
+	'#f38ba8',
+	'#a6e3a1',
+	'#f9e2af',
+	'#89b4fa',
+	'#f5c2e7',
+	'#94e2d5',
+	'#cdd6f4',
+}
+
 return {
 	allow_square_glyphs_to_overflow_width = 'Never',
 	animation_fps = 1,
 	color_scheme = get_color_scheme(wezterm.gui.get_appearance()),
+	color_schemes = {
+		['Catppuccin Mocha'] = mocha,
+	},
 	cursor_blink_ease_in = 'Constant',
 	cursor_blink_ease_out = 'Constant',
 	cursor_blink_rate = 325,
