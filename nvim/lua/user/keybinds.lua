@@ -66,6 +66,9 @@ end, 'FTerm - toggle')
 tma('<M-;>', function()
 	if fterm_lazygit then
 		fterm_lazygit:close()
+		vim.schedule(function()
+			vim.cmd.checktime()
+		end)
 	end
 	require 'FTerm'.close()
 end, 'FTerm - toggle')
@@ -76,6 +79,9 @@ nn('<leader>s', function()
 			cmd = 'lazygit',
 			border = 'rounded',
 			auto_close = true,
+			on_exit = vim.schedule_wrap(function()
+				vim.cmd.checktime()
+			end),
 			dimensions = {
 				height = 1.0,
 				width = 1.0,
