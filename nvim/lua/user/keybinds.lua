@@ -111,8 +111,8 @@ nn('<leader>.', tscope 'find_files', 'Telescope - project files')
 nn('<leader>fr', tscope 'oldfiles', 'Telescope - oldfiles')
 nn('<leader>fg', tscope 'live_grep', 'Telescope - grep in project')
 nn('<leader>fh', tscope 'help_tags', 'Telescope - vim help')
-nn('<leader>gr', tscope 'lsp_references', 'Telescope - current symbol references')
-nn('<leader>gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
+nn('gr', tscope 'lsp_references', 'Telescope - current symbol references')
+nn('gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
 nn('<leader>gs', tscope 'lsp_document_symbols', 'Telescope - current file symbols')
 
 -- Nvim Tree
@@ -127,7 +127,25 @@ else
 	vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
 end
 
+ino('<C-k>', vim.lsp.buf.signature_help, 'Signature help')
 nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document')
 nn('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
 nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions')
 nn('<leader>d', vim.diagnostic.open_float, 'Diagnostics - open float')
+nn('<leader>D', function ()
+	require 'lsp_lines'
+	if vim.b.lsp_lines_enabled then
+		vim.b.lsp_lines_enabled = false
+		vim.diagnostic.config {
+			virtual_text = true,
+			virtual_lines = false,
+		}
+	else
+		vim.b.lsp_lines_enabled = true
+		vim.diagnostic.config {
+			virtual_text = false,
+			virtual_lines = true,
+		}
+	end
+end, 'Diagnostics - enable lsp_lines')
+

@@ -3,7 +3,7 @@
 return {
 	{
 		'VonHeikemen/lsp-zero.nvim',
-		event = 'VeryLazy',
+		event = 'InsertEnter',
 		priority = 50,
 		branch = 'v2.x',
 		dependencies = {
@@ -37,7 +37,7 @@ return {
 			}
 
 			lsp.on_attach(function(client, bufnr)
-				lsp.default_keymaps { buffer = bufnr }
+				lsp.default_keymaps { buffer = bufnr, omit = { 'gr', 'gd' } }
 			end)
 
 			lsp.set_sign_icons {
@@ -51,22 +51,33 @@ return {
 
 			-- condensed form of this:
 			-- https://github.com/younger-1/nvim/blob/one/lua/young/lsp/providers/pyright.lua
+			local root_dir_cache = {}
+			local pipenv_venv_cached = function(root_dir)
+				if root_dir_cache[root_dir] then
+					return root_dir_cache[root_dir]
+				end
+				local value = vim.fn.trim(vim.system({ 'pipenv', '--venv', '--quiet' }, { text = true }):wait().stdout)
+				root_dir_cache[root_dir] = value
+				return value
+			end
 			require 'lspconfig'.pyright.setup {
 				settings = {
 					python = {
 						analysis = {
 							useLibraryCodeForTypes = true,
+							autoImportCompletions = true,
+							autoSearchPaths = true,
 						},
 					},
 				},
-				on_new_config = function(new_config, new_root_dir)
+				on_new_config = vim.schedule_wrap(function(new_config, new_root_dir)
 					local _virtual_env
 					(function(root_dir)
 						local pipenv_dir
 
 						local pipenv_match = vim.fn.glob(require 'lspconfig.util'.path.join(root_dir, 'Pipfile.lock'))
 						if pipenv_match ~= '' then
-							pipenv_dir = vim.fn.trim(vim.fn.system 'pipenv --venv --quiet')
+							pipenv_dir = pipenv_venv_cached(root_dir)
 						end
 
 						if not vim.env.VIRTUAL_ENV or vim.env.VIRTUAL_ENV == '' then
@@ -87,7 +98,7 @@ return {
 					end)(new_root_dir)
 
 					new_config.settings.python.pythonPath = vim.fn.exepath 'python'
-				end,
+				end),
 			}
 
 
@@ -110,20 +121,19 @@ return {
 			}
 
 			lsp.ensure_installed {
-				'eslint_d',
-				'fixjson',
 				'prettierd',
+				'jsonls',
 				'pyright',
 				'shfmt',
 				'lua-language-server',
 				'typescript-language-server',
-				'jedi_language_server',
 				'pyright',
-				'autopep8',
+				'ruff',
 			}
 
 			vim.diagnostic.config {
 				virtual_text = true,
+				virtual_lines = false,
 				update_in_insert = true,
 			}
 		end,
@@ -139,12 +149,15 @@ return {
 				-- https://github.com/nvimtools/none-ls.nvim
 				sources = {
 					null_ls.builtins.formatting.prettierd,
-					null_ls.builtins.formatting.fixjson,
 					null_ls.builtins.formatting.shfmt,
 					null_ls.builtins.formatting.sql_formatter,
-					null_ls.builtins.formatting.autopep8,
 				},
+				debounce = 250,
+				update_in_insert = false,
 				default_timeout = 15000,
+				diagnostics_format = '#{m}',
+				fallback_severity = vim.diagnostic.severity.ERROR,
+				notify_format = '[null-ls] %s',
 				should_attach = function(bufnr)
 					local ft_overrides = {
 						NvimTree = false,
@@ -183,10 +196,10 @@ return {
 			cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 		end,
 	},
-	-- {
-	-- 	url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim.git',
-	-- 	event = 'VeryLazy',
-	-- 	priority = 49,
-	-- 	config = function() require 'lsp_lines'.setup() end,
-	-- },
+	{
+		url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim.git',
+		lazy = true,
+		priority = 49,
+		config = function() require 'lsp_lines'.setup() end,
+	},
 }
