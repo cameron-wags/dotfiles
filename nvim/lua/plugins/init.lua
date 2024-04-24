@@ -51,7 +51,7 @@ return {
 		lazy = false,
 		dependencies = {
 			{ 'nvim-lua/plenary.nvim',                    lazy = true },
-			{ 'nvim-telescope/telescope-fzy-native.nvim', lazy = true }
+			{ 'nvim-telescope/telescope-fzy-native.nvim', lazy = true },
 		},
 		-- cmd = 'Telescope',
 		config = function()
@@ -101,6 +101,7 @@ return {
 		'echasnovski/mini.statusline',
 		version = false,
 		dependencies = { 'nvim-tree/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
+		event = 'BufNew',
 		config = function()
 			require 'gitsigns'.setup()
 			local sl = require 'mini.statusline'
@@ -137,8 +138,10 @@ return {
 	},
 	{
 		'echasnovski/mini.tabline',
+		enabled = false,
 		version = false,
 		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		event = 'BufNew',
 		config = function()
 			require 'mini.tabline'.setup()
 		end

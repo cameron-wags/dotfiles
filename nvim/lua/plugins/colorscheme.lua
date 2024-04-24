@@ -83,7 +83,13 @@ return {
 		config = function()
 			require 'tokyonight'.setup {
 				style = 'night',
+				on_colors = function(c)
+					c.bg = '#000000'
+				end,
 				on_highlights = function(hl, c)
+					hl.Comment = {
+						fg = '#7380b7'
+					}
 					hl.WinSeparator = {
 						bg = c.terminal_black,
 						fg = c.border,

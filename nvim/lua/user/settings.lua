@@ -65,11 +65,12 @@ vim.g.do_filetype_lua = 1
 vim.cmd('filetype on')
 
 vim.opt.shortmess:append('c')
-vim.o.listchars = 'space: ,leadmultispace:> ,tab:→ ,trail:•,nbsp:+'
+vim.o.listchars = 'space: ,leadmultispace:» ,tab:→ ,trail:•,nbsp:+'
 
 TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
-vim.o.titlestring = '%<%F - Nvim'
+vim.o.titlelen = 20
+vim.o.titlestring = '%t - Nvim'
 
 -- sets title to the loaded session
 vim.api.nvim_create_autocmd('SessionLoadPost', {
@@ -82,6 +83,7 @@ vim.api.nvim_create_autocmd('SessionLoadPost', {
 	end
 })
 
+vim.api.nvim_exec2([[autocmd TermOpen * startinsert]], { output = false })
 
 -- highlight yanked text for 250ms using the "Visual" highlight group
 vim.api.nvim_create_autocmd('TextYankPost',
@@ -89,7 +91,7 @@ vim.api.nvim_create_autocmd('TextYankPost',
 		group = vim.api.nvim_create_augroup('highlight_yank', { clear = true }),
 		pattern = '*',
 		callback = function()
-			vim.highlight.on_yank { higroup = 'CurSearch', timeout = 250 }
+			vim.highlight.on_yank { higroup = 'CurSearch', timeout = 200 }
 		end,
 	})
 
@@ -98,7 +100,7 @@ vim.api.nvim_create_autocmd('TextYankPost',
 --   launchctl setenv NEOVIDE_MULTIGRID true
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_input_macos_alt_is_meta = true
-vim.g.neovide_cursor_animation_length = 0.02
+vim.g.neovide_cursor_animation_length = 0
 vim.g.neovide_scroll_animation_length = 0
 vim.g.neovide_remember_window_size = true
 vim.g.neovide_transparency = 1.0
