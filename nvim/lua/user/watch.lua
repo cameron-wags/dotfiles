@@ -1,7 +1,11 @@
 local state = {}
 
 local run_watch = function()
-	vim.api.nvim_command('!' .. state.command)
+	if state.silent then
+		vim.api.nvim_command('silent !' .. state.command)
+	else
+		vim.api.nvim_command('!' .. state.command)
+	end
 end
 
 local set_watch = function(opts)
@@ -12,11 +16,11 @@ local set_watch = function(opts)
 		state = {}
 	end
 
+	state.silent = opts.bang
 	state.command = opts.args
 	state.autocmd = vim.api.nvim_create_autocmd("BufWritePost", {
 		callback = run_watch,
 	})
-
 end
 
 local review_watch = function()
@@ -34,6 +38,6 @@ local unset_watch = function()
 	vim.api.nvim_del_autocmd(state.autocmd)
 end
 
-vim.api.nvim_create_user_command('Watch', set_watch, { nargs = '*', complete = 'shellcmd' })
+vim.api.nvim_create_user_command('Watch', set_watch, { nargs = '*', complete = 'shellcmd', bang = true })
 vim.api.nvim_create_user_command('WatchPeek', review_watch, {})
 vim.api.nvim_create_user_command('WatchStop', unset_watch, {})
