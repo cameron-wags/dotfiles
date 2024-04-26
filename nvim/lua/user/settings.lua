@@ -95,15 +95,5 @@ vim.api.nvim_create_autocmd('TextYankPost',
 		end,
 	})
 
--- Neovide on Mac:
---   launchctl setenv NEOVIDE_FRAME buttonless
---   launchctl setenv NEOVIDE_MULTIGRID true
-vim.g.neovide_hide_mouse_when_typing = true
-vim.g.neovide_input_macos_alt_is_meta = true
-vim.g.neovide_cursor_animation_length = 0
-vim.g.neovide_scroll_animation_length = 0
-vim.g.neovide_remember_window_size = true
-vim.g.neovide_transparency = 1.0
--- vim.g.neovide_fullscreen = true
 vim.g.transparency = 1.0
 vim.opt.guifont = 'JetBrainsMono Nerd Font Mono:h11.5'
