@@ -23,6 +23,14 @@ return {
 
 	{
 		'williamboman/mason.nvim',
+		cmd = {
+			'Mason',
+			'MasonInstall',
+			'MasonLog',
+			'MasonUninstall',
+			'MasonUninstallAll',
+			'MasonUpdate',
+		},
 		event = { 'BufReadPre', 'BufNewFile' },
 		priority = 50,
 		build = function()
