@@ -15,6 +15,10 @@ return {
 		},
 	},
 	{
+		'tpope/vim-fugitive',
+		cmd = { 'Git' }, -- muh workflow
+	},
+	{
 		'nmac427/guess-indent.nvim',
 		config = true,
 		event = {
@@ -96,6 +100,10 @@ return {
 				y = 0.5,
 			},
 		}
+	},
+	{
+		'lewis6991/gitsigns.nvim',
+		lazy = true,
 	},
 	{
 		'echasnovski/mini.statusline',

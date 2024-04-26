@@ -33,4 +33,3 @@ require 'lazy'.setup {
 
 require 'user.keybinds'
 require 'user.watch'
--- require 'user.splash'

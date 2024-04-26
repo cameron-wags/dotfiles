@@ -1,6 +1,7 @@
 local function mkmap(mode, noremap)
-	return function(bind, action, desc)
-		vim.keymap.set(mode, bind, action, { noremap = noremap, desc = desc })
+	return function(bind, action, desc, opts)
+		opts = opts or {}
+		vim.keymap.set(mode, bind, action, vim.tbl_deep_extend('keep', opts, { noremap = noremap, desc = desc }))
 	end
 end
 
@@ -29,11 +30,6 @@ xn('<C-_>', function()
 	require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
 end, 'Comment - toggle visual selection')
 
--- Buffer cycle
-nn('<leader>h', '<Cmd>bp<CR>', 'Buffer - goto previous')
-nn('<leader>l', '<Cmd>bn<CR>', 'Buffer - goto next')
-nn('<C-h>', '<Cmd>bp<CR>', 'Buffer - goto previous')
-nn('<C-l>', '<Cmd>bn<CR>', 'Buffer - goto next')
 nn('<leader>q', '<Cmd>bp|bd!#<CR>', 'Buffer - close without saving')
 nn('<leader>w', '<Cmd>w<CR>', 'Buffer - Write')
 nn('<leader>t', '<Cmd>enew<CR>', 'Buffer - create new')
@@ -73,25 +69,7 @@ tma('<M-;>', function()
 	require 'FTerm'.close()
 end, 'FTerm - toggle')
 
-nn('<leader>s', function()
-	if not fterm_lazygit then
-		fterm_lazygit = require 'FTerm':new {
-			cmd = 'lazygit',
-			border = 'rounded',
-			auto_close = true,
-			on_exit = vim.schedule_wrap(function()
-				vim.cmd.checktime()
-			end),
-			dimensions = {
-				height = 1.0,
-				width = 1.0,
-				x = 0.5,
-				y = 0.5,
-			},
-		}
-	end
-	fterm_lazygit:open()
-end, 'Lazygit - open')
+nn('<leader>g', '<cmd>:Git<CR>', 'Fugitive - open')
 
 nn('<leader>o', function() require 'oil'.open_float() end, 'Oil - open')
 
@@ -126,20 +104,20 @@ nn('<leader>fh', tscope 'help_tags', 'Telescope - vim help')
 -- lsp related keybinds
 nn('gr', tscope 'lsp_references', 'Telescope - current symbol references')
 nn('gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
-nn('<leader>gs', tscope 'lsp_document_symbols', 'Telescope - current file symbols')
+nn('gs', tscope 'lsp_document_symbols', 'Telescope - current file symbols')
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(event)
 		local opts = { buffer = event.buf }
 
-		nn('K', vim.lsp.buf.hover, 'LSP Hover')
-		nn('gD', vim.lsp.buf.declaration, 'Goto declaration')
-		nn('gi', vim.lsp.buf.implementation, 'Goto implementation')
-		nn('go', vim.lsp.buf.type_definition, 'Goto type definition')
-		ino('<C-k>', vim.lsp.buf.signature_help, 'Signature help')
-		nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document')
-		nn('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
-		nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions')
+		nn('K', vim.lsp.buf.hover, 'LSP Hover', opts)
+		nn('gD', vim.lsp.buf.declaration, 'Goto declaration', opts)
+		nn('gi', vim.lsp.buf.implementation, 'Goto implementation', opts)
+		nn('go', vim.lsp.buf.type_definition, 'Goto type definition', opts)
+		ino('<C-k>', vim.lsp.buf.signature_help, 'Signature help', opts)
+		nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document', opts)
+		nn('<leader>rn', vim.lsp.buf.rename, 'Rename symbol', opts)
+		nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions', opts)
 	end
 })
 
@@ -163,3 +141,33 @@ nn('<leader>D', function()
 		}
 	end
 end, 'Diagnostics - enable lsp_lines')
+
+-- git stuff
+nn(']c', function()
+	if vim.wo.diff then
+		vim.cmd.normal({ ']c', bang = true })
+	else
+		require 'gitsigns'.nav_hunk('next')
+		require 'gitsigns'.preview_hunk()
+		vim.api.nvim_feedkeys('zz', 'n', false)
+	end
+end)
+
+nn('[c', function()
+	if vim.wo.diff then
+		vim.cmd.normal({ '[c', bang = true })
+	else
+		require 'gitsigns'.nav_hunk('prev')
+		require 'gitsigns'.preview_hunk()
+		vim.api.nvim_feedkeys('zz', 'n', false)
+	end
+end)
+
+nn('<leader>s', function() require 'gitsigns'.stage_hunk() end, 'Gitsigns - Stage hunk')
+vn('<leader>s', function() require 'gitsigns'.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+	'Gitsigns - Stage range')
+nn('<leader>S', function() require 'gitsigns'.stage_buffer() end, 'Gitsigns - Stage buffer')
+nn('<leader>hu', function() require 'gitsigns'.undo_stage_hunk() end, 'Gitsigns - Undo last stage hunk')
+nn('<leader>hr', function() require 'gitsigns'.reset_hunk() end, 'Gitsigns - Reset hunk')
+vn('<leader>hr', function() require 'gitsigns'.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+	'Gitsigns - Reset range')

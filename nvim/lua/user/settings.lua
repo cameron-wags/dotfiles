@@ -20,6 +20,7 @@ local options = {
 	ignorecase = true,    -- ignore case in search patterns
 	incsearch = true,     -- preview search matches
 	list = true,          -- an innocent name for displaying whitespace characters
+	listchars = { space = ' ', leadmultispace = '» ', tab = '→ ', trail = '•', nbsp = '+' },
 	mouse = 'a',          -- allow the mouse to be used in neovim
 	number = true,        -- set numbered lines
 	numberwidth = 2,      -- set number column width to 2 {default 4}
@@ -42,9 +43,13 @@ local options = {
 	termguicolors = true, -- set term gui colors (most terminals support this)
 	textwidth = 80,
 	title = true,
-	undofile = true,    -- enable persistent undo
-	updatetime = 300,   -- faster completion (4000ms default)
+	titleold = vim.fn.expand('$TERMINAL'),
+	titlelen = 20,
+	titlestring = '%t - Nvim',
+	undofile = true, -- enable persistent undo
+	updatetime = 300, -- faster completion (4000ms default)
 	visualbell = true,
+	whichwrap = 'b,s,<,>,[,],h,l',
 	wrap = true,        -- display lines as one long line
 	writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 }
@@ -52,25 +57,17 @@ for key, value in pairs(options) do
 	vim.opt[key] = value
 end
 
---Remap space as leader key
-vim.keymap.set('', '<Space>', '<Nop>', { silent = true, noremap = true })
-vim.g.mapleader = ' '
-
-vim.opt.whichwrap = vim.opt.whichwrap + '<,>,[,],h,l'
+vim.opt.shortmess:append('c')
 
 -- treat dash separated words as a word text object
 -- vim.opt.iskeyword = vim.opt.iskeyword + '-'
 
+--Remap space as leader key
+vim.keymap.set('', '<Space>', '<Nop>', { silent = true, noremap = true })
+vim.g.mapleader = ' '
+
 vim.g.do_filetype_lua = 1
-vim.cmd('filetype on')
-
-vim.opt.shortmess:append('c')
-vim.o.listchars = 'space: ,leadmultispace:» ,tab:→ ,trail:•,nbsp:+'
-
-TERMINAL = vim.fn.expand('$TERMINAL')
-vim.cmd('let &titleold="' .. TERMINAL .. '"')
-vim.o.titlelen = 20
-vim.o.titlestring = '%t - Nvim'
+vim.cmd.filetype 'on'
 
 -- sets title to the loaded session
 vim.api.nvim_create_autocmd('SessionLoadPost', {
@@ -94,6 +91,3 @@ vim.api.nvim_create_autocmd('TextYankPost',
 			vim.highlight.on_yank { higroup = 'CurSearch', timeout = 200 }
 		end,
 	})
-
-vim.g.transparency = 1.0
-vim.opt.guifont = 'JetBrainsMono Nerd Font Mono:h11.5'
