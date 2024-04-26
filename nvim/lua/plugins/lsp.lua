@@ -197,7 +197,7 @@ return {
 		end,
 	},
 	{
-		url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim.git',
+		url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
 		lazy = true,
 		priority = 49,
 		config = function() require 'lsp_lines'.setup() end,
