@@ -1,20 +1,36 @@
--- ok so it's not just lsp, but it is shit i like to group since load order can
--- get fiddly
 return {
 	{
-		'VonHeikemen/lsp-zero.nvim',
-		event = 'InsertEnter',
-		priority = 50,
-		branch = 'v2.x',
+		'WhoIsSethDaniel/mason-tool-installer.nvim',
+		cmd = { 'MasonToolsInstall', 'MasonToolsUpdate' },
 		dependencies = {
-			{ 'neovim/nvim-lspconfig' },
-			{
-				'williamboman/mason.nvim',
-				build = function()
-					pcall(vim.cmd, 'MasonUpdate')
-				end,
+			'williamboman/mason.nvim',
+		},
+		opts = {
+			ensure_installed = {
+				'prettierd',
+				'jsonls',
+				'pyright',
+				'shfmt',
+				'lua-language-server',
+				'typescript-language-server',
+				'pyright',
+				'ruff',
 			},
-			{ 'williamboman/mason-lspconfig.nvim' },
+			auto_update = false,
+			run_on_start = false,
+		},
+	},
+
+	{
+		'williamboman/mason.nvim',
+		event = { 'BufReadPre', 'BufNewFile' },
+		priority = 50,
+		build = function()
+			pcall(vim.cmd, 'MasonUpdate')
+		end,
+		dependencies = {
+			'williamboman/mason-lspconfig.nvim',
+			'neovim/nvim-lspconfig',
 
 			{ 'hrsh7th/nvim-cmp' },
 			{ 'hrsh7th/cmp-buffer' },
@@ -26,31 +42,13 @@ return {
 			{ 'L3MON4D3/LuaSnip' },
 		},
 		config = function()
-			local lsp = require 'lsp-zero'
+			require 'mason'.setup()
+			local mason_lspconfig = require 'mason-lspconfig'
+			mason_lspconfig.setup()
 
-			lsp.preset {
-				call_servers = 'local',
-				configure_diagnostics = true,
-				manage_nvim_cmp = true,
-				set_lsp_keymaps = true,
-				setup_servers_on_start = true,
-			}
-
-			lsp.on_attach(function(client, bufnr)
-				lsp.default_keymaps { buffer = bufnr, omit = { 'gr', 'gd' } }
-			end)
-
-			lsp.set_sign_icons {
-				error = 'E',
-				warn = 'W',
-				hint = 'H',
-				info = 'I',
-			}
-
-			require 'lspconfig'.lua_ls.setup(lsp.nvim_lua_ls())
-
-			-- condensed form of this:
-			-- https://github.com/younger-1/nvim/blob/one/lua/young/lsp/providers/pyright.lua
+			-- used by pyright
+			-- this could potentially be in the python setup handler,
+			-- need to research when those are invoked.
 			local root_dir_cache = {}
 			local pipenv_venv_cached = function(root_dir)
 				if root_dir_cache[root_dir] then
@@ -60,75 +58,113 @@ return {
 				root_dir_cache[root_dir] = value
 				return value
 			end
-			require 'lspconfig'.pyright.setup {
-				settings = {
-					python = {
-						analysis = {
-							useLibraryCodeForTypes = true,
-							autoImportCompletions = true,
-							autoSearchPaths = true,
+
+			local lspconfig = require 'lspconfig'
+
+			local default_capabilities_opts = {
+				capabilities = require 'cmp_nvim_lsp'.default_capabilities()
+			}
+			local mix_capabilities = function(opts)
+				return vim.tbl_deep_extend('keep', opts, default_capabilities_opts)
+			end
+			mason_lspconfig.setup_handlers {
+				function(server_name)
+					lspconfig[server_name].setup(mix_capabilities {})
+				end,
+
+				lua_ls = function()
+					local runtime_path = vim.split(package.path, ';')
+					table.insert(runtime_path, 'lua/?.lua')
+					table.insert(runtime_path, 'lua/?/init.lua')
+
+					lspconfig.lua_ls.setup(mix_capabilities {
+						settings = {
+							Lua = {
+								telemetry = { enable = false },
+								runtime = {
+									version = 'LuaJIT',
+									path = runtime_path,
+								},
+								diagnostics = {
+									globals = { 'vim' }
+								},
+								workspace = {
+									checkThirdParty = false,
+									library = {
+										vim.fn.expand('$VIMRUNTIME/lua'),
+										vim.fn.stdpath('config') .. '/lua'
+									}
+								}
+							}
+						}
+					})
+				end,
+
+				pyright = function()
+					-- condensed form of this:
+					-- https://github.com/younger-1/nvim/blob/one/lua/young/lsp/providers/pyright.lua
+					require 'lspconfig'.pyright.setup(mix_capabilities {
+						settings = {
+							python = {
+								analysis = {
+									useLibraryCodeForTypes = true,
+									autoImportCompletions = true,
+									autoSearchPaths = true,
+								},
+							},
 						},
-					},
-				},
-				on_new_config = vim.schedule_wrap(function(new_config, new_root_dir)
-					local _virtual_env
-					(function(root_dir)
-						local pipenv_dir
+						on_new_config = vim.schedule_wrap(function(new_config, new_root_dir)
+							local _virtual_env
+							(function(root_dir)
+								local pipenv_dir
 
-						local pipenv_match = vim.fn.glob(require 'lspconfig.util'.path.join(root_dir, 'Pipfile.lock'))
-						if pipenv_match ~= '' then
-							pipenv_dir = pipenv_venv_cached(root_dir)
-						end
+								local pipenv_match = vim.fn.glob(require 'lspconfig.util'.path.join(root_dir, 'Pipfile.lock'))
+								if pipenv_match ~= '' then
+									pipenv_dir = pipenv_venv_cached(root_dir)
+								end
 
-						if not vim.env.VIRTUAL_ENV or vim.env.VIRTUAL_ENV == '' then
-							_virtual_env = pipenv_dir
-						end
+								if not vim.env.VIRTUAL_ENV or vim.env.VIRTUAL_ENV == '' then
+									_virtual_env = pipenv_dir
+								end
 
-						if _virtual_env ~= '' then
-							vim.env.VIRTUAL_ENV = _virtual_env
-							vim.env.PATH = require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH
-						end
+								if _virtual_env ~= '' then
+									vim.env.VIRTUAL_ENV = _virtual_env
+									vim.env.PATH = require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH
+								end
 
-						if _virtual_env ~= '' and vim.env.PYTHONHOME then
-							vim.env.old_PYTHONHOME = vim.env.PYTHONHOME
-							vim.env.PYTHONHOME = ''
-						end
+								if _virtual_env ~= '' and vim.env.PYTHONHOME then
+									vim.env.old_PYTHONHOME = vim.env.PYTHONHOME
+									vim.env.PYTHONHOME = ''
+								end
 
-						return _virtual_env ~= '' and require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH or ''
-					end)(new_root_dir)
+								return _virtual_env ~= '' and require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH or
+										''
+							end)(new_root_dir)
 
-					new_config.settings.python.pythonPath = vim.fn.exepath 'python'
-				end),
+							new_config.settings.python.pythonPath = vim.fn.exepath 'python'
+						end),
+					})
+				end,
 			}
 
-
-			lsp.setup_nvim_cmp {
+			local cmp = require 'cmp'
+			cmp.setup {
 				sources = {
 					{ name = 'nvim_lsp' },
 					{ name = 'nvim_lua' },
 					{ name = 'path' },
 					{ name = 'luasnip' },
 					{ name = 'buffer',  keyword_length = 4 },
-				}
-			}
-
-			lsp.setup()
-
-			require 'cmp'.setup {
-				mapping = {
-					['<CR>'] = require 'cmp'.mapping.confirm { select = true },
 				},
-			}
-
-			lsp.ensure_installed {
-				'prettierd',
-				'jsonls',
-				'pyright',
-				'shfmt',
-				'lua-language-server',
-				'typescript-language-server',
-				'pyright',
-				'ruff',
+				mapping = cmp.mapping.preset.insert {
+					['<CR>'] = cmp.mapping.confirm { select = true },
+					['<Tab>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+				},
+				snippet = {
+					expand = function(args)
+						require 'luasnip'.lsp_expand(args.body)
+					end
+				}
 			}
 
 			vim.diagnostic.config {
@@ -138,6 +174,7 @@ return {
 			}
 		end,
 	},
+
 	{
 		'nvimtools/none-ls.nvim',
 		dependencies = { 'nvim-lua/plenary.nvim' },
@@ -172,6 +209,7 @@ return {
 			}
 		end,
 	},
+
 	{
 		'windwp/nvim-autopairs',
 		event = 'InsertEnter',
@@ -196,10 +234,12 @@ return {
 			cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 		end,
 	},
+
 	{
 		url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
 		lazy = true,
 		priority = 49,
 		config = function() require 'lsp_lines'.setup() end,
 	},
+
 }

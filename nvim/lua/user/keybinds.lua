@@ -106,18 +106,6 @@ local function tscope(fn)
 	end
 end
 
-nn('<leader>,', tscope 'buffers', 'Telescope - buffers')
-nn('<leader>.', tscope 'find_files', 'Telescope - project files')
-nn('<leader>fr', tscope 'oldfiles', 'Telescope - oldfiles')
-nn('<leader>fg', tscope 'live_grep', 'Telescope - grep in project')
-nn('<leader>fh', tscope 'help_tags', 'Telescope - vim help')
-nn('gr', tscope 'lsp_references', 'Telescope - current symbol references')
-nn('gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
-nn('<leader>gs', tscope 'lsp_document_symbols', 'Telescope - current file symbols')
-
--- Nvim Tree
-nn('<leader>e', '<Cmd>NvimTreeToggle<CR>', 'NvimTree - toggle')
-
 -- open urls under the cursor
 if vim.fn.has('mac') then
 	nn('gx', '<Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>', 'Open URL under cursor')
@@ -127,12 +115,39 @@ else
 	vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
 end
 
-ino('<C-k>', vim.lsp.buf.signature_help, 'Signature help')
-nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document')
-nn('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
-nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions')
+nn('<leader>e', '<Cmd>NvimTreeToggle<CR>', 'NvimTree - toggle')
+
+nn('<leader>,', tscope 'buffers', 'Telescope - buffers')
+nn('<leader>.', tscope 'find_files', 'Telescope - project files')
+nn('<leader>fr', tscope 'oldfiles', 'Telescope - oldfiles')
+nn('<leader>fg', tscope 'live_grep', 'Telescope - grep in project')
+nn('<leader>fh', tscope 'help_tags', 'Telescope - vim help')
+
+-- lsp related keybinds
+nn('gr', tscope 'lsp_references', 'Telescope - current symbol references')
+nn('gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
+nn('<leader>gs', tscope 'lsp_document_symbols', 'Telescope - current file symbols')
+
+vim.api.nvim_create_autocmd('LspAttach', {
+	callback = function(event)
+		local opts = { buffer = event.buf }
+
+		nn('K', vim.lsp.buf.hover, 'LSP Hover')
+		nn('gD', vim.lsp.buf.declaration, 'Goto declaration')
+		nn('gi', vim.lsp.buf.implementation, 'Goto implementation')
+		nn('go', vim.lsp.buf.type_definition, 'Goto type definition')
+		ino('<C-k>', vim.lsp.buf.signature_help, 'Signature help')
+		nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document')
+		nn('<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
+		nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions')
+	end
+})
+
+nn('[d', vim.diagnostic.goto_prev, 'Diagnostic - goto previous')
+nn(']d', vim.diagnostic.goto_next, 'Diagnostic - goto next')
 nn('<leader>d', vim.diagnostic.open_float, 'Diagnostics - open float')
-nn('<leader>D', function ()
+
+nn('<leader>D', function()
 	require 'lsp_lines'
 	if vim.b.lsp_lines_enabled then
 		vim.b.lsp_lines_enabled = false
@@ -148,4 +163,3 @@ nn('<leader>D', function ()
 		}
 	end
 end, 'Diagnostics - enable lsp_lines')
-
