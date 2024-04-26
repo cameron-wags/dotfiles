@@ -161,6 +161,11 @@ nn('[c', function()
 	end
 end)
 
+nn('<leader>hl', function()
+		require'gitsigns'.refresh()
+		require 'gitsigns'.setqflist('all', { use_location_list = true })
+	end,
+	'Gitsigns - Location list hunks')
 nn('<leader>s', function() require 'gitsigns'.stage_hunk() end, 'Gitsigns - Stage hunk')
 vn('<leader>s', function() require 'gitsigns'.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
 	'Gitsigns - Stage range')
