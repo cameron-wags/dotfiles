@@ -147,8 +147,7 @@ nn(']c', function()
 	if vim.wo.diff then
 		vim.cmd.normal({ ']c', bang = true })
 	else
-		require 'gitsigns'.nav_hunk('next')
-		require 'gitsigns'.preview_hunk()
+		require 'gitsigns'.nav_hunk('next', { preview = true, })
 		vim.api.nvim_feedkeys('zz', 'n', false)
 	end
 end)
@@ -157,8 +156,7 @@ nn('[c', function()
 	if vim.wo.diff then
 		vim.cmd.normal({ '[c', bang = true })
 	else
-		require 'gitsigns'.nav_hunk('prev')
-		require 'gitsigns'.preview_hunk()
+		require 'gitsigns'.nav_hunk('prev', { preview = true, })
 		vim.api.nvim_feedkeys('zz', 'n', false)
 	end
 end)
