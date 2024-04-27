@@ -93,6 +93,16 @@ else
 	vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
 end
 
+local function close_floats()
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if vim.api.nvim_win_get_config(win).relative == "win" then
+			vim.api.nvim_win_close(win, false)
+		end
+	end
+end
+-- keep an eye on this one
+nn('<Esc>', close_floats, 'Close floats', { noremap = nil })
+
 nn('<leader>e', '<Cmd>NvimTreeToggle<CR>', 'NvimTree - toggle')
 
 nn('<leader>,', tscope 'buffers', 'Telescope - buffers')
@@ -162,11 +172,14 @@ nn('[c', function()
 end)
 
 nn('<leader>hl', function()
-		require'gitsigns'.refresh()
+		require 'gitsigns'.refresh()
 		require 'gitsigns'.setqflist('all', { use_location_list = true })
 	end,
 	'Gitsigns - Location list hunks')
-nn('<leader>s', function() require 'gitsigns'.stage_hunk() end, 'Gitsigns - Stage hunk')
+nn('<leader>s', function()
+	require 'gitsigns'.stage_hunk()
+	close_floats()
+end, 'Gitsigns - Stage hunk')
 vn('<leader>s', function() require 'gitsigns'.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
 	'Gitsigns - Stage range')
 nn('<leader>S', function() require 'gitsigns'.stage_buffer() end, 'Gitsigns - Stage buffer')
