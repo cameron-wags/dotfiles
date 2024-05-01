@@ -1,12 +1,14 @@
 local function mkmap(mode, noremap)
 	return function(bind, action, desc, opts)
 		opts = opts or {}
-		vim.keymap.set(mode, bind, action, vim.tbl_deep_extend('keep', opts, { noremap = noremap, desc = desc }))
+		vim.keymap.set(mode, bind, action,
+			vim.tbl_deep_extend('keep', opts, { remap = not noremap, desc = desc }))
 	end
 end
 
 local nn = mkmap('n', true)
-local xn = mkmap('x', true)
+local nm = mkmap('n', false)
+local xm = mkmap('x', false)
 local vn = mkmap('v', true)
 local ino = mkmap('i', true)
 local tma = mkmap('t', false)
@@ -14,21 +16,10 @@ local tma = mkmap('t', false)
 --Clear hlsearch with return
 nn('<leader><CR>', '<Cmd>noh<CR>', 'Clear search highlights')
 
-local esc = vim.api.nvim_replace_termcodes(
-	'<ESC>', true, false, true
-)
-nn('<C-/>', function() require 'Comment.api'.toggle.linewise.current() end, 'Comment - toggle current line')
-xn('<C-/>',
-	function()
-		vim.api.nvim_feedkeys(esc, 'nx', false)
-		require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
-	end, 'Comment - toggle visual selection')
--- C-/ sends this on some platforms
-nn('<C-_>', function() require 'Comment.api'.toggle.linewise.current() end, 'Comment - toggle current line')
-xn('<C-_>', function()
-	vim.api.nvim_feedkeys(esc, 'nx', false)
-	require 'Comment.api'.toggle.linewise(vim.fn.visualmode())
-end, 'Comment - toggle visual selection')
+nm('<C-/>', 'gcc', 'Comment - toggle current line')
+nm('<C-_>', 'gcc', 'Comment - toggle current line')
+xm('<C-/>', 'gc', 'Comment - toggle selected lines')
+xm('<C-_>', 'gc', 'Comment - toggle selected lines')
 
 nn('<leader>q', '<Cmd>bp|bd!#<CR>', 'Buffer - close without saving')
 nn('<leader>w', '<Cmd>w<CR>', 'Buffer - Write')
