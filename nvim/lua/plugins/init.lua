@@ -16,7 +16,8 @@ return {
 	},
 	{
 		'tpope/vim-fugitive',
-		cmd = { 'Git' }, -- muh workflow
+		lazy = true,
+		cmd = { 'G', 'Git' },
 	},
 	{
 		'nmac427/guess-indent.nvim',
@@ -108,7 +109,9 @@ return {
 	{
 		'echasnovski/mini.statusline',
 		version = false,
-		dependencies = { 'nvim-tree/nvim-web-devicons', 'lewis6991/gitsigns.nvim' },
+		dependencies = {
+			'nvim-tree/nvim-web-devicons',
+		},
 		event = 'BufNew',
 		config = function()
 			require 'gitsigns'.setup()
