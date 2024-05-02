@@ -6,23 +6,18 @@ local function mkmap(mode, noremap)
 	end
 end
 
+local make_require_invoke_shortcut = function(module)
+	return function(fn)
+		return function() require(module)[fn]() end
+	end
+end
+
 local nn = mkmap('n', true)
 local nm = mkmap('n', false)
 local xm = mkmap('x', false)
 local vn = mkmap('v', true)
 local ino = mkmap('i', true)
 local tma = mkmap('t', false)
-
-local function make_lazy_require_module(mod)
-	return setmetatable({}, {
-		__index = function(_, k)
-			return function(...)
-				local theargs = { ... }
-				return function() require(mod)[k](unpack(theargs)) end
-			end
-		end
-	})
-end
 
 nn('<leader><CR>', '<Cmd>noh<CR>', 'Clear search highlights')
 
@@ -86,16 +81,18 @@ local function close_floats()
 end
 nn('<Esc>', close_floats, 'Close floats', { noremap = nil })
 
-local tscope = make_lazy_require_module 'telescope.builtin'
-nn('<leader>,', tscope.buffers(), 'Telescope - buffers')
-nn('<leader>.', tscope.find_files(), 'Telescope - project files')
-nn('<leader>fr', tscope.oldfiles(), 'Telescope - oldfiles')
-nn('<leader>fg', tscope.live_grep(), 'Telescope - grep in project')
-nn('<leader>fh', tscope.help_tags(), 'Telescope - vim help')
+local tscope = make_require_invoke_shortcut 'telescope.builtin'
+nn('<leader>,', tscope 'buffers', 'Telescope - buffers')
+nn('<leader>.', function()
+	require 'telescope.builtin'.find_files { cwd = vim.fn.getcwd() }
+end, 'Telescope - project files')
+nn('<leader>fr', tscope 'oldfiles', 'Telescope - oldfiles')
+nn('<leader>fg', tscope 'live_grep', 'Telescope - grep in project')
+nn('<leader>fh', tscope 'help_tags', 'Telescope - vim help')
 
-nn('gr', tscope.lsp_references(), 'Telescope - current symbol references')
-nn('gd', tscope.lsp_definitions(), 'Telescope - current symbol definitions')
-nn('gs', tscope.lsp_document_symbols(), 'Telescope - current file symbols')
+nn('gr', tscope 'lsp_references', 'Telescope - current symbol references')
+nn('gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
+nn('gs', tscope 'lsp_document_symbols', 'Telescope - current file symbols')
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(event)
@@ -133,12 +130,11 @@ nn('<leader>D', function()
 	end
 end, 'Diagnostics - enable lsp_lines')
 
-local gitsigns = make_lazy_require_module 'gitsigns'
 nn(']c', function()
 	if vim.wo.diff then
 		vim.cmd.normal({ ']c', bang = true })
 	else
-		gitsigns.nav_hunk('next', { preview = true })()
+		require 'gitsigns'.nav_hunk('next', { preview = true })
 		vim.cmd.normal({ 'zz', bang = true })
 	end
 end, 'Git - Goto next hunk')
@@ -147,24 +143,25 @@ nn('[c', function()
 	if vim.wo.diff then
 		vim.cmd.normal({ '[c', bang = true })
 	else
-		gitsigns.nav_hunk('prev', { preview = true, })()
+		require 'gitsigns'.nav_hunk('prev', { preview = true, })
 		vim.cmd.normal({ 'zz', bang = true })
 	end
 end, 'Git - Goto previous hunk')
 
+local gsigns = make_require_invoke_shortcut 'gitsigns'
 nn('<leader>hl', function()
-		gitsigns.refresh()()
-		gitsigns.setqflist('all', { use_location_list = true })()
+		require 'gitsigns'.refresh()
+		require 'gitsigns'.setqflist('all', { use_location_list = true })
 	end,
 	'Gitsigns - Location list hunks')
 nn('<leader>s', function()
-	gitsigns.stage_hunk()()
+	require 'gitsigns'.stage_hunk()
 	close_floats()
 end, 'Gitsigns - Stage hunk')
-vn('<leader>s', gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') },
+vn('<leader>s', function() require 'gitsigns'.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
 	'Gitsigns - Stage range')
-nn('<leader>S', gitsigns.stage_buffer(), 'Gitsigns - Stage buffer')
-nn('<leader>hu', gitsigns.undo_stage_hunk(), 'Gitsigns - Undo last stage hunk')
-nn('<leader>hr', gitsigns.reset_hunk(), 'Gitsigns - Reset hunk')
-vn('<leader>hr', gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') },
+nn('<leader>S', gsigns 'stage_buffer', 'Gitsigns - Stage buffer')
+nn('<leader>hu', gsigns 'undo_stage_hunk', 'Gitsigns - Undo last stage hunk')
+nn('<leader>hr', gsigns 'reset_hunk', 'Gitsigns - Reset hunk')
+vn('<leader>hr', function() require 'gitsigns'.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
 	'Gitsigns - Reset range')
