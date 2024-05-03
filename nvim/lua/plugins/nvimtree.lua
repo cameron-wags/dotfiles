@@ -1,53 +1,44 @@
-local function on_attach(bufnr)
-	local api = require('nvim-tree.api')
-
-	local function opts(desc)
-		return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-	end
-
-	vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
-	vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
-	vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
-	vim.keymap.set('n', 'e', function()
-		api.node.open.edit()
-		api.tree.focus()
-	end, opts('open_keep_focus'))
-
-	vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
-	vim.keymap.set('n', 'v', api.node.open.vertical, opts('Open: Vertical Split'))
-end
-
 return {
 	'nvim-tree/nvim-tree.lua',
 	lazy = true,
 	dependencies = { 'nvim-tree/nvim-web-devicons' },
 	cmd = { 'NvimTreeToggle', 'NvimTreeOpen' },
 	opts = {
-		on_attach = on_attach,
+		on_attach = function(bufnr)
+			local function opts(desc)
+				return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+			end
+
+			local api = require 'nvim-tree.api'
+			vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
+			vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+			vim.keymap.set('n', 'e', function()
+				api.node.open.edit()
+				api.tree.focus()
+			end, opts('open_keep_focus'))
+			vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
+		end,
 		sync_root_with_cwd = true,
 		view = {
-			adaptive_size = true,
 			side = 'right',
 		},
 		update_focused_file = {
 			enable = true,
-			update_cwd = true,
+			update_root = {
+				enable = true,
+			}
 		},
 		filters = {
-			git_ignored = false,
+			enable = false,
 		},
 		actions = {
 			open_file = {
 				quit_on_open = true,
 				resize_window = true,
 			},
-			remove_file = {
-				close_window = true,
-			},
 		},
-		trash = {
-			cmd = 'trash',
-			require_confirm = true,
-		},
+		git = {
+			enable = false,
+		}
 	}
 }
