@@ -1,13 +1,5 @@
 return {
 	{
-		'notjedi/nvim-rooter.lua',
-		config = true,
-		event = {
-			'BufEnter',
-			'BufRead',
-		},
-	},
-	{
 		'tpope/vim-surround',
 		event = {
 			'BufRead',
@@ -147,19 +139,6 @@ return {
 			}
 		end
 	},
-	{
-		'echasnovski/mini.tabline',
-		enabled = false,
-		version = false,
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		event = 'BufNew',
-		config = function()
-			require 'mini.tabline'.setup()
-		end
-	},
-	-- {
-	-- 	'mechatroner/rainbow_csv',
-	-- },
 	{
 		'cameron-wags/rainbow_csv.nvim',
 		config = true,
