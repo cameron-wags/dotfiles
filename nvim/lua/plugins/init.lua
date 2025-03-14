@@ -238,4 +238,12 @@ return {
 			'RainbowMultiDelim',
 		},
 	},
+	{
+		'cameron-wags/term.nvim',
+		config = true,
+		lazy = true,
+		cmd = {
+			'Term',
+		}
+	},
 }
