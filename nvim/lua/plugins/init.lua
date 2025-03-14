@@ -81,20 +81,6 @@ return {
 		end,
 	},
 	{
-		'numToStr/FTerm.nvim',
-		lazy = true,
-		opts = {
-			border = 'rounded',
-			auto_close = true,
-			dimensions = {
-				height = 1.0,
-				width = 1.0,
-				x = 0.5,
-				y = 0.5,
-			},
-		}
-	},
-	{
 		'lewis6991/gitsigns.nvim',
 		lazy = true,
 	},
