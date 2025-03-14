@@ -15,6 +15,7 @@ return {
 					'dockerfile',
 					'go',
 					'html',
+					'http',
 					'java',
 					'javascript',
 					'jsdoc',

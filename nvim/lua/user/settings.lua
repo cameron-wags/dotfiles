@@ -69,6 +69,13 @@ vim.g.mapleader = ' '
 vim.g.do_filetype_lua = 1
 vim.cmd.filetype 'on'
 
+vim.filetype.add {
+	pattern = {
+		['*.rest'] = 'http',
+		['*.http'] = 'http',
+	},
+}
+
 -- sets title to the loaded session
 vim.api.nvim_create_autocmd('SessionLoadPost', {
 	pattern = '*',

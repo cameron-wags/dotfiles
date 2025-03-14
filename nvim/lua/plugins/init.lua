@@ -1,5 +1,13 @@
 return {
 	{
+		'notjedi/nvim-rooter.lua',
+		config = true,
+		event = {
+			'BufEnter',
+			'BufRead',
+		},
+	},
+	{
 		'tpope/vim-surround',
 		event = {
 			'BufRead',
@@ -37,6 +45,7 @@ return {
 			},
 			keymaps = {
 				['<leader>o'] = 'actions.close',
+				['<Esc>'] = { 'actions.close', mode = 'n' },
 			},
 			view_options = {
 				show_hidden = true,
@@ -44,11 +53,48 @@ return {
 		},
 	},
 	{
+		'folke/todo-comments.nvim',
+		lazy = false,
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		opts = {
+			-- signs = true,  -- show icons in the signs column
+			keywords = {
+				FIX = {
+					icon = " ", -- icon used for the sign, and in search results
+					color = "error", -- can be a hex color, or a named color (see below)
+					alt = { "FIXME", "fixme" }, -- a set of other keywords that all map to this FIX keywords
+					-- signs = false, -- configure signs for some keywords individually
+				},
+				TODO = { icon = " ", color = "info", alt = { 'todo' } },
+			},
+			merge_keywords = false,
+			highlight = {
+				pattern = [[.*<(KEYWORDS)\s*:?]], -- pattern or table of patterns, used for highlighting (vim regex)
+				keyword = "bg",               -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+				exclude = {},                 -- list of file types to exclude highlighting
+			},
+			search = {
+				command = "rg",
+				args = {
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+				},
+				-- regex that will be used to match keywords.
+				-- don't replace the (KEYWORDS) placeholder
+				-- pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+				pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
+			},
+		},
+	},
+	{
 		'nvim-telescope/telescope.nvim',
 		lazy = false,
 		dependencies = {
-			{ 'nvim-lua/plenary.nvim',                    lazy = true },
-			{ 'nvim-telescope/telescope-fzy-native.nvim', lazy = true },
+			{ 'nvim-lua/plenary.nvim', lazy = true },
+			-- { 'nvim-telescope/telescope-fzy-native.nvim', lazy = true },
 		},
 		-- cmd = 'Telescope',
 		config = function()
@@ -70,19 +116,27 @@ return {
 						},
 					},
 				},
-				extensions = {
-					fzy_native = {
-						override_generic_sorter = true,
-						override_file_sorter = true,
-					}
-				}
+				-- extensions = {
+				-- 	fzy_native = {
+				-- 		override_generic_sorter = true,
+				-- 		override_file_sorter = true,
+				-- 	}
+				-- }
 			}
-			telescope.load_extension 'fzy_native'
+			-- telescope.load_extension 'fzy_native'
 		end,
 	},
 	{
 		'lewis6991/gitsigns.nvim',
 		lazy = true,
+		opts = {
+			signs_staged = {
+				add = { text = '╏' },
+				change = { text = '╏' },
+				delete = { text = '╍' },
+				topdelete = { text = '╍' },
+			},
+		},
 	},
 	{
 		'echasnovski/mini.statusline',
@@ -90,10 +144,50 @@ return {
 		dependencies = {
 			'nvim-tree/nvim-web-devicons',
 		},
-		event = 'BufNew',
+		event = 'VeryLazy',
 		config = function()
 			require 'gitsigns'.setup()
 			local sl = require 'mini.statusline'
+
+			local function get_filesize()
+				local size = vim.fn.getfsize(vim.fn.getreg('%'))
+				if size < 1024 then
+					return string.format('%dB', size)
+				elseif size < 1048576 then
+					return string.format('%.2fKiB', size / 1024)
+				else
+					return string.format('%.2fMiB', size / 1048576)
+				end
+			end
+
+			local function get_icon()
+				return (require 'nvim-web-devicons'.get_icon(vim.fn.expand('%:t'), nil, { default = true }))
+			end
+
+			local function custom_fileinfo(args)
+				local filetype = vim.bo.filetype
+
+				-- Don't show anything if there is no filetype
+				if filetype == '' then return '' end
+
+				-- Add filetype icon
+				filetype = get_icon() .. ' ' .. filetype
+
+				-- Construct output string if truncated or buffer is not normal
+				if MiniStatusline.is_truncated(args.trunc_width) or vim.bo.buftype ~= '' then return filetype end
+
+				-- Construct output string with extra file info
+				local encoding = vim.bo.fileencoding or vim.bo.encoding
+				local format = vim.bo.fileformat
+				local size = get_filesize()
+
+				if encoding == 'utf-8' and format == 'unix' then
+					return string.format('%s %s', filetype, size)
+				else
+					return string.format('%s %s[%s] %s', filetype, encoding, format, size)
+				end
+			end
+
 			sl.setup {
 				content = {
 					active = function()
@@ -101,7 +195,7 @@ return {
 						local git           = sl.section_git { trunc_width = 75 }
 						local diagnostics   = sl.section_diagnostics { trunc_width = 75 }
 						local filename      = sl.section_filename { trunc_width = 140 }
-						local fileinfo      = sl.section_fileinfo { trunc_width = 120 }
+						local fileinfo      = custom_fileinfo { trunc_width = 120 }
 						local location      = sl.section_location { trunc_width = 9999 }
 
 						return sl.combine_groups {

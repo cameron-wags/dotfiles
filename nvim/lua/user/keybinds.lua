@@ -6,18 +6,12 @@ local function mkmap(mode, noremap)
 	end
 end
 
-local make_require_invoke_shortcut = function(module)
-	return function(fn)
-		return function() require(module)[fn]() end
-	end
-end
-
 local nn = mkmap('n', true)
 local nm = mkmap('n', false)
 local xm = mkmap('x', false)
 local vn = mkmap('v', true)
 local ino = mkmap('i', true)
-local tma = mkmap('t', false)
+local tno = mkmap('t', true)
 
 nn('<leader><CR>', '<Cmd>noh<CR>', 'Clear search highlights')
 
@@ -26,9 +20,12 @@ nm('<C-_>', 'gcc', 'Comment - toggle current line')
 xm('<C-/>', 'gc', 'Comment - toggle selected lines')
 xm('<C-_>', 'gc', 'Comment - toggle selected lines')
 
-nn('<leader>q', '<Cmd>bp|bd!#<CR>', 'Buffer - close without saving')
-nn('<leader>w', '<Cmd>w<CR>', 'Buffer - Write')
+nn('<leader>q', '<Cmd>bp|bd!#<CR>', 'Buffer - close without saving') -- todo make this ctrl-o after closing the buffer
 nn('<leader>t', '<Cmd>enew<CR>', 'Buffer - create new')
+nn('<leader>w', function()
+	pcall(vim.lsp.buf.format)
+	vim.schedule(function() vim.cmd.w() end)
+end, 'Buffer - Format and Write')
 
 nn('<M-Up>', '<Cmd>resize +2<CR>', 'Split - make taller')
 nn('<M-Down>', '<Cmd>resize -2<CR>', 'Split - make shorter')
@@ -39,23 +36,24 @@ nn('<M-h>', '<Cmd>winc h<CR>', 'Window - navigate left')
 nn('<M-j>', '<Cmd>winc j<CR>', 'Window - navigate down')
 nn('<M-k>', '<Cmd>winc k<CR>', 'Window - navigate up')
 nn('<M-l>', '<Cmd>winc l<CR>', 'Window - navigate right')
+nn('<leader>h', '<Cmd>winc h<CR>', 'Window - navigate left')
+nn('<leader>j', '<Cmd>winc j<CR>', 'Window - navigate down')
+nn('<leader>k', '<Cmd>winc k<CR>', 'Window - navigate up')
+nn('<leader>l', '<Cmd>winc l<CR>', 'Window - navigate right')
 
 vn('J', ":m '>+1<CR>gv=gv", 'Move visual selection down')
 vn('K', ":m '<-2<CR>gv=gv", 'Move visual selection up')
 vn('<', '<gv', 'Unindent visual selection')
 vn('>', '>gv', 'Indent visual selection')
 
-nn('<M-;>', function()
-	require 'FTerm'.open()
-end, 'FTerm - open')
-tma('<M-;>', function()
-	require 'FTerm'.close()
-	vim.schedule(function()
-		vim.cmd.checktime()
-	end)
-end, 'FTerm - close')
+nn('<leader>;', function()
+	vim.cmd 'Term'
+end, 'Terminal - open')
+tno(';;', function()
+	vim.cmd 'TermClose'
+end, 'Terminal - close')
 
-nn('<leader>g', '<cmd>:Git<CR>', 'Fugitive - open')
+nn('<leader>g', '<cmd>:tab Git<CR>', 'Fugitive - open')
 nn('<leader>o', function() require 'oil'.open_float() end, 'Oil - open')
 nn('<leader>e', '<Cmd>NvimTreeToggle<CR>', 'NvimTree - toggle')
 
@@ -67,9 +65,11 @@ nn('gx', function()
 	elseif vim.fn.has('unix') then
 		vim.system({ 'xdg-open', url }, { detach = true })
 	else
-		vim.api.nvim_notify("It's time to set up open again", vim.log.levels.WARN, {})
+		vim.notify("It's time to set up open again", vim.log.levels.WARN)
 	end
 end, 'Open URL under cursor')
+
+nn('<leader>ft', '<Cmd>TodoTelescope<CR>', 'Telescope - Project TODOs')
 
 -- keep an eye on this one
 local function close_floats()
@@ -81,7 +81,11 @@ local function close_floats()
 end
 nn('<Esc>', close_floats, 'Close floats', { noremap = nil })
 
-local tscope = make_require_invoke_shortcut 'telescope.builtin'
+local function tscope(fn)
+	return function()
+		require 'telescope.builtin'[fn]()
+	end
+end
 nn('<leader>,', tscope 'buffers', 'Telescope - buffers')
 nn('<leader>.', function()
 	require 'telescope.builtin'.find_files { cwd = vim.fn.getcwd() }
@@ -109,8 +113,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end
 })
 
-nn('[d', vim.diagnostic.goto_prev, 'Diagnostic - goto previous')
-nn(']d', vim.diagnostic.goto_next, 'Diagnostic - goto next')
+nn('[d', function() vim.diagnostic.jump { count = -1, float = true } end, 'Diagnostic - goto previous')
+nn(']d', function() vim.diagnostic.jump { count = 1, float = true } end, 'Diagnostic - goto next')
 nn('<leader>d', vim.diagnostic.open_float, 'Diagnostics - open float')
 
 nn('<leader>D', function()
@@ -148,7 +152,6 @@ nn('[c', function()
 	end
 end, 'Git - Goto previous hunk')
 
-local gsigns = make_require_invoke_shortcut 'gitsigns'
 nn('<leader>hl', function()
 		require 'gitsigns'.refresh()
 		require 'gitsigns'.setqflist('all', { use_location_list = true })
@@ -157,11 +160,30 @@ nn('<leader>hl', function()
 nn('<leader>s', function()
 	require 'gitsigns'.stage_hunk()
 	close_floats()
-end, 'Gitsigns - Stage hunk')
+end, 'Gitsigns - Stage/un-stage hunk')
 vn('<leader>s', function() require 'gitsigns'.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-	'Gitsigns - Stage range')
-nn('<leader>S', gsigns 'stage_buffer', 'Gitsigns - Stage buffer')
-nn('<leader>hu', gsigns 'undo_stage_hunk', 'Gitsigns - Undo last stage hunk')
-nn('<leader>hr', gsigns 'reset_hunk', 'Gitsigns - Reset hunk')
+	'Gitsigns - Stage/un-stage range')
+nn('<leader>S', function() require 'gitsigns'.stage_buffer() end, 'Gitsigns - Stage buffer')
+nn('<leader>hr', function() require 'gitsigns'.reset_hunk() end, 'Gitsigns - Reset hunk')
 vn('<leader>hr', function() require 'gitsigns'.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
 	'Gitsigns - Reset range')
+
+local ftbinds = {
+	-- buffer-local keybinds based on filetype
+	-- NOTE: all maps should be buffer-local `{ buffer = true }`
+	['fugitive'] = function(args)
+		nm('<Esc>', 'gq', 'Fugitive - close', { buffer = true })
+		-- todo commit & push
+	end
+}
+
+local ft_bufs = {}
+vim.api.nvim_create_autocmd('BufEnter', {
+	pattern = '*',
+	callback = function(args)
+		if ftbinds[vim.bo.filetype] then
+			ftbinds[vim.bo.filetype](args)
+			ft_bufs[vim.bo.filetype .. args.buf] = true
+		end
+	end
+})

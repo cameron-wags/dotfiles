@@ -28,6 +28,7 @@ return {
 	},
 	{
 		'mcchrish/zenbones.nvim',
+		enabled = true,
 		lazy = false,
 		priority = 1000,
 		config = function()

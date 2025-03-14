@@ -1,99 +1,114 @@
 local ensure_installed = {
 	'prettierd',
 	'jsonls',
-	'pyright',
+	'basedpyright',
 	'shfmt',
 	'lua-language-server',
 	'typescript-language-server',
 	'pyright',
-	'ruff-lsp',
+	'ruff',
+	'vue-language-server',
 }
 
 -- used by pyright
--- this could potentially be in the python setup handler,
--- need to research when those are invoked.
 local root_dir_cache = {}
 local pipenv_venv_cached = function(root_dir)
 	if root_dir_cache[root_dir] then
 		return root_dir_cache[root_dir]
 	end
-	local value = vim.fn.trim(vim.system({ 'pipenv', '--venv', '--quiet' }, { text = true }):wait().stdout)
+	-- look for local .venv (way faster, requires setup in venv tooling)
+	local value = vim.fn.expand(root_dir .. '/.venv')
+	if vim.fn.isdirectory(value) == 0 then
+		vim.notify('Unable to find project .venv', vim.log.levels.WARN)
+		return ''
+	end
 	root_dir_cache[root_dir] = value
 	return value
 end
 
 local custom_lspconfig = {
 	lua_ls = function(mix_capabilities)
-		local runtime_path = vim.split(package.path, ';')
-		table.insert(runtime_path, 'lua/?.lua')
-		table.insert(runtime_path, 'lua/?/init.lua')
-
 		require 'lspconfig'.lua_ls.setup(mix_capabilities {
-			settings = {
-				Lua = {
-					telemetry = { enable = false },
+			on_init = function(client)
+				if client.workspace_folders then
+					local path = client.workspace_folders[1].name
+					if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+						return
+					end
+				end
+				client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
 					runtime = {
-						version = 'LuaJIT',
-						path = runtime_path,
-					},
-					diagnostics = {
-						globals = { 'vim' }
+						version = 'LuaJIT'
 					},
 					workspace = {
 						checkThirdParty = false,
 						library = {
-							vim.fn.expand('$VIMRUNTIME/lua'),
-							vim.fn.stdpath('config') .. '/lua'
+							vim.env.VIMRUNTIME
 						}
 					}
-				}
+				})
+			end,
+			settings = {
+				Lua = {}
 			}
 		})
 	end,
 
-	pyright = function(mix_capabilities)
-		-- condensed form of this:
-		-- https://github.com/younger-1/nvim/blob/one/lua/young/lsp/providers/pyright.lua
-		require 'lspconfig'.pyright.setup(mix_capabilities {
+	basedpyright = function(mix_capabilities)
+		require 'lspconfig'.basedpyright.setup(mix_capabilities {
 			settings = {
-				python = {
+				python = {},
+				basedpyright = {
 					analysis = {
 						useLibraryCodeForTypes = true,
 						autoImportCompletions = true,
 						autoSearchPaths = true,
-					},
-				},
+					}
+				}
 			},
-			on_new_config = vim.schedule_wrap(function(new_config, new_root_dir)
-				local _virtual_env
+			on_new_config = function(new_config, new_root_dir)
 				(function(root_dir)
-					local pipenv_dir
-
-					local pipenv_match = vim.fn.glob(require 'lspconfig.util'.path.join(root_dir, 'Pipfile.lock'))
-					if pipenv_match ~= '' then
-						pipenv_dir = pipenv_venv_cached(root_dir)
+					local venv_dir = pipenv_venv_cached(root_dir)
+					if venv_dir == '' then
+						-- don't bother if we didn't find a venv
+						return ''
 					end
 
-					if not vim.env.VIRTUAL_ENV or vim.env.VIRTUAL_ENV == '' then
-						_virtual_env = pipenv_dir
-					end
+					vim.env.VIRTUAL_ENV = venv_dir
+					vim.env.PATH = vim.fs.joinpath(venv_dir, 'bin') .. ':' .. vim.env.PATH
 
-					if _virtual_env ~= '' then
-						vim.env.VIRTUAL_ENV = _virtual_env
-						vim.env.PATH = require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH
-					end
-
-					if _virtual_env ~= '' and vim.env.PYTHONHOME then
+					if vim.env.PYTHONHOME then
 						vim.env.old_PYTHONHOME = vim.env.PYTHONHOME
 						vim.env.PYTHONHOME = ''
 					end
-
-					return _virtual_env ~= '' and require 'lspconfig.util'.path.join(_virtual_env, 'bin:') .. vim.env.PATH or
-							''
 				end)(new_root_dir)
 
 				new_config.settings.python.pythonPath = vim.fn.exepath 'python'
-			end),
+			end
+		})
+	end,
+
+	ts_ls = function(mix_capabilities)
+		local vue_language_server_path = require 'mason-registry'.get_package('vue-language-server'):get_install_path() ..
+				'/node_modules/@vue/language-server'
+
+		require 'lspconfig'.ts_ls.setup(mix_capabilities {
+			init_options = {
+				plugins = {
+					{
+						name = '@vue/typescript-plugin',
+						location = vue_language_server_path,
+						languages = { 'vue' }
+					}
+				}
+			},
+			filetypes = {
+				'typescript',
+				'javascript',
+				'javascriptreact',
+				'typescriptreact',
+				'vue',
+			},
 		})
 	end,
 }
@@ -187,6 +202,9 @@ return {
 				virtual_lines = false,
 				update_in_insert = true,
 				severity_sort = true,
+				-- float = {
+				-- 	source = true, --show diagnostic's source in float view
+				-- }
 			}
 		end,
 	},
