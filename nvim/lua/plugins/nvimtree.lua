@@ -22,14 +22,8 @@ return {
 		view = {
 			side = 'right',
 		},
-		update_focused_file = {
-			enable = true,
-			update_root = {
-				enable = true,
-			}
-		},
 		filters = {
-			enable = false,
+			git_ignored = false,
 		},
 		actions = {
 			open_file = {

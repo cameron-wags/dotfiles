@@ -6,7 +6,7 @@ local ensure_installed = {
 	'lua-language-server',
 	'typescript-language-server',
 	'pyright',
-	'ruff',
+	'ruff-lsp',
 }
 
 -- used by pyright
@@ -186,6 +186,7 @@ return {
 				virtual_text = true,
 				virtual_lines = false,
 				update_in_insert = true,
+				severity_sort = true,
 			}
 		end,
 	},
@@ -214,6 +215,7 @@ return {
 					local ft_overrides = {
 						NvimTree = false,
 						FTerm = false,
+						markdown = false,
 					}
 					local this_ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
 					if ft_overrides[this_ft] then
