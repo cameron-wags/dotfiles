@@ -246,31 +246,6 @@ return {
 	},
 
 	{
-		'windwp/nvim-autopairs',
-		event = 'InsertEnter',
-		priority = 49,
-		dependencies = { 'hrsh7th/nvim-cmp' },
-		config = function()
-			require 'nvim-autopairs'.setup {
-				check_ts = true,
-				ts_config = {
-					lua = { 'string', 'source' },
-					javascript = { 'string', 'template_string' },
-					java = false,
-				},
-				disable_filetype = { 'TelescopePrompt' },
-				disable_in_macro = true,
-				disable_in_visualblock = true,
-				disable_in_replace_mode = true,
-				enable_check_bracket_line = true,
-			}
-			local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
-			local cmp = require 'cmp'
-			cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-		end,
-	},
-
-	{
 		url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
 		lazy = true,
 		priority = 49,
