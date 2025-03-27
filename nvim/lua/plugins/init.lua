@@ -38,8 +38,10 @@ return {
 	},
 	{
 		'stevearc/oil.nvim',
-		lazy = false,
+		lazy = true,
 		opts = {
+			default_file_explorer = false,
+			delete_to_trash = true,
 			float = {
 				padding = 3,
 			},
