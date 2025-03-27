@@ -119,26 +119,15 @@ return {
 		end,
 	},
 	{
-		'lewis6991/gitsigns.nvim',
-		lazy = true,
-		opts = {
-			signs_staged = {
-				add = { text = '╏' },
-				change = { text = '╏' },
-				delete = { text = '╍' },
-				topdelete = { text = '╍' },
-			},
-		},
-	},
-	{
 		'echasnovski/mini.statusline',
 		version = false,
 		dependencies = {
 			'nvim-tree/nvim-web-devicons',
+			{ 'echasnovski/mini-git', lazy = true },
 		},
 		event = 'VeryLazy',
 		config = function()
-			require 'gitsigns'.setup()
+			require 'mini.git'.setup()
 			local sl = require 'mini.statusline'
 
 			local function get_filesize()

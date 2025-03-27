@@ -134,40 +134,6 @@ nn('<leader>D', function()
 	end
 end, 'Diagnostics - enable lsp_lines')
 
-nn(']c', function()
-	if vim.wo.diff then
-		vim.cmd.normal({ ']c', bang = true })
-	else
-		require 'gitsigns'.nav_hunk('next', { preview = true })
-		vim.cmd.normal({ 'zz', bang = true })
-	end
-end, 'Git - Goto next hunk')
-
-nn('[c', function()
-	if vim.wo.diff then
-		vim.cmd.normal({ '[c', bang = true })
-	else
-		require 'gitsigns'.nav_hunk('prev', { preview = true, })
-		vim.cmd.normal({ 'zz', bang = true })
-	end
-end, 'Git - Goto previous hunk')
-
-nn('<leader>hl', function()
-		require 'gitsigns'.refresh()
-		require 'gitsigns'.setqflist('all', { use_location_list = true })
-	end,
-	'Gitsigns - Location list hunks')
-nn('<leader>s', function()
-	require 'gitsigns'.stage_hunk()
-	close_floats()
-end, 'Gitsigns - Stage/un-stage hunk')
-vn('<leader>s', function() require 'gitsigns'.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-	'Gitsigns - Stage/un-stage range')
-nn('<leader>S', function() require 'gitsigns'.stage_buffer() end, 'Gitsigns - Stage buffer')
-nn('<leader>hr', function() require 'gitsigns'.reset_hunk() end, 'Gitsigns - Reset hunk')
-vn('<leader>hr', function() require 'gitsigns'.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
-	'Gitsigns - Reset range')
-
 local ftbinds = {
 	-- buffer-local keybinds based on filetype
 	-- NOTE: all maps should be buffer-local `{ buffer = true }`
