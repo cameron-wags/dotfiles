@@ -37,6 +37,14 @@ return {
 		dependencies = { 'nvim-lua/plenary.nvim', lazy = true },
 	},
 	{
+		'echasnovski/mini.pairs',
+		event = {
+			'BufRead',
+			'BufNewFile',
+		},
+		config = true,
+	},
+	{
 		'stevearc/oil.nvim',
 		lazy = true,
 		opts = {
