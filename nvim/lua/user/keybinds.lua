@@ -53,9 +53,8 @@ tno(';;', function()
 	vim.cmd 'TermClose'
 end, 'Terminal - close')
 
-nn('<leader>g', '<cmd>:tab Git<CR>', 'Fugitive - open')
+nn('<leader>g', '<cmd>:tab G<CR>', 'Fugitive - open')
 nn('<leader>o', function() require 'oil'.open_float() end, 'Oil - open')
-nn('<leader>e', '<Cmd>NvimTreeToggle<CR>', 'NvimTree - toggle')
 
 
 nn('gx', function()
