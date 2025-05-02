@@ -101,13 +101,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(event)
 		local opts = { buffer = event.buf }
 
-		nn('K', vim.lsp.buf.hover, 'LSP - Hover', opts)
 		nn('gD', vim.lsp.buf.declaration, 'Goto declaration', opts)
 		nn('gi', vim.lsp.buf.implementation, 'Goto implementation', opts)
 		nn('go', vim.lsp.buf.type_definition, 'Goto type definition', opts)
 		ino('<C-k>', vim.lsp.buf.signature_help, 'Signature help', opts)
 		nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document', opts)
-		nn('<leader>rn', vim.lsp.buf.rename, 'Rename symbol', opts)
 		nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions', opts)
 	end
 })
@@ -117,7 +115,6 @@ nn(']d', function() vim.diagnostic.jump { count = 1, float = true } end, 'Diagno
 nn('<leader>d', vim.diagnostic.open_float, 'Diagnostics - open float')
 
 nn('<leader>D', function()
-	require 'lsp_lines'
 	if vim.b.lsp_lines_enabled then
 		vim.b.lsp_lines_enabled = false
 		vim.diagnostic.config {
