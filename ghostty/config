@@ -1,0 +1,27 @@
+keybind = cmd+j=next_tab
+keybind = cmd+k=previous_tab
+
+quit-after-last-window-closed = true
+quit-after-last-window-closed-delay = 1s
+
+mouse-hide-while-typing = true
+
+working-directory = home
+window-inherit-working-directory = false
+
+theme = "Builtin Pastel Dark"
+background = #000000
+foreground = #ffffff
+cursor-color = #ffffff
+cursor-text = #000000
+split-divider-color = #ff0000
+
+macos-titlebar-style = tabs
+
+window-width = 150
+window-height = 60
+
+font-family = "JetBrains Mono"
+font-size = 11.5
+font-thicken = true
+font-feature = -calt, -liga, -dlig
