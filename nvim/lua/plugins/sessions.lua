@@ -4,15 +4,25 @@ return {
 		lazy = false,
 		enabled = true,
 		config = function()
+			-- sets title to the loaded session
+			vim.api.nvim_create_autocmd('SessionLoadPost', {
+				pattern = '*',
+				callback = function()
+					local sessionName = vim.fs.basename(vim.v.this_session)
+					if sessionName ~= '' then
+						vim.o.titlestring = sessionName .. ' - Nvim'
+					end
+				end
+			})
+
 			require 'mini.sessions'.setup()
+			local pickers = require 'telescope.pickers'
+			local finders = require 'telescope.finders'
+			local conf = require('telescope.config').values
+			local actions = require 'telescope.actions'
+			local action_state = require 'telescope.actions.state'
 
 			local select_session = function()
-				local pickers = require 'telescope.pickers'
-				local finders = require 'telescope.finders'
-				local conf = require('telescope.config').values
-				local actions = require 'telescope.actions'
-				local action_state = require 'telescope.actions.state'
-
 				local results = vim.tbl_values(MiniSessions.detected)
 				table.sort(results, function(l, r)
 					-- intentionally reversed sort for MRU session

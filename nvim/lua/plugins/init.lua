@@ -45,6 +45,11 @@ return {
 		config = true,
 	},
 	{
+		'windwp/nvim-ts-autotag',
+		lazy = false,
+		config = true,
+	},
+	{
 		'stevearc/oil.nvim',
 		lazy = true,
 		opts = {
@@ -52,6 +57,7 @@ return {
 			delete_to_trash = true,
 			float = {
 				padding = 3,
+				border = 'rounded',
 			},
 			keymaps = {
 				['<leader>o'] = 'actions.close',
@@ -198,6 +204,47 @@ return {
 					end
 				}
 			}
+		end
+	},
+	{
+		'kamykn/spelunker.vim',
+		lazy = true,
+		event = 'BufNew',
+		config = function()
+			local nospell_ft = {
+				'csv',
+				'csv_semicolon',
+				'csv_pipe',
+				'csv_whitespace',
+				'tsv',
+				'rfc_csv',
+				'rfc_semicolon',
+				'oil',
+				'lazy',
+				'mason',
+				'NvimTree',
+				'terminal',
+				'Terminal',
+				'fugitive',
+			}
+			local nospell_map = {}
+			for _, value in ipairs(nospell_ft) do
+				nospell_map[value] = true
+			end
+			vim.g.spelunker_check_type = 2
+			vim.g.spelunker_disable_auto_group = 1
+			vim.api.nvim_create_autocmd('CursorHold', {
+				group = vim.api.nvim_create_augroup('spelunker', { clear = true }),
+				pattern = '*',
+				callback = function(ev)
+					local bufNo = ev.buf
+					local ft = vim.api.nvim_get_option_value('ft', { buf = bufNo })
+					local bt = vim.api.nvim_get_option_value('bt', { buf = bufNo })
+					if not nospell_map[ft] and bt ~= 'terminal' then
+						vim.fn['spelunker#check_displayed_words']()
+					end
+				end
+			})
 		end
 	},
 	{

@@ -1,14 +1,18 @@
-local ensure_installed = {
-	'prettierd',
-	'jsonls',
-	'basedpyright',
-	'shfmt',
-	'lua-language-server',
-	'typescript-language-server',
-	'pyright',
-	'ruff',
-	'vue-language-server',
-}
+-- Servers you use:
+-- arduino-language-server
+-- basedpyright
+-- biome
+-- clangd
+-- fixjson
+-- glow
+-- gopls
+-- lua-language-server
+-- prettierd
+-- ruff
+-- rust-analyzer
+-- shfmt
+-- typescript-language-server
+-- vue-language-server
 
 -- used by pyright
 local root_dir_cache = {}
@@ -28,7 +32,7 @@ end
 
 local custom_lspconfig = {
 	lua_ls = function(mix_capabilities)
-		require 'lspconfig'.lua_ls.setup(mix_capabilities {
+		return mix_capabilities {
 			on_init = function(client)
 				if client.workspace_folders then
 					local path = client.workspace_folders[1].name
@@ -51,11 +55,11 @@ local custom_lspconfig = {
 			settings = {
 				Lua = {}
 			}
-		})
+		}
 	end,
 
 	basedpyright = function(mix_capabilities)
-		require 'lspconfig'.basedpyright.setup(mix_capabilities {
+		return mix_capabilities {
 			settings = {
 				python = {},
 				basedpyright = {
@@ -66,7 +70,7 @@ local custom_lspconfig = {
 					}
 				}
 			},
-			on_new_config = function(new_config, new_root_dir)
+			on_new_config = vim.schedule_wrap(function(new_config, new_root_dir)
 				(function(root_dir)
 					local venv_dir = pipenv_venv_cached(root_dir)
 					if venv_dir == '' then
@@ -84,15 +88,15 @@ local custom_lspconfig = {
 				end)(new_root_dir)
 
 				new_config.settings.python.pythonPath = vim.fn.exepath 'python'
-			end
-		})
+			end)
+		}
 	end,
 
 	ts_ls = function(mix_capabilities)
-		local vue_language_server_path = require 'mason-registry'.get_package('vue-language-server'):get_install_path() ..
-				'/node_modules/@vue/language-server'
+		local vue_language_server_path = vim.fn.expand(
+			'$MASON/packages/vue-language-server/node_modules/@vue/language-server')
 
-		require 'lspconfig'.ts_ls.setup(mix_capabilities {
+		return mix_capabilities {
 			init_options = {
 				plugins = {
 					{
@@ -109,24 +113,11 @@ local custom_lspconfig = {
 				'typescriptreact',
 				'vue',
 			},
-		})
+		}
 	end,
 }
 
 return {
-	{
-		'WhoIsSethDaniel/mason-tool-installer.nvim',
-		cmd = { 'MasonToolsInstall', 'MasonToolsUpdate' },
-		dependencies = {
-			'williamboman/mason.nvim',
-		},
-		opts = {
-			ensure_installed = ensure_installed,
-			auto_update = false,
-			run_on_start = false,
-		},
-	},
-
 	{
 		'williamboman/mason.nvim',
 		cmd = {
@@ -171,9 +162,9 @@ return {
 			local servers = mason_lspconfig.get_installed_servers()
 			for _, server_name in ipairs(servers) do
 				if custom_lspconfig[server_name] ~= nil then
-					custom_lspconfig[server_name](mix_capabilities)
+					vim.lsp.config(server_name, custom_lspconfig[server_name](mix_capabilities))
 				else
-					lspconfig[server_name].setup(mix_capabilities {})
+					vim.lsp.config(server_name, mix_capabilities {})
 				end
 			end
 
@@ -202,9 +193,9 @@ return {
 				virtual_lines = false,
 				update_in_insert = true,
 				severity_sort = true,
-				-- float = {
-				-- 	source = true, --show diagnostic's source in float view
-				-- }
+				float = {
+					border = 'rounded',
+				}
 			}
 		end,
 	},

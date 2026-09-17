@@ -68,8 +68,6 @@ nn('gx', function()
 	end
 end, 'Open URL under cursor')
 
-nn('<leader>ft', '<Cmd>TodoTelescope<CR>', 'Telescope - Project TODOs')
-
 -- keep an eye on this one
 local function close_floats()
 	for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -92,6 +90,7 @@ end, 'Telescope - project files')
 nn('<leader>fr', tscope 'oldfiles', 'Telescope - oldfiles')
 nn('<leader>fg', tscope 'live_grep', 'Telescope - grep in project')
 nn('<leader>fh', tscope 'help_tags', 'Telescope - vim help')
+nn('<leader>ft', '<Cmd>TodoTelescope<CR>', 'Telescope - Project TODOs')
 
 nn('gr', tscope 'lsp_references', 'Telescope - current symbol references')
 nn('gd', tscope 'lsp_definitions', 'Telescope - current symbol definitions')
@@ -107,6 +106,35 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		ino('<C-k>', vim.lsp.buf.signature_help, 'Signature help', opts)
 		nn('<leader>p', function() vim.lsp.buf.format { async = true } end, 'Format document', opts)
 		nn('<leader>ca', vim.lsp.buf.code_action, 'Code actions', opts)
+		nn('K', function() vim.lsp.buf.hover({ border = 'rounded' }) end, 'Hover', opts)
+
+		-- highlight references to symbol under cursor
+		for _, client in ipairs(vim.lsp.get_clients { bufnr = event.buf }) do
+			if client.server_capabilities.documentHighlightProvider then
+				local group = vim.api.nvim_create_augroup('lsp_cursorhold' .. event.buf, { clear = true })
+				vim.api.nvim_create_autocmd('CursorHold', {
+					group = group,
+					buffer = event.buf,
+					callback = function()
+						vim.lsp.buf.document_highlight()
+					end,
+				})
+				vim.api.nvim_create_autocmd('CursorHoldI', {
+					group = group,
+					buffer = event.buf,
+					callback = function()
+						vim.lsp.buf.document_highlight()
+					end,
+				})
+				vim.api.nvim_create_autocmd('CursorMoved', {
+					group = group,
+					buffer = event.buf,
+					callback = function()
+						vim.lsp.buf.clear_references()
+					end,
+				})
+			end
+		end
 	end
 })
 
@@ -138,14 +166,13 @@ local ftbinds = {
 		-- todo commit & push
 	end
 }
-
 local ft_bufs = {}
 vim.api.nvim_create_autocmd('BufEnter', {
 	pattern = '*',
 	callback = function(args)
-		if ftbinds[vim.bo.filetype] then
+		if not ft_bufs[args.buf] and ftbinds[vim.bo.filetype] then
 			ftbinds[vim.bo.filetype](args)
-			ft_bufs[vim.bo.filetype .. args.buf] = true
+			ft_bufs[args.buf] = true
 		end
 	end
 })
